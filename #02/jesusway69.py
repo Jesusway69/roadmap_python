@@ -1,6 +1,6 @@
 import os
 os.system('clear') #MAC/LINUX
-#os.system('cls') #WINDOWS
+os.system('cls') #WINDOWS
 
 """
  * EJERCICIO:
@@ -24,7 +24,7 @@ imprime_hasta_10()
 
 #FUNCIÓN CON RETORNO
 def introducir_datos()->str:
-    mi_texto = input("Escriba su texto: ")
+    mi_texto = input(" \nEscriba su texto: ")
     return mi_texto
 
 #FUNCIÓN SIN RETORNO CON UN PARÁMETRO RECIBIDO DE LA FUNCIÓN ANTERIOR 
@@ -65,7 +65,7 @@ calcular_media_lista(list(impares))
 #FUNCIÓN QUE RECIBE LA VARIABLE GLOBAL mi_lista E IMPRIME SUS VALORES CON BUCLE FOR
 def imprimir_numeros_lista_for(mi_lista):
     for i in (mi_lista):
-     print (i)
+     print (i, end=' -> ')
 imprimir_numeros_lista_for(mi_lista)
 
 #FUNCIÓN QUE IMPRIME LOS VALORES DE LA VARIABLE LOCAL mi_lista_local SIN USAR BUCLE
@@ -91,6 +91,16 @@ imprimir_numeros_con_funcion_join()
 def imprimir_numeros_con_funcion_join_map(mi_lista):
     print('>'.join(map(str, mi_lista))) # con el método propio map se castea la lista de numérica a string
 imprimir_numeros_con_funcion_join_map(mi_lista)
+
+
+#FUNCIÓN RECURSIVA
+def cuenta_atras(num):
+    num += 2
+    if num < 10:
+        print(num, end=' : ')
+        cuenta_atras(num)
+
+cuenta_atras(-1)
 
 
 #FUNCIÓN DENTRO DE OTRA FUNCIÓN
@@ -122,6 +132,8 @@ elimina_pares()
 
 cadena1 = "Hola"
 cadena2 = "Python"
+print ("\nEJERCICIO PROPUESTO")
+print ("-------------------")
 
 def hola_python(cadena1,cadena2)->int:
     acumulado=0
