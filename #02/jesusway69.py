@@ -94,13 +94,13 @@ imprimir_numeros_con_funcion_join_map(mi_lista)
 
 
 #FUNCIÓN RECURSIVA
-def cuenta_atras(num):
+def imprimir_recursivo(num):
     num += 2
     if num < 10:
         print(num, end=' : ')
-        cuenta_atras(num)
+        imprimir_recursivo(num)
 
-cuenta_atras(-1)
+imprimir_recursivo(-1)
 
 
 #FUNCIÓN DENTRO DE OTRA FUNCIÓN
