@@ -50,6 +50,9 @@ print(my_string.upper())
 print(my_string.lower())
 # .lower devuelve todo el string en minúsculas
 
+print(my_string.swapcase())
+# .swapcase cambia los caracteres en minúsculas por mayúsculas y viceversa
+
 print(my_string[2:8])
 #deja sólo los caraceteres dentro del rango, el resto los borra(en este caso borra los 0,1,9,10 y 11)
 
@@ -74,3 +77,17 @@ print('')
 print('')
 [print(char , end='') for char in my_string]
 #Se pueden recorrer los caracteres de un string con un bucle foreach sin índice
+
+print('')
+print("abracadabra".count("bra"))
+#El método .count devuelve la cantidad de veces que se repite un substring
+
+print("  Hola Python  ".strip())
+#El método .strip elimina los espacios que haya al principio y al final de un string
+
+print("1001".zfill(8))
+#Con .zfill rellenamos con ceros a la izqda el string 
+
+print(my_string.split("HO"))
+# .split devuelve una lista con las subcadenas divididas por el caracter especificado (que se elimina)
+
