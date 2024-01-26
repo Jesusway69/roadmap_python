@@ -1,20 +1,14 @@
 import os
 os.system('cls')
-
+from itertools import permutations
 """
 * EJERCICIO:
  * Muestra ejemplos de todas las operaciones que puedes realizar con cadenas de caracteres
  * en tu lenguaje. Algunas de esas operaciones podrían ser (busca todas las que puedas):
  * - Acceso a caracteres específicos, subcadenas, longitud, concatenación, repetición,
  *   recorrido, conversión a mayúsculas y minúsculas, reemplazo, división, unión,
- *   interpolación, verificación...
- *
- * DIFICULTAD EXTRA (opcional):
- * Crea un programa que analice dos palabras diferentes y realice comprobaciones
- * para descubrir si son:
- * - Palíndromos
- * - Anagramas
- * - Isogramas"""
+ *   interpolación, verificación..."""
+
 print("MÉTODOS Y MANIPULACIONES BÁSICAS CON STRINGS")
 my_string = "Hola PYTHON"
 print ("\"Hola Python\"")
@@ -54,7 +48,7 @@ print(my_string.swapcase())
 # .swapcase cambia los caracteres en minúsculas por mayúsculas y viceversa
 
 print(my_string[2:8])
-#deja sólo los caraceteres dentro del rango, el resto los borra(en este caso borra los 0,1,9,10 y 11)
+#Deja sólo los caraceteres dentro del rango, el resto los borra(en este caso borra los 0,1,9,10 y 11)
 
 print(my_string[:8])
 #En caso de omitir el primer valor equevale a 0 y solo borra a partir del valor especificado
@@ -86,8 +80,24 @@ print("  Hola Python  ".strip())
 #El método .strip elimina los espacios que haya al principio y al final de un string
 
 print("1001".zfill(8))
-#Con .zfill rellenamos con ceros a la izqda el string 
+#Con .zfill rellenamos con ceros a la izqda el string pasándole el nº total de caracteres
 
 print(my_string.split("HO"))
 # .split devuelve una lista con las subcadenas divididas por el caracter especificado (que se elimina)
+
+"""
+ * DIFICULTAD EXTRA (opcional):
+ * Crea un programa que analice dos palabras diferentes y realice comprobaciones
+ * para descubrir si son:
+ * - Palíndromos
+ * - Anagramas
+ * - Isogramas"""
+
+def anagrama (palabra):
+    string_list =[]
+    for char in permutations(palabra):     
+     string_list.append("".join(char).capitalize(), end=' ')  
+    print (string_list)      
+anagrama("roma")
+
 
