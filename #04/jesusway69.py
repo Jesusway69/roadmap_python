@@ -93,11 +93,57 @@ print(my_string.split("HO"))
  * - Anagramas
  * - Isogramas"""
 
-def anagrama (palabra):
-    string_list =[]
-    for char in permutations(palabra):     
-     string_list.append("".join(char).capitalize(), end=' ')  
-    print (string_list)      
-anagrama("roma")
+def anagrama (palabra1,palabra2):
+    char_set = set([])  
+
+    if len(palabra1) != len(palabra2):
+       print(f"Las palabras {palabra1} y {palabra2} no son anagramas")
+    else:
+     for char1 in palabra1:  
+      char_set.add(char1)   
+      
+     for char2 in (palabra2):
+      char_set.add(char2)
+      
+    if len(char_set) == len(palabra1):
+      print(f"Las palabras {palabra1} y {palabra2} son anagramas")
+    else:
+      print(f"Las palabras {palabra1} y {palabra2} no son anagramas")      
+anagrama("rosa", "amor")
 
 
+def isograma (palabra1,palabra2):
+  char_set = set([])
+  char_list = []
+
+  for char1 in palabra1:
+    char_set.add(char1)
+    char_list.append(char1)
+  if (len(char_set) % 2 == 0  and len(char_list) % 2 != 0) or (len(char_set) % 2 != 0  and len(char_list) % 2 == 0):
+   print (f"La palabra {palabra1} es un isograma ")
+  else:
+    print(f"La palabra {palabra1} no es un isograma ")
+
+  for char2 in palabra2:
+    char_set.add(char2)
+    char_list.append(char2)   
+
+  if len(char_set)  !=  len(char_list) % 2 != 0:
+    print (f"La palabra {palabra2} es un isograma ")
+  else:
+    print(f"La palabra {palabra2} no es un isograma ")
+isograma ("papelera " , "intestinos")
+
+
+
+
+
+
+
+"""
+prueba = set([])
+palabra = "escritura"
+
+for i in palabra:
+  prueba.add(i)
+print(prueba)"""
