@@ -1,6 +1,8 @@
 import os
 os.system('cls')
 from itertools import permutations
+import re
+from unicodedata import normalize
 """
 * EJERCICIO:
  * Muestra ejemplos de todas las operaciones que puedes realizar con cadenas de caracteres
@@ -87,63 +89,75 @@ print(my_string.split("HO"))
 
 """
  * DIFICULTAD EXTRA (opcional):
- * Crea un programa que analice dos palabras diferentes y realice comprobaciones
+ * Crea un programa que analice dos clean_words diferentes y realice comprobaciones
  * para descubrir si son:
  * - Palíndromos
- * - Anagramas
- * - Isogramas"""
+ * - Anagrams
+ * - Isograms"""
 
-def anagrama (palabra1,palabra2):
-    char_set = set([])  
+def remove_diacritic (string)->str:
+  string = str(string)
+  string = re.sub(
+        r"([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+", r"\1", 
+        normalize( "NFD", string), 0, re.I
+    )
+  string = normalize( 'NFC', string)
+#Borra los símbolos diacríticos excepto la ñ y la diéresis
+  return string.lower().replace(' ', '')
 
-    if len(palabra1) != len(palabra2):
-       print(f"Las palabras {palabra1} y {palabra2} no son anagramas")
+
+
+
+
+
+def anagram (word1,word2):
+    clean_word1, clean_word2 = remove_diacritic(word1), remove_diacritic(word2)
+    list1, list2 = list(clean_word1), list(clean_word2)  
+    list1.sort()
+    list2.sort()
+    sorted1, sorted2 = "".join(list1), "".join(list2)
+    if sorted1 == sorted2:
+        print(f"Las palabras {word1} y {word2} son anagramas")
     else:
-     for char1 in palabra1:  
-      char_set.add(char1)   
-      
-     for char2 in (palabra2):
-      char_set.add(char2)
-      
-    if len(char_set) == len(palabra1):
-      print(f"Las palabras {palabra1} y {palabra2} son anagramas")
-    else:
-      print(f"Las palabras {palabra1} y {palabra2} no son anagramas")      
-anagrama("rosa", "amor")
+      print(f"Las palabras {word1} y {word2} no son anagramas")
+
+anagram("Fotolitografía", "Litofotografía")
 
 
-def isograma (palabra1,palabra2):
-  char_set = set([])
-  char_list = []
 
-  for char1 in palabra1:
-    char_set.add(char1)
-    char_list.append(char1)
-  if (len(char_set) % 2 == 0  and len(char_list) % 2 != 0) or (len(char_set) % 2 != 0  and len(char_list) % 2 == 0):
-   print (f"La palabra {palabra1} es un isograma ")
+
+def isogram (word1,word2):
+ char_dict = {}
+ clean_word = remove_diacritic(word1)+remove_diacritic(word2)
+ for char in clean_word:
+   if char in char_dict:     
+      char_dict[char] +=1
+   else:
+      char_dict[char] =1
+ 
+ char_set = set(char_dict.values())
+ if len(char_set) > 1:
+   print(f"Las palabras {word1} y {word2} concatenadas no son un isograma")
+ else:
+   print(f"Las palabras {word1} y {word2} concatenadas son un isograma")
+ print("nº de veces que se repite cada letra:") 
+ [print("\n",char, count , end = ' : ') for char, count in char_dict.items()] 
+
+isogram ("paz" , "porrazo")
+
+
+def palindrome (string1, string2):
+  string = remove_diacritic(str((string1+string2)))
+  reverse = string[::-1]
+  if string == reverse:
+    print (f"La frase formada por \" {string1}\" y \"{string2}\" forman un palíndromo")
   else:
-    print(f"La palabra {palabra1} no es un isograma ")
+    print (f"La frase formada por \" {string1}\" y \"{string2}\"  no forman un palíndromo")
 
-  for char2 in palabra2:
-    char_set.add(char2)
-    char_list.append(char2)   
-
-  if len(char_set)  !=  len(char_list) % 2 != 0:
-    print (f"La palabra {palabra2} es un isograma ")
-  else:
-    print(f"La palabra {palabra2} no es un isograma ")
-isograma ("papelera " , "intestinos")
+palindrome("Arriba" , "la birra")
 
 
 
 
 
 
-
-"""
-prueba = set([])
-palabra = "escritura"
-
-for i in palabra:
-  prueba.add(i)
-print(prueba)"""
