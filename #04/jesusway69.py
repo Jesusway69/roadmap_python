@@ -29,7 +29,10 @@ print (str(len("123456789")) + " caracteres")
  #La función len() devuelve medida en int, str castea a string y + concatena
 
 print(len("123456789") * 9)
-# La función len() devuelve cantidad de caracteres y se puede operar con el número resultante
+#La función len() devuelve cantidad de caracteres y se puede operar con el número resultante
+
+print(my_string.count("H"))
+# .count devuelve la cantidad de veces que se repite una subcadena especificada
 
 print(my_string.find("THON"))
 # .find devuelve el índice donde comienza la subcadena especificada
@@ -39,6 +42,9 @@ print(my_string.replace("PYTHON","JAVASCRIPT"))
 
 print(my_string.capitalize())
 # .capitalize devuelve el string con el primer caracter en mayúsculas y el resto en minúsculas
+
+print(my_string.title())
+# .title devuelve cada palabra con el primer caracter en mayúsculas y el resto en minúsculas
 
 print(my_string.upper())
 # .upper devuelve todo el string en mayúsculas
@@ -117,9 +123,9 @@ def anagram (word1,word2):
     list2.sort()
     sorted1, sorted2 = "".join(list1), "".join(list2)
     if sorted1 == sorted2:
-        print(f"Las palabras {word1} y {word2} son anagramas")
+        print(f"\nLas palabras {word1} y {word2} son anagramas")
     else:
-      print(f"Las palabras {word1} y {word2} no son anagramas")
+      print(f"\nLas palabras {word1} y {word2} no son anagramas")
 
 anagram("Fotolitografía", "Litofotografía")
 
@@ -137,22 +143,23 @@ def isogram (word1,word2):
  
  char_set = set(char_dict.values())
  if len(char_set) > 1:
-   print(f"Las palabras {word1} y {word2} concatenadas no son un isograma")
+   print(f"\n\nLas palabras {word1} y {word2} concatenadas no son un isograma\n")
  else:
-   print(f"Las palabras {word1} y {word2} concatenadas son un isograma")
+   print(f"\n\nLas palabras {word1} y {word2} concatenadas son un isograma\n")
  print("nº de veces que se repite cada letra:") 
- [print("\n",char, count , end = ' : ') for char, count in char_dict.items()] 
+ [print("\n",char,":", count , end = '  ') for char, count in char_dict.items()] 
 
 isogram ("paz" , "porrazo")
+isogram ("es", "desarrollado")
 
 
 def palindrome (string1, string2):
   string = remove_diacritic(str((string1+string2)))
   reverse = string[::-1]
   if string == reverse:
-    print (f"La frase formada por \" {string1}\" y \"{string2}\" forman un palíndromo")
+    print (f"\n\nLa frase formada por \" {string1}\" y \"{string2}\" forman un palíndromo")
   else:
-    print (f"La frase formada por \" {string1}\" y \"{string2}\"  no forman un palíndromo")
+    print (f"\nLa frase formada por \" {string1}\" y \"{string2}\"  no forman un palíndromo")
 
 palindrome("Arriba" , "la birra")
 
