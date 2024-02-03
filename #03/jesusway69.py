@@ -61,7 +61,8 @@ print (set1 | set2)# muestra todos los elementos de ambos sets sin repeticiones
 print (set1 ^ set2)# muestra los elementos de ambos sets que están en uno u otro set pero no en ambos 
 # Equivalente a print(set1.symmetric_difference(set2))
 set1.discard(7) #El método .discart elimina un elemento definido del set
-#print (set1)
+print (set1)
+
 
 
 #FROZENSET , ESTRUCTURA INMUTABLE DE ELEMENTOS ÚNICOS
