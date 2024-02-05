@@ -1,4 +1,5 @@
 import os
+os.system('cls')
 os.system('clear')
 """
  * EJERCICIO:
@@ -12,22 +13,22 @@ os.system('clear')
 
 vpv = "Hola Mundo" #Al ser un tipo primitivo (string) Python toma la variable por valor
 print("Variable por valor ANTES de la función:",vpv)
-vpr = ["Hola", "Mundo"] #Al ser un tipo de estructura (my_list) Python toma la variable por referencia
+vpr = ["Hola", "Mundo"] #Al ser un tipo de estructura (lista) Python toma la variable por referencia
 print("Variable por referencia ANTES de la función:",vpr)
 def string_variables(vpv:str, vpr:list[str,str]):
     vpv = vpv.replace("Mundo","Python") #Modificamos el string dentro de la función
     print("\nVariable por valor DENTRO de la función:",vpv)
-    vpr [1] = "Python" #Modificamos un elemento de la my_list dentro de la función
+    vpr [1] = "Python" #Modificamos un elemento de la lista dentro de la función
     print("Variable por referencia DENTRO de la función:",vpr)
 string_variables(vpv,vpr)
 
 print("\nVariable por valor DESPUÉS de la función:",vpv)
 #El string modificado dentro de la función sigue teniendo su valor original despues de la misma
 print("Variable por referencia DESPUÉS de la función:",vpr)
-#La my_list modificada dentro de la función ha quedado con la modificación despues de la misma
+#La lista modificada dentro de la función ha quedado con la modificación despues de la misma
 
 #En el siguiente caso usaremos variable de tipo int para valor y un set para referencia, además
-# añadiremos a la impresión el nº identificativo que asigna python a la variable en cada caso.
+# añadiremos a la impresión el nº identificativo que asigna Python a la variable en cada caso.
 vpv = 128
 print("\nVariable por valor ANTES de la función:",vpv, "con ID:", id(vpv))
 vpr = {1,2,4,8,16,32,64}
@@ -44,7 +45,7 @@ print("\nVariable por valor DESPUÉS de la función:",vpv,"con ID:", id(vpv))
 print("Variable por referencia DESPUÉS de la función:",vpr, "con ID:", id(vpr), "\n")
 #Observamos a la salida por terminal del programa que los ID siempre se mantienen en el caso de
 # las variables por referencia pero cambia en las de valor dentro de la función para después
-# volver a mostrar su ID original despues de la misma.
+# volver a mostrar su ID original después de la misma.
 
 
 #Sin embargo una variable por referencia no modificará su contenido si lo que hace la función es 
