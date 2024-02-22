@@ -1,5 +1,6 @@
 import os
-os.system('cls')
+#os.system('clear') #MAC/LINUX
+os.system('cls') #WINDOWS
 import collections
 
 """
@@ -64,9 +65,12 @@ def browser(my_list: list):
  while len(my_list)>=1:
    print("Estás en la web:",my_list[len(my_list)-1])
    order = input("Introduzca web o escriba back para retroceder:")
+   order = order.lower()
    print()
+
    if order == "back":
      my_list.pop()
+
    else:
      my_list.append(order)
 
@@ -74,4 +78,27 @@ my_list = ["inicio.com"]
 browser(my_list)
 
 def printer ():
-  
+ 
+  while len(my_list)>=0:
+    print("\nLista de documentos a imprimir:", my_list, "\n")
+    order = input("Introduzca un documento , escriba print para imprimir o exit para salir:")
+    order = order.lower()
+    print()
+
+    if order != "print" and order != "exit":
+      my_list.append(order)
+
+    elif order == "exit":
+     print("Fin del programa")
+     return
+    
+    elif len(my_list)==0:
+      print ("\nCola de impresión vacía, añada un documento o escriba exit para salir")
+
+    elif order == "print" and len(my_list)>0:
+      print("\nimprimiendo el documento:",my_list.pop(0))
+     
+    
+    
+my_list = []
+printer()
