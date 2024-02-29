@@ -81,7 +81,7 @@ diccionario = {
 "Alemania" : "Berlín"
 }
 print(type(diccionario))
-[print(paises , end = ' ') for paises in diccionario] #Iteración sólo mostrando claves (capitales)
+[print(paises , end = ' ') for paises in diccionario] #Iteración sólo mostrando claves (países)
 [print("\n",paises, capitales , end = ' ') for paises, capitales in diccionario.items()] #Iteración mostrando claves y valores 
 print ("\n",diccionario["España"])# Búsqueda de un valor por su clave
 

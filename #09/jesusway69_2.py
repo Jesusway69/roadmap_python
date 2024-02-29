@@ -12,9 +12,8 @@ os.system('clear') #MAC/LINUX
  * actividad, y almacenan los empleados a su cargo."""
 
 class Empleado():
-    def __init__(self, id , nombre):
-       self.id = id
-       self.nombre = nombre
+    def __init__(self):
+     
        self.finanzas = False
        self.compras = False
        self.proyectos = False
@@ -22,37 +21,65 @@ class Empleado():
        self.programacion = False
        self.despliegue = False
    
-    def print(self):
-          print ("id:", self.id, "Nombre:",self.nombre,"\nHace finanzas? =", self.finanzas,
-               "\nHace compras? =", self.compras, "\nHace proyectos? =", self.proyectos,
-               "\nOrganiza el trabajo? =", self.organizacion, "\nPica código? =", self.programacion,
-               "\nDespliega programas? =",self.despliegue , "\n")
+    def print(self, cargo, id , nombre):
+          self.cargo = cargo
+          self.id = id
+          self.nombre = nombre
+          print ("id:", self.id, "\nNombre:",self.nombre,"\nCargo:", self.cargo,"\n¿Hace finanzas? =", 
+               self.finanzas,"\n¿Hace compras? =", self.compras, "\n¿Hace proyectos? =", self.proyectos,
+               "\n¿Organiza el trabajo? =", self.organizacion, "\n¿Pica código? =", self.programacion,
+               "\n¿Despliega programas? =",self.despliegue , "\n")
      
 class Gerente(Empleado):
-    def es_gerente(self):
+ 
+      def es_gerente(self, id, nombre):
         self.finanzas=True
         self.compras=True
-        self.print()
+        self.print("Gerente", id ,nombre)
      
 class Gerente_proyecto(Gerente,Empleado):
-    def es_gerente_proyecto(self):
+         
+      def es_gerente_proyecto(self, id, nombre):
         self.organizacion=True
         self.proyectos=True
-        self.print()
+        self.print("Gerente de proyecto", id ,nombre)
 
 class Programador (Gerente_proyecto,Gerente,Empleado):
-    def es_programador(self):
+
+      def es_programador(self, id, nombre):
         self.programacion=True
         self.despliegue=True
-        self.print()
+        self.print("Programador", id ,nombre)
 
 
-gerente = Gerente(1, "Paco")
-gerente_proyecto = Gerente_proyecto(2, "Luis")
-programador = Programador(3,"Pepe")
-gerente= Gerente(5,"Antonio")
+gerente = Gerente()
+gerente_proyecto = Gerente_proyecto()
+programador = Programador()
 
-programador.es_programador()
-gerente.es_gerente()
-gerente_proyecto.es_gerente_proyecto()
+dict_empleados = {
+1: "Paco",
+2: "Sandra",
+3: "Carlos",
+4: "Ana",
+5: "Pedro",
+6: "Lucía"
+
+}
+for k,v in dict_empleados.items():
+
+  if k<=2:
+        gerente.es_gerente(k,v)
+  elif k>2 and k<5:
+        gerente_proyecto.es_gerente_proyecto(k,v)
+  else:
+        programador.es_programador(k,v)
+
+
+
+
+# gerente.es_gerente(1,"Paco")
+# gerente_proyecto.es_gerente_proyecto(2, "Luis")
+# programador.es_programador(3,"Pepe")
+
+
 
