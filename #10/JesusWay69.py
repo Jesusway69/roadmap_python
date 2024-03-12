@@ -33,7 +33,7 @@ try:
 except: #Obligatorio para completar try
     print("operación incorrecta\n")
 else: # Opcional para continuar sin excepciones, sólo entrará si la operación dentro de try es correcta
-    print ("la ejecución contitúa\n")
+    print ("la ejecución continúa\n")
 finally: #Finally se suele usar si queremos ejecutar algún tipo de acción de limpieza.
 #Si por ejemplo estamos escribiendo datos en un fichero pero ocurre una excepción,
  #tal vez queramos borrar el contenido que hemos escrito con anterioridad, para no dejar datos inconsistenes en el fichero.
