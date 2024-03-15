@@ -1,0 +1,168 @@
+import os
+os.system('cls')
+
+
+"""
+* DIFICULTAD EXTRA (opcional):
+ * Desarrolla un programa de gestión de ventas que almacena sus datos en un 
+ * archivo .txt.
+ * - Cada producto se guarda en una línea del arhivo de la siguiente manera:
+ *   [nombre_producto], [cantidad_vendida], [precio].
+ * - Siguiendo ese formato, y mediante terminal, debe permitir añadir, consultar,
+ *   actualizar, eliminar productos y salir.
+ * - También debe poseer opciones para calcular la venta total y por producto.
+ * - La opción salir borra el .txt.
+
+"""
+def create(nombre_fichero):
+ try:
+    file = open (nombre_fichero, "x")
+    file.write("PRODUCTO , UDS VENDIDAS, PRECIO\n")
+    file.close()
+ except:
+    print(f"El fichero \"{nombre_fichero}\" ya existe")
+
+#create("ventas.txt")
+   
+   
+def add(file,producto, cantidad, precio):
+    file = open(file,"a") 
+    file.write(producto)
+    file.write(", ")
+    file.write(cantidad)
+    file.write(", ")
+    file.write(precio)
+    file.write("\n")
+    file.close
+
+def show_all(nombre_fichero): 
+     file = open(nombre_fichero, "r")
+     content = file.read()
+     
+     print(content)
+
+def find(file, substring):
+     product_list =[]
+     line_num = 0
+     file =  open(file, 'r+')
+     line = file.readline()
+     for line in file:
+         line_num +=1
+         if substring in line:
+           line = str(line_num)+"- "+line
+           product_list.append(line)
+           continue
+         elif substring not in line:
+           continue
+         else:
+           print("Artículo no encontrado\n")
+     print("los productos que busca son:\n")
+     for i in product_list:
+       print(i)
+     file.close()
+
+def modificar_dato(file, filas, columna, nuevo_dato):
+    contenido = []
+    with open(file, 'r+') as archivo:
+        contenido = archivo.readlines()
+        for fila in filas:
+            columnas = contenido[fila-1].split(';')
+            columnas[columna] = nuevo_dato
+            contenido[fila-1] = ';'.join(columnas)+ '\n'
+    with open(file, 'w') as archivo:
+        archivo.writelines(contenido)
+     
+
+
+
+print ("""
+Elija una opción:
+1-Crear nuevo archivo
+2-Mostrar contenido de un archivo por consola
+3-Añadir producto
+4-Editar producto
+5-Eliminar producto
+6-Eliminar archivo
+7-Salir
+       """)
+option = input("Introduzca una opción del 1 al 7: ")
+if option == "1":
+    file = input ("Escriba el nombre del archivo que quiere crear: ")
+    create(file)
+
+if option == "2":
+    print("\nContenido del fichero:\n")
+    show_all("ventas.txt")
+
+if option == "3":
+ while True:
+    file = input("Introduzca el nombre del fichero donde añadir datos: ")
+    if not os.path.isfile(file):
+        print (f"El archivo {file} no existe")
+        continue
+        
+    product = input("Introduzca el nombre del producto: ")
+    sales = input("Introduzca la cantidad de uds vendidas: ")
+    price = input("Introduzca el precio por unidad: ")
+    add(file, product, sales, price)
+    print(f"El producto \"{product}\n con {sales} uds vendidas y valor de {price}€/ud se ha añadido al fichero {file}")
+    break
+if option == "4":
+    while True:
+     file = input ("Escriba el nombre del fichero donde buscar: ")
+     if not os.path.isfile(file):
+       print (f"El archivo {file} no existe")
+       continue
+     product = input("Escriba la marca y/o el modelo del producto que busca: ")
+     find(file, product)
+     line = int(input("Introduzca el núero del producto que desea editar: "))
+     column =int(input("Introduzca el número del campo que desea editar, 1-Producto , 2-Uds vendidas o 3-Precio: "))
+     new_data = input("Introduzca el nuevo dato: ")
+     content = []
+     with open(file, 'r+') as file1:
+         content = file1.readlines()
+         columns = content[line].split(", ")
+         columns[column-1] = new_data
+         content[line] = ", ".join(columns)+"\n"
+     with open(file, 'w') as file1:
+         file1.writelines(content)
+     break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def prueba():
+#     file = open('ventas.txt', 'r') 
+#     # Skip header line
+#     line = file.readline()
+#     while line:
+#         line = file.readline()
+#         print(line.split(", "))
+#     file.close()
+    
+
+# def remove(element , file):
+#       show_all()
+#       with open(file , "r+") as file:
+#        lines = file.readlines()
+#        print(lines)
+#       #with open(file, "w") as file:
+#        line = lines[line_edit]
+#        lines.remove(line)
+#        for line in lines:
+#          file.write(line)
+      
+#        file1 = file.read()
+#        print(file1)
