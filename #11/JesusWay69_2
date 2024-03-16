@@ -14,15 +14,13 @@ os.system('cls')
  * - La opción salir borra el .txt.
 
 """
-def create(nombre_fichero):
- try:
-    file = open (nombre_fichero, "x")
-    file.write("PRODUCTO , UDS VENDIDAS, PRECIO\n")
-    file.close()
- except:
-    print(f"El fichero \"{nombre_fichero}\" ya existe")
-
-#create("ventas.txt")
+def create(file):
+    try:
+        file = open (file, "x")
+        file.write("PRODUCTO , UDS VENDIDAS, PRECIO\n")
+        file.close()
+    except:
+        print(f"El fichero \"{file}\" ya existe")
    
    
 def add(file,producto, cantidad, precio):
@@ -35,44 +33,31 @@ def add(file,producto, cantidad, precio):
     file.write("\n")
     file.close
 
-def show_all(nombre_fichero): 
-     file = open(nombre_fichero, "r")
+def show_all(file): 
+     file = open(file, "r")
      content = file.read()
      
      print(content)
 
 def find(file, substring):
-     product_list =[]
-     line_num = 0
-     file =  open(file, 'r+')
-     line = file.readline()
-     for line in file:
-         line_num +=1
-         if substring in line:
-           line = str(line_num)+"- "+line
-           product_list.append(line)
-           continue
-         elif substring not in line:
-           continue
-         else:
-           print("Artículo no encontrado\n")
-     print("los productos que busca son:\n")
-     for i in product_list:
-       print(i)
-     file.close()
-
-def modificar_dato(file, filas, columna, nuevo_dato):
-    contenido = []
-    with open(file, 'r+') as archivo:
-        contenido = archivo.readlines()
-        for fila in filas:
-            columnas = contenido[fila-1].split(';')
-            columnas[columna] = nuevo_dato
-            contenido[fila-1] = ';'.join(columnas)+ '\n'
-    with open(file, 'w') as archivo:
-        archivo.writelines(contenido)
-     
-
+    product_list =[]
+    line_num = 0
+    file =  open(file, 'r+')
+    line = file.readline()
+    for line in file:
+        line_num +=1
+        if substring in line:
+            line = str(line_num)+"- "+line
+            product_list.append(line)
+            continue
+        elif substring not in line:
+            continue
+        else:
+            print("Artículo no encontrado\n")
+    print(f"Productos encontrados que contienen el nombre \"{substring}\":\n")
+    for i in product_list:
+        print(i)
+    file.close()
 
 
 print ("""
@@ -82,8 +67,7 @@ Elija una opción:
 3-Añadir producto
 4-Editar producto
 5-Eliminar producto
-6-Eliminar archivo
-7-Salir
+6-Eliminar archivo y salir  
        """)
 option = input("Introduzca una opción del 1 al 7: ")
 if option == "1":
@@ -107,30 +91,75 @@ if option == "3":
     add(file, product, sales, price)
     print(f"El producto \"{product}\n con {sales} uds vendidas y valor de {price}€/ud se ha añadido al fichero {file}")
     break
+
 if option == "4":
     while True:
-     file = input ("Escriba el nombre del fichero donde buscar: ")
-     if not os.path.isfile(file):
-       print (f"El archivo {file} no existe")
-       continue
-     product = input("Escriba la marca y/o el modelo del producto que busca: ")
-     find(file, product)
-     line = int(input("Introduzca el núero del producto que desea editar: "))
-     column =int(input("Introduzca el número del campo que desea editar, 1-Producto , 2-Uds vendidas o 3-Precio: "))
-     new_data = input("Introduzca el nuevo dato: ")
-     content = []
-     with open(file, 'r+') as file1:
-         content = file1.readlines()
-         columns = content[line].split(", ")
-         columns[column-1] = new_data
-         content[line] = ", ".join(columns)+"\n"
-     with open(file, 'w') as file1:
+        file = input ("Escriba el nombre del fichero donde buscar: ")
+        if not os.path.isfile(file):
+            print (f"El archivo {file} no existe")
+            continue
+            product = input("Escriba la marca y/o el modelo del producto que busca: ")
+        find(file, product)
+        line = int(input("Introduzca el número del producto que desea editar: "))
+        column =int(input("Introduzca el número del campo que desea editar, 1-Producto , 2-Uds vendidas o 3-Precio: "))
+        new_data = input("Introduzca el nuevo dato: ")
+        content = []
+        with open(file, 'r+') as file1:
+            content = file1.readlines()
+            columns = content[line].split(", ")
+            columns[column-1] = new_data
+            content[line] = ", ".join(columns)+"\n"
+        with open(file, 'w') as file1:
          file1.writelines(content)
-     break
+        break
+if option == "5":
+    while True:
+        file = input ("Escriba el nombre del fichero donde buscar: ")
+        if not os.path.isfile(file):
+            print (f"El archivo {file} no existe")
+            continue
+        product = input("Escriba la marca y/o el modelo del producto que busca: ")
+        find(file, product)
+        try:
+           line = int(input("Introduzca el número del producto que desea borrar: "))
+        except:
+            print("Sólo se pueden introducír números")
+            continue
+     
+        file1 = open(file , "r+")
+        lines = file1.readlines()
+        if line <0 or line > len(lines):
+            print(f"el número {line} no pertenece a ningún producto")
+        else:
+           line = lines[line]
+           lines.remove(line)
+           line.replace("\\n", "")
+           print(f"El artículo {line} ha sido eliminado")
+        file1.close()
+        file1 = open (file, "w")
+        for line in lines:
+            file1.write(line)
+        break
 
-
-
-
+if option == "6":
+    while True:
+        file = input ("Escriba el nombre del fichero a eliminar o exit para salir sin borrar: ")
+        if os.path.isfile(file):
+            confirmed = input(f"""¿Seguro que quiere eliminar el fichero \"{file}\"? 
+  pulse enter para confirmar o escriba cualquier cosa para salir sin borrar: """)
+            if confirmed == "":
+                os.remove(file)
+                print(f"El fichero {file} se ha eliminado con éxito, fin del programa.")
+                break
+            else:
+                print("Fin del programa.") 
+                break
+        elif file == "exit":
+            print("Fin del programa.")
+            break
+        else:
+            print(f"El fichero {file} no existe, pruebe de nuevo\n")
+    
 
 
 
