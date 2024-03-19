@@ -19,34 +19,40 @@ os.system('cls')
 """
 
 
+#Asignando a una variable la sentencia open() y pasándole como argumentos el nombre del archivo
+# y la letra "w" generamos el mismo y nos permite escribir en él
+file=open("JesusWay69.txt", "w")
+file.write("Jesus\n") #Con el método .write escribimos en archivo creado antes de cerrarlo.
+file.write("99\n")
+file.write("Python\n")
+file.close()# Con el método .close() cerramos el archivo, si lo volvemos a abrir con "w" se vuelve a generar vacío
+# o lo que es lo mismo borra todo el contenido.
 
-# file=open("JesusWay69.txt", "w")
-# file.write("Jesus\n")
-# file.write("99\n")
-# file.write("Python\n")
-# file.close()
-# file=open("JesusWay69.txt", "r")
-# readfile = file.read()
-# file.close
-# print(readfile)
+file=open("JesusWay69.txt", "r")# Con "r" nos permite leer todo el contenido del archivo
+readfile = file.read()# asignando a una variable el método .read que devuelve el contenido en un string.
+file.close
+print(readfile)
 
-# file = open("JesusWay69.txt", "a")
-# file.write("linea nueva añadida\n")
-# file=open("JesusWay69.txt", "r")
-# readfile = file.read()
-# file.close
-# print(readfile)
+with open("JesusWay69.txt", "a") as file:#Abriéndolo con with el archivo se cierra automáticamente 
+  file.write("linea nueva añadida\n")# cuando termine el bloque de código tabulado.
+with open("JesusWay69.txt", "r") as file:
+  readfile = file.read()
+print(readfile)
 
-# file = open("JesusWay69.txt", "r+")
-# readfile = file.read()
-# file.write("otra linea nueva añadida\n")
+file = open("JesusWay69.txt", "r+")#Con "r+" nos permite leer y añadir contenido al fichero de una vez
+#También existe el parámetro "w+" que nos permite leer y escribir pero al igual que con "w" con la llamada
+# a .write() se "autogenera" de nuevo el fichero existente borrando el contenido o crea uno nuevo si no existe
+# permitiendo leerlo tambien despues de generarlo y antes de cerrarlo.
+readfile = file.read()
+file.write("otra linea nueva añadida\n")
+readfile = file.read()
+file.close
+print(readfile)
+print("\n")
 
-# readfile = file.read()
-# file.close
-# print(readfile)
-# print("\n")
-
-
+#El método .readline() nos devuelve el contenido de todo el fichero en un string o, si le pasamos
+# un número nos devolverá la línea correspondiente empezando por la 1 y descartando la 0 (dará fallo si la línea está vacía)
+#El método .readlines() nos devolverá una lista de strings conteniendo cada línea como un elemento de la misma.
 
 
 """
@@ -96,14 +102,18 @@ def find(file, substring:str):
                 continue
             elif substring not in line:
                 continue
-            else:
-                print("Artículo no encontrado\n")
-        print(f"Productos encontrados que contienen el nombre \"{substring}\":\n")
-        for i in product_list:
-            print(i)
-        file.close()
     else:
         print("La búsqueda de un producto no se puede hacer con valores numéricos únicamente")
+    if len(product_list)>0:
+                  print(f"Productos encontrados que contienen el nombre \"{substring}\":\n")
+                  for i in product_list:
+                      print(i)
+                  file.close()
+                  return True, product_list
+    else:
+        print("Artículo no encontrado\n")
+        return False, product_list
+        
 
 print ("""
 Elija una opción:
@@ -112,7 +122,7 @@ Elija una opción:
 3-Añadir producto
 4-Editar producto
 5-Calcular ventas totales 
-6-Calcular ventas por producto
+6-Calcular ingresos y ventas por producto
 7-Eliminar producto
 8-Eliminar archivo y salir
  
@@ -138,8 +148,7 @@ if option == "3":
     file = input("Introduzca el nombre del fichero donde añadir datos: ")
     if not os.path.isfile(file):
         print (f"El archivo {file} no existe")
-        continue
-        
+        continue   
     product = input("Introduzca el nombre del producto: ").title()
     sales = input("Introduzca la cantidad de uds vendidas: ")
     price = input("Introduzca el precio por unidad: ")
@@ -158,19 +167,19 @@ if option == "4":
             print (f"El archivo {file} no existe")
             continue
         product = input("Escriba la marca y/o el modelo del producto que busca: ").title()
-        find(file, product)
-        line = int(input("Introduzca el número del producto que desea editar: "))
-        column =int(input("Introduzca el número del campo que desea editar, 1-Producto , 2-Uds vendidas o 3-Precio: "))
-        new_data = input("Introduzca el nuevo dato: ")
-        content = []
-        with open(file, 'r+') as file1:
-            content = file1.readlines()
-            columns = content[line].split(", ")
-            columns[column-1] = new_data
-            content[line] = ", ".join(columns)+"\n"
-        with open(file, 'w') as file1:
-         file1.writelines(content)
-        break
+        if find(file, product):
+          line = int(input("Introduzca el número del producto que desea editar: "))
+          column =int(input("Introduzca el número del campo que desea editar, 1-Producto , 2-Uds vendidas o 3-Precio: "))
+          new_data = input("Introduzca el nuevo dato: ")
+          content = []
+          with open(file, 'r+') as file1:
+              content = file1.readlines()
+              columns = content[line].split(", ")
+              columns[column-1] = new_data
+              content[line] = ", ".join(columns)
+          with open(file, 'w') as file1:
+            file1.writelines(content)
+          break
 
 if option == "5":
     file = input ("Escriba el nombre del fichero del cual desee calcular las ventas totales: ")
@@ -185,7 +194,25 @@ if option == "5":
             print(f"Las uds totales vendidas de todos los productos es: {acc}")  
 
 if option == "6":
-    pass
+    file = input ("Escriba el nombre del fichero sobre el que quiera hacer la consulta: ")
+    product = input("Escriba la marca y/o el modelo del producto que busca: ").title()
+    result_tuple = find (file, product)
+    if result_tuple[0] == True:
+        my_elements = result_tuple[1]
+        total,result,total_sales = 0, 0, 0
+        for elements in my_elements:
+            elements = str(elements)
+            columns = elements.split(", ")
+            quantity = columns[1]
+            unit_price = columns[2]
+            result = int(quantity) * int(unit_price)
+            total_quantity = int(quantity)
+            total_sales += total_quantity
+            total += result        
+        print (f"El total de artículos vendidos con nombre \'{product}\' es de  {total_sales} uds")
+        print (f"La suma total de dinero ingresado por las ventas de los productos con nombre \'{product}\' es de: {total}€")
+
+   
 
 if option == "7":
     while True:
@@ -194,22 +221,23 @@ if option == "7":
             print (f"El archivo {file} no existe")
             continue
         product = input("Escriba la marca y/o el modelo del producto que busca: ").title()
-        find(file, product)
-        try:
-           line = int(input("Introduzca el número del producto que desea borrar: "))
-        except:
-            print("Sólo se pueden introducír números")
-            continue
-     
+        result_tuple = find (file, product)
+        if result_tuple[0] == True:
+          try:
+            line = int(input("Introduzca el número del producto que desea borrar: "))
+          except:
+              print("Sólo se pueden introducír números")
+              continue
+      
         file1 = open(file , "r+")
         lines = file1.readlines()
-        if line <0 or line > len(lines):
+        if line <1 or line > len(lines):
             print(f"el número {line} no pertenece a ningún producto")
         else:
-           line = lines[line]
-           lines.remove(line)
-           line.replace("\\n", "")
-           print(f"El artículo {line} ha sido eliminado")
+          line = lines[line]
+          lines.remove(line)
+          line.replace("\n", "")
+          print(f"El artículo {line} ha sido eliminado")
         file1.close()
         file1 = open (file, "w")
         for line in lines:
