@@ -22,11 +22,6 @@ os.system('cls')
 #ruta = r"C:\Users\jesus\Documents\Python3project\roadmap_python\\"
 
 
-# def console(elem):
-#     rough_string = ET.tostring(elem, 'utf-8')
-#     reparsed = minidom.parseString(rough_string)
-#     return reparsed.toprettyxml(indent="  ", newl="\n")
-
 nacimiento = 1975
 edad = date.now().year - nacimiento
 
@@ -45,9 +40,6 @@ ET.SubElement(programador, "EDAD").text = str(date.now().year - 1991)
 
 file = ET.ElementTree(empresa)
 file.write("empresa.xml") #file.write(ruta + "empresa.xml") si queremos incluir la ruta
-
-
-
 
 json_file = '''{
  "nombre": "Jesus",
@@ -72,8 +64,6 @@ print(yo)
 print(type(yo))#str
 
 
-
-
 """
  * DIFICULTAD EXTRA (opcional):
  * Utilizando la lógica de creación de los archivos anteriores, crea un
@@ -91,22 +81,33 @@ class Programador:
         self.filename = filename
         self.file = self.filename+'.json'
         with open(self.file, 'w') as create_json:
-           json.dump(self.file,create_json, indent=4, sort_keys=False, )
-        
+           json.dump(self.file,create_json, indent=4, sort_keys=False)
 
-    def add_dict_json(self,file:str, name:str, birth_year:int, languages:list):
-        self.file = file
+    def create_file_xml(self,filename:str, rootname:str):
+        self.filename = filename
+        self.rootname = rootname
+        self.file = self.filename+'.xml'
+        root = ET.Element(rootname)
+        tree = ET.ElementTree(root)
+        tree.write(self.file)
+
+    def create_dict(self, name:str, birth_year:int, languages:list)->dict:
         self.name = name
         self.birth_year = birth_year
         self.languages = languages
         dict = {"Name":self.name,
-                "Birth year":self.birth_year,
+                "Birth_year":self.birth_year,
                 "Age": date.now().year - self.birth_year, 
                 "Languages": self.languages}
-        self.primary_list.append(dict)
+        return dict
+
+    def add_dict_json(self,file:str,dict:dict):
+        self.file = file
+        self.dict = dict
+        self.primary_list.append(self.dict)
         with open(self.file , 'w') as write_json:
             json.dump(self.primary_list, write_json , indent=4, sort_keys=False)
-
+        
 
     def print_json_contain(self, file:str):
         with open(file) as contains:
@@ -114,39 +115,45 @@ class Programador:
         for element in  payload:
             print(element)
 
-    def print_xml_contain(self,elem:object):
-        rough_string = ET.tostring(elem, 'utf-8')
+    def print_xml_contain(self,root:object):
+        rough_string = ET.tostring(root, 'utf-8')
         reparsed = minidom.parseString(rough_string)
         print (reparsed.toprettyxml(indent="  ", newl="\n"))
 
-    def create_xml(self, python_dict:dict):
+    def add_dict_xml(self,subroot:str,file:str, python_dict:dict):
         self.python_dict = python_dict
-
-        root = ET.Element("EMPRESA")
-
+        self.file = file
+        self.subroot = subroot
+        tree = ET.parse(file)
+        root = tree.getroot()
+        subroot = ET.SubElement(root,self.subroot)
         for key, value in self.python_dict.items():
-            subroot = ET.SubElement(root, key)
+            programador = ET.SubElement(subroot, key)
             if isinstance(value, list):
-                for item in value:
-                    ET.SubElement(subroot, "item").text = item
+                for element in value:
+                    ET.SubElement(programador, "language").text = element
             else:
-                subroot.text = str(value)
-
-        file = ET.ElementTree(root)
-        file.write("empresa.xml")
-       
+                programador.text = str(value)
+      
+        tree.write(file)
 
 
 programador = Programador()
 programador.create_file_json('programadores')
-programador1 = programador.add_dict_json("programadores.json", "Jesus", 1975, ["python", "java", "php"])
-programador2 = programador.add_dict_json("programadores.json", "Sandra", 1991, ["HTML", "CSS", "Javascript"])
-programador3 = programador.add_dict_json("programadores.json", "Pepe", 1980, ["C#", "C", "Assembly"])
-programador4 = programador.add_dict_json("programadores.json", "Brais", 1988, ["Swift", "Kotlin", "Python"])
+programador.add_dict_json("programadores.json",programador.create_dict("Jesus", 1975, ["python", "java", "php"]))
+programador.add_dict_json("programadores.json",programador.create_dict("Sandra", 1991, ["HTML", "CSS", "Javascript"]))
+programador.add_dict_json("programadores.json",programador.create_dict("Pepe", 1980, ["C#", "C", "Assembly"]))
+programador.add_dict_json("programadores.json",programador.create_dict("Brais", 1988, ["Swift", "Kotlin", "Python"]))
 programador.print_json_contain("programadores.json")
 print()
-programador.print_xml_contain(empresa)
-programador.create_xml(python_dict)
+
+
+programador.create_file_xml("empresa", "EMPRESA")
+programador.add_dict_xml("Programador","empresa.xml",programador.create_dict("Jesus", 1975, ["Java","Python","PhP"]))
+programador.add_dict_xml("Programador","empresa.xml",programador.create_dict("Sandra", 1991, ["HTML", "CSS", "Javascript"]))
+programador.add_dict_xml("Programador","empresa.xml",programador.create_dict("Pepe", 1980, ["C#", "C", "Assembly"]))
+programador.add_dict_xml("Programador","empresa.xml",programador.create_dict("Brais", 1988, ["Swift", "Kotlin", "Python"]))
+programador.print_xml_contain(ET.parse("empresa.xml").getroot())
 
 
 
