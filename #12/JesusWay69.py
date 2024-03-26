@@ -19,7 +19,7 @@ os.system('cls')
 """
 
 	
-#ruta = r"C:\Users\jesus\Documents\Python3project\roadmap_python\\"
+#ruta = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#12\\"
 
 
 nacimiento = 1975
