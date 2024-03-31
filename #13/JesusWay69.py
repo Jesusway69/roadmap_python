@@ -1,6 +1,6 @@
 import os, unittest
 os.system('cls')
-os.system('clear')
+#os.system('clear')
 """
  * EJERCICIO:
  * Crea una función que se encargue de sumar dos números y retornar
@@ -39,14 +39,63 @@ os.system('clear')
 
 my_personal_dict = {
    "name": "Jesus",
-   "age": 48,
-   "birth_date": "12-10-1975",
+   "age": 49,
+   "birth_date": "26-12-1974",
    "programming_languages": ["Python", "Java", "Javascript"]
 }
-print(len(my_personal_dict))
+
+def check_values(dict:dict):
+    my_list = []
+    [my_list.append(v) for v in dict.values()]
+    return my_list
+
+
 class TestDict(unittest.TestCase):
     def test_exist_items(self):
-        self.assertEqual(len(my_personal_dict),4)
+        self.assertTrue(len(my_personal_dict),4)
+
+    def test_type_items(self):
+        self.assertEqual(type(check_values(my_personal_dict)[0]), str)
+        self.assertEqual(type(check_values(my_personal_dict)[1]), int)
+        self.assertEqual(type(check_values(my_personal_dict)[2]), str)
+        self.assertEqual(type(check_values(my_personal_dict)[3]), list)
+       
 
 if __name__ == '__main__':
     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class TestEjemplos(unittest.TestCase):
+#     def setUp(self):
+#         print("Entra setUp")
+#     def tearDown(self):
+#         print("Entra tearDown")
+
+#     def test_1(self):
+#         print("Test: test_1")
+#     def test_2(self):
+#         print("Test: test_2")
+# if __name__ == '__main__':
+#     unittest.main()
