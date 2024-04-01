@@ -1,6 +1,7 @@
 import os, unittest
 os.system('cls')
 #os.system('clear')
+from datetime import date
 """
  * EJERCICIO:
  * Crea una función que se encargue de sumar dos números y retornar
@@ -11,21 +12,30 @@ os.system('cls')
 """
 
 
-# def sum_two_numbers(num1:int,num2:int)->int:
-#     return num1+num2
-# print(sum_two_numbers(15,85))
+def sum_two_numbers(num1:int,num2:int)->int:
+    return num1+num2
+print(sum_two_numbers(15,85))
 
-# class TestSum(unittest.TestCase):
-#     def test_suma_positiva(self):
-#         self.assertEqual(sum_two_numbers(3, 9), 12)  # Verifica si la suma de 3 y 5 es igual a 8
+class TestSum(unittest.TestCase):
+    def test_positive_sum(self):
+        self.assertEqual(sum_two_numbers(3, 9), 12) # Verifica si la suma de 3 y 5 es igual a 8
 
-#     def test_suma_negativa(self):
-#         self.assertEqual(sum_two_numbers(-1, 1), 0) 
+    def test_negative_sum(self):
+        self.assertFalse(sum_two_numbers(-1, 1), 0) #En la mayoría de los casos se puede usar indistintamente asserEqual o assertTrue
+# pero en este caso concreto al ser cero el resultado propuesto para la operación dará fallo y habrá que testearlo con assertEqual o assertFalse
 
-#     def test_suma_float(self):
-#         self.assertEqual(sum_two_numbers(2.5,7.3),9.8)
-# if __name__ == '__main__':
-#     unittest.main()
+    def test_float_sum(self):
+        self.assertTrue(sum_two_numbers(2.5,7.3),9.8)
+    
+    def test_type_int_return(self):
+        self.assertEqual(type(sum_two_numbers(0,0)), int)#Tambien se puede testear si el tipo de dato que devuelve es el correcto
+    
+    def test_type_float_return(self):
+        self.assertEqual(type(sum_two_numbers(0.0,0.0)), float)
+    
+
+# if __name__ == '__main__': 
+#     unittest.main() #Con este condicional ejecutamos los test anteriores al mismo y termina la ejecución de todo el programa
 
 """ * DIFICULTAD EXTRA (opcional):
  * Crea un diccionario con las siguientes claves y valores:
@@ -40,7 +50,7 @@ os.system('cls')
 my_personal_dict = {
    "name": "Jesus",
    "age": 49,
-   "birth_date": "26-12-1974",
+   "birth_date": date(1974,12,26),
    "programming_languages": ["Python", "Java", "Javascript"]
 }
 
@@ -54,12 +64,16 @@ class TestDict(unittest.TestCase):
     def test_exist_items(self):
         self.assertTrue(len(my_personal_dict),4)
 
-    def test_type_items(self):
+    def test_type_values(self):
+        self.assertEqual(type(check_values(my_personal_dict)), list)
         self.assertEqual(type(check_values(my_personal_dict)[0]), str)
         self.assertEqual(type(check_values(my_personal_dict)[1]), int)
-        self.assertEqual(type(check_values(my_personal_dict)[2]), str)
+        self.assertEqual(type(check_values(my_personal_dict)[2]), date)
         self.assertEqual(type(check_values(my_personal_dict)[3]), list)
-       
+        self.assertEqual(type(check_values(my_personal_dict)[3][0]), str)
+        self.assertEqual(type(check_values(my_personal_dict)[3][1]), str)
+        self.assertEqual(type(check_values(my_personal_dict)[3][2]), str)
+         
 
 if __name__ == '__main__':
     unittest.main()
