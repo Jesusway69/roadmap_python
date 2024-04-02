@@ -18,7 +18,7 @@ print(sum_two_numbers(15,85))
 
 class TestSum(unittest.TestCase):
     def test_positive_sum(self):
-        self.assertEqual(sum_two_numbers(3, 9), 12) # Verifica si la suma de 3 y 5 es igual a 8
+        self.assertEqual(sum_two_numbers(3, 9), 12) # Verifica si la suma de x y x es igual a x+x
 
     def test_negative_sum(self):
         self.assertFalse(sum_two_numbers(-1, 1), 0) #En la mayoría de los casos se puede usar indistintamente asserEqual o assertTrue
