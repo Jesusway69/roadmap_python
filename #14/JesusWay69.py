@@ -1,5 +1,11 @@
-import os , datetime
+import os
 os.system('cls')
+from datetime import datetime as DT
+from datetime import date as D
+from datetime import timedelta as TD
+from datetime import timezone as TZ
+
+
 
 
 """ * EJERCICIO:
@@ -21,34 +27,38 @@ os.system('cls')
 
 week_days = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"]
 months =["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-current_datetime = datetime.datetime.now()
-current_date = datetime.date.today()
-format_current_date = datetime.date.today().strftime('%A, %d-%B-%Y')
-format_manual_time = datetime.datetime.strptime('29-07-1999 22:15:30', '%d-%m-%Y %H:%M:%S')
-week_day = week_days[format_manual_time.weekday()]
-week_today = week_days[current_date.weekday()]
-
+utc_spain_timezone = TZ(TD(hours=+2))
+current_datetime = DT.now()#Con .now sobre datetime generamos un objeto datetime con la fecha y hora actual del sistema
+current_date = D.today()#Con .today sobre date generamos un objeto date con la fecha actual del sistema
+format_current_date = D.today().strftime('%A, %d-%B-%Y')#Con .strftime sobre date generamos un string formateado "a la carta"
+format_manual_time = DT.strptime('20-05-1998 22:15:30', '%d-%m-%Y %H:%M:%S')#Con .strptime generamos un objeto datetime a partir de un string
+format_manual_time2 = 'Formateo desde datetime: {}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year)
+format_manual_time3 = 'Formateo desde date: {}/{}/{}'.format(D.today().day,D.today().month,D.today().year)
+#Con .format a partir de una combinación de objetos datetime o date generamos la fecha, hora o ambas en string
+week_day = week_days[format_manual_time.weekday()] #Con .weekday nos devuelve un número que corresponde al día de la semana donde 1 es el lunes..
+current_week_day = week_days[current_date.weekday()]
+sillicon_valley_time = current_datetime.astimezone(TZ(TD(hours=-7)))
 current_year = current_date.year
 current_month = months[current_date.month-1]
 current_day = current_date.day
 current_hour = current_datetime.hour
 current_minute = current_datetime.minute
 current_second = current_datetime.second
-
 my_age = current_datetime - format_manual_time
 my_age_years = int(my_age.days//365.25)
 
-
-
-print(current_datetime,"\n",
-     
+print("Fecha y hora en España:",current_datetime,"\n",
+    "Fecha y hora en Sillicon Valley (USA):", sillicon_valley_time,"\n",
         current_hour, ":",
         current_minute, ":",
         current_second, "\n",
         format_current_date, "\n",
         format_manual_time, week_day, "\n",
-        my_age_years, "\n",
-        my_age,
+        format_manual_time2 , "\n",
+        format_manual_time3 , "\n",
+        my_age_years, "años\n",
+        my_age.days, "días\n",
+        "Zona horaria España:", utc_spain_timezone , "\n",        
         "\n\n\n"
         )
 
@@ -57,15 +67,21 @@ print(current_datetime,"\n",
 
 
 
-def input_data()->datetime.date:
+def input_data()->D:
     while True:
         year = input("Escriba su año de nacimiento: ")
         if not year.isdigit or len(year)!=4:
             print ("ERROR: El año debe ser numérico de 4 cifras")
             continue
+        elif int(year)<1900:
+            print ("Aunque seas demasiado viejo no creo que hayas nacido antes de 1900, intenta otro año posterior")
+            continue
+        elif int(year)>D.today().year:
+            print("A no ser que vengas del futuro no puedes poner un año que aun no ha llegado, intenta de nuevo")
+            continue
         while True:
             month = input("Escriba el mes de nacimiento: ")
-            if not year.isdigit or len(month)>2 or len(month)<0:
+            if  not month.isdigit   or len(month)>2 or len(month)<=0:
                 print ("ERROR: El mes debe ser numérico de 1 o 2 cifras")
                 continue
             elif int(month)<1 or int(month)>12:
@@ -73,45 +89,42 @@ def input_data()->datetime.date:
                 continue
             while True:
                 day = input("Escriba el día de nacimiento: ")
-                if not year.isdigit or len(month)>2 or len(month)<0:
+                if not day.isdigit or len(day)>2 or len(day)<=0:
                    print ("ERROR: El día debe ser numérico de 1 o 2 cifras")
                    continue
-                elif int(month)<1 or int(month)>31:
+                elif int(day)<1 or int(day)>31:
                    print ("ERROR: El día no debe ser menor a 0 ni mayor a 31")
                    continue
                 if ((int(year) % 4 != 0) and ((int(year) % 100 == 0) or (int(year) % 400 != 0)) and int(month)==2 and int(day)>28):
                     print (f"El año {year} no fue bisiesto y febrero no puede tener más de 28 días")
                     break
-                
-               
+                return D(int(year),int(month),int(day))
+  
 
-                return datetime.date(int(year),int(month),int(day))
-#print(input_data())
-       
-
-my_test_date = datetime.date(1974,12,26)   
-
-def show_data(date_object:datetime.date):
+def show_data(date_object:D):
     str_date = str(f"{date_object.day}-{date_object.month}-{date_object.year}")
-    format_date = datetime.datetime.strptime(str_date, '%d-%m-%Y')
-    my_age = current_datetime - format_date
+    format_date = DT.strptime(str_date, '%d-%m-%Y')
+    my_age = DT.now() - format_date
     my_age_years = int(my_age.days//365.25)
-    print(f"\nHoy es {week_today} día {current_day} de {current_month} de {current_year}")
-    print(f"Y son las {current_hour} horas y {current_minute} minutos\n")
-    if current_hour>6 and current_hour<12:
+    beginning_year = D(D.today().year,1,1)
+    days_passed = D.today() - beginning_year
+    weeks_passed = days_passed.days//7+1
+
+    print(f"\nHoy es {current_week_day} día {current_day} de {current_month} de {current_year}")
+    print(f"Y son las {DT.now().hour} horas y {current_minute} minutos\n")
+    print(f"Han transcurrido {weeks_passed} semanas y estamos en el día {days_passed.days+1} de {D.today().year}\n")
+    if DT.now().hour in range(6,11):
       print("¡¡Buenos días!!\n")
-    elif current_hour>11 and current_hour<21:
+    elif DT.now().hour in range(12,21):
         print("¡¡Buenas tardes!!\n")
     else:
         print("¡¡Buenas noches!!\n")
 
-    print(f"Como has indicado que naciste el día {date_object.day} de {months[date_object.month-1]} de {date_object.year} ...")
-    print("... (por cierto naciste un", week_days[format_date.weekday()],")")
-    print(f"y por lo tanto tienes {my_age_years} años")
+    print(f"Como has indicado que naciste el día {date_object.day} de {months[date_object.month-1]} de {date_object.year} ...\n")
+    print("... (por cierto naciste un", week_days[format_date.weekday()],")\n")
+    if current_day == date_object.day and current_date.month == date_object.month:
+            print(f"¡¡¡FELICIDADES!!! hoy cumples {my_age_years} años, casi nada\n")
+    else:
+            print(f"y por lo tanto tienes {my_age_years} años")
 
-    
-
-      
 show_data(input_data())
-
-
