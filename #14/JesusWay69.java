@@ -75,7 +75,7 @@ public class JesusWay69 {
 
     public static LocalDate input_data() {
         Scanner sc = new Scanner(System.in);
-        String[] thirdy_days_months = {"", "", "", "Abril", "", "Junio", "", "", "Septiembre", "", "Noviembre", ""};
+        String[] thirty_days_months = {"", "", "", "Abril", "", "Junio", "", "", "Septiembre", "", "Noviembre", ""};
         while (true) {
             System.out.print("\nEscriba su AÑO de nacimiento: ");
             String year = sc.next();
@@ -95,7 +95,7 @@ public class JesusWay69 {
             while (true) {
                 System.out.print("\nEscriba el número de su MES de nacimiento: ");
                 String month = sc.next();
-                if (!month.matches("[1-9]{1,2}") || month.length() > 2 || month.length() <= 0) {
+                if (!month.matches("[0-9]{1,2}") || month.length() > 2 || month.length() <= 0) {
                     System.out.println("ERROR: El mes debe ser numérico de 1 o 2 cifras");
                     continue;
                 } else if (Integer.parseInt(month) < 1 || Integer.parseInt(month) > 12) {
@@ -110,7 +110,7 @@ public class JesusWay69 {
                         System.out.println("ERROR: El día debe ser numérico de 1 o 2 cifras");
                         continue;
                     } else if (("4".equals(month) || "6".equals(month) || "9".equals(month) || "11".equals(month)) && Integer.parseInt(day)>30) {
-                        System.out.println("El mes de " + thirdy_days_months[Integer.parseInt(month)-1] + " no puede tener más de 30 días");
+                        System.out.println("El mes de " + thirty_days_months[Integer.parseInt(month)-1] + " no puede tener más de 30 días");
                         continue;
                     } else if (Integer.parseInt(day) < 1 || Integer.parseInt(day) > 31) {
                         System.out.println("ERROR: El día no puede ser menor a 0 ni mayor a 31");
@@ -122,6 +122,8 @@ public class JesusWay69 {
 
                     }
                     return LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+                    
+
                 }
             }
 
