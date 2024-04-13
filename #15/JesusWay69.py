@@ -12,7 +12,6 @@ import asyncio
  *
 """
 
-
 def asynchrone (wait_seconds:int,name:str):
     start_time = DT.now()
     print(f"La ejecución de {name} durará {wait_seconds} segundos")
@@ -20,8 +19,8 @@ def asynchrone (wait_seconds:int,name:str):
     time.sleep(wait_seconds)
     print("Ejecución de ",name," terminada a las {}:{}:{}".format(DT.now().hour,DT.now().minute,DT.now().second))
     end_time = DT.now()
-    print("Duración de la ejecución: ", end_time-start_time)
-#asynchrone(4,"\'Hola Mundo\'")
+    print("Duración de la ejecución: ", end_time-start_time, "\n")
+asynchrone(4,"\'Hola Mundo\'")
 
 """ * DIFICULTAD EXTRA (opcional):
  * Utilizando el concepto de asincronía y la función anterior, crea
