@@ -43,8 +43,8 @@ def spain_phone_validation(phone_num:str):
         return True
     else:
         return False
-'''Función que valida un nº de tlf español cuyo primer número debe ser 6,7 o 9 ,
-   tener en total 9 números y que puede incluir o no el prefijo español +34  '''
+'''Función que valida un nº de tlf español particular cuyo primer número debe ser 6,7 (móvil) o 9 (fijo) ,
+   tener en total 9 números y que puede incluir o no el prefijo español +34, el número no puede contener espacios.  '''
 
 
 
@@ -65,7 +65,8 @@ def dni_validation(dni:str):
         return True
     else:
         return False
-'''Función que valida un dni español con 8 cifras y una letra al final que no puede ser i,o,u ni ñ '''
+'''Función que valida un dni español con 8 cifras y una letra al final que no puede ser i,o,u ni ñ
+    tal y como establece la normativa al respecto.  '''
 
 
 def date_validation(date:str):
@@ -74,7 +75,7 @@ def date_validation(date:str):
         return True
     else:
         return False
-'''Función que valida una fecha en formato dd/mm/aaaa con límites de días a 31,meses a 12 y años entre 1950 y 2050'''
+'''Función que valida una fecha en formato dd/mm/aaaa o dd-mm-yyyy con límites de días a 31,meses a 12 y años entre 1950 y 2050'''
     
 print(email_validation("je.suSw-ay69@hotmail.com"))
 print(spain_phone_validation("+34716984941"))
