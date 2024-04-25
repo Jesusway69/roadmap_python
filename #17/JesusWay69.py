@@ -1,5 +1,6 @@
 import os, random
 os.system('cls')
+os.system('clear')
 
 """* EJERCICIO:
  * Utilizando tu lenguaje, emplea 3 mecanismos diferentes para imprimir
