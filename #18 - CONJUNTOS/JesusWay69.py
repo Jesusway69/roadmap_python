@@ -44,9 +44,17 @@ print("Borramos todo el contenido de la lista, ahora la lista es esta: ", my_lis
  * - Diferencia.
  * - Diferencia simétrica."""
 
-my_set1 = {"Metallica", "Pantera", "Slipknot", "SOAD", "Megadeth", "Iron Maiden", "Tool", "Anthrax", "Gojira", "Avenged Sevenfold", "Korn", "Alice Cooper", "AC/DC"}
-my_set2 = {"Kiss", "Judas Priest", "Saxon", "AC/DC", "Metallica", "Black Sabbath", "Megadeth","Linkin Park", "Pantera", "Alter Bridge", "Guns n' Roses", "Scorpions" }
+set1 = {"Metallica", "Pantera", "Slipknot", "SOAD", "Megadeth", "Iron Maiden", "Tool", "Anthrax", "Gojira", "Avenged Sevenfold", "Korn", "Alice Cooper", "AC/DC"}
+set2 = {"Kiss", "Judas Priest", "Saxon", "AC/DC", "Metallica", "Black Sabbath", "Megadeth","Linkin Park", "Pantera", "Alter Bridge", "Guns n' Roses", "Scorpions" }
 
 
+print(set1.intersection(set2))
+print(set2 & set1)
 
+print(set1 - set2)
+print(set1.difference(set2))
 
+print(set2 - set1)
+print(set2.difference(set1))
+
+print(set1 ^ set2)
