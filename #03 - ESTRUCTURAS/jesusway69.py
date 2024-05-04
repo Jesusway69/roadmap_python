@@ -50,9 +50,9 @@ print("\n")
 for i in set2:       #Forma tradicional de bucle for
     print(i, end=' ')#con instrucción de impresión
 print('\n')       
-print (set1-set2)# muestra los elementos que solo existen en set1 y no están en set2
+print (set1-set2)# muestra los elementos que solo existen en set1 y no están en set2 ni en ambos
 #Equivalente a print(set1.difference(set2))
-print (set2-set1)# muestra los elementos que solo existen en set2 y no están en set1
+print (set2-set1)# muestra los elementos que solo existen en set2 y no están en set1 ni en ambos
 #Equivalente a print(set2.difference(set1))
 print (set1 & set2)# muestra únicamente los elementos que existen a la vez en ambos sets
 # Equivalente a print (set1.intersection(set2))

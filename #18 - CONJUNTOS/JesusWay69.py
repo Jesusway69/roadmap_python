@@ -1,5 +1,6 @@
 import os
 os.system('clear')
+os.system('cls')
 
 
 """ * EJERCICIO:
@@ -36,6 +37,7 @@ hola = "Hola" in my_list
 print ("¿El elemento \"Hola\" está en la lista? ", hola )
 my_list.clear()
 print("Borramos todo el contenido de la lista, ahora la lista es esta: ", my_list)
+print('\n')
 
 """* DIFICULTAD EXTRA (opcional):
  * Muestra ejemplos de las siguientes operaciones con conjuntos:
@@ -44,17 +46,32 @@ print("Borramos todo el contenido de la lista, ahora la lista es esta: ", my_lis
  * - Diferencia.
  * - Diferencia simétrica."""
 
-set1 = {"Metallica", "Pantera", "Slipknot", "SOAD", "Megadeth", "Iron Maiden", "Tool", "Anthrax", "Gojira", "Avenged Sevenfold", "Korn", "Alice Cooper", "AC/DC"}
-set2 = {"Kiss", "Judas Priest", "Saxon", "AC/DC", "Metallica", "Black Sabbath", "Megadeth","Linkin Park", "Pantera", "Alter Bridge", "Guns n' Roses", "Scorpions" }
+set1 = {"C", "Kotlin", "Swift", "C#", "Java", "Rust", "Javascript", "PhP", "Python", "R", "Ruby", "Scala"}
+set2 = {"C++", "Dart", "Python", "Cobol", "Javascript", "Pascal", "Abap", "Typescript", "Java", "Fortran"}
+
+print("### UNIÓN ###")
+print(set1 | set2)# Muestra todos los elementos de ambos sets sin repeticiones
+print(set1.union(set2))# Muestra todos los elementos de ambos sets sin repeticiones
+print()
+
+print("### INTERSECCIÓN ###")
+print(set1.intersection(set2))# Muestra únicamente los elementos que existen a la vez en ambos sets
+print(set2 & set1)# Muestra únicamente los elementos que existen a la vez en ambos sets
+print()
+
+print("### DIFERENCIA ###")
+print(set1 - set2)# Muestra los elementos que sólo existen en set1 y no están en set2 ni en ambos
+print(set1.difference(set2))# Muestra los elementos que sólo existen en set1 y no están en set2 ni en ambos
+print(set2 - set1)# Muestra los elementos que sólo existen en set2 y no están en set1 ni en ambos
+print(set2.difference(set1))# Muestra los elementos que sólo existen en set2 y no están en set1 ni en ambos
+print()
+
+print("### DIFERENCIA SIMÉTRICA ###")
+print(set1 ^ set2)# Muestra los elementos de ambos sets que están en uno u otro set pero no en ambos 
+print(set1.symmetric_difference(set2))# Muestra los elementos de ambos sets que están en uno u otro set pero no en ambos 
 
 
-print(set1.intersection(set2))
-print(set2 & set1)
 
-print(set1 - set2)
-print(set1.difference(set2))
 
-print(set2 - set1)
-print(set2.difference(set1))
 
-print(set1 ^ set2)
+
