@@ -49,3 +49,22 @@ show_day(6)
  *   (Establece una lógica, por ejemplo, no se puede entregar si no se ha enviado, etc...)
  * - Implementa una función para mostrar un texto descriptivo según el estado actual.
  * - Crea diferentes pedidos y muestra cómo se interactúa con ellos."""
+
+class Orders():
+    def __init__(self) -> None:
+        self.orders_state = ["PENDIENTE", "ENVIADO", "ENTREGADO", "CANCELADO" ]
+    def state(self,num:int):
+        self.state_order = dict(enumerate(self.orders_state,start=1))
+        return self.state_order.values(num)
+    def waiting_to_cancelled(self):
+        pass
+    def waiting_to_sent(self):
+        pass
+    def sent_to_delivered(self):
+        pass
+
+orders_instance = Orders()
+    
+
+            
+
