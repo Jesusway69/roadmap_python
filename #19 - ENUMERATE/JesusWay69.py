@@ -1,4 +1,4 @@
-import os
+import os, enum
 os.system ('cls')
 
 """* EJERCICIO:
@@ -14,17 +14,26 @@ os.system ('cls')
 weekdays_list = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 weekdays_tuple = "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
 weekdays_set = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"}
-weekdays_dict = dict(enumerate(weekdays_list, start=1))
+weekdays_dict = dict(enumerate(weekdays_list, start=1))# Se puede crear un diccionario a partir de una lista o tupla 
+                                        # donde los valores numéricos serán las claves y los elementos los valores
+class Weekdays(enum.Enum): # Creación de clase con Enum desde la cual podremos acceder diréctamente a sus elementos
+    Lunes = 1
+    Martes = 2
+    Miércoles = 3 
+    Jueves = 4 
+    Viernes =5 
+    Sábado = 6 
+    Domingo = 7
 
-[print(i,d , end=" ") for i, d in enumerate(weekdays_list, 1)]
+[print(i,d , end=" ") for i, d in enumerate(weekdays_list, 1)]# Podemos iterar sobre una lista mostrando elemento y valor con enumerate
 print()
-[print(i,d , end=" ") for i, d in enumerate(weekdays_tuple, 1)]
+[print(i,d , end=" ") for i, d in enumerate(weekdays_tuple, 1)]# También sobre una tupla
 print()
-[print(i,d , end=" ") for i, d in enumerate(weekdays_set, 1)]
+[print(i,d , end=" ") for i, d in enumerate(weekdays_set, 1)]# Con un set los elementos se asignarán desordenados a los valores 
 print()
 [print(i,d , end=" ") for i, d in weekdays_dict.items()]
 print() 
-print(weekdays_dict)
+print(f"El día de la semana correspondiente al número {Weekdays.Miércoles.value} es el {Weekdays.Miércoles.name}")
 
 
 
@@ -35,6 +44,8 @@ def show_day(key:int):
     else:
         print ("El número debe ser mayor a 0 y menor a 8")
 show_day(6)
+print("\n\n\n")
+
 
 
 """* DIFICULTAD EXTRA (opcional):
@@ -50,58 +61,54 @@ show_day(6)
  * - Implementa una función para mostrar un texto descriptivo según el estado actual.
  * - Crea diferentes pedidos y muestra cómo se interactúa con ellos."""
 
+class Status (enum.Enum):
+    PENDIENTE=1
+    ENVIADO=2
+    ENTREGADO=3
+    CANCELADO=4
 class Orders():
-    def __init__(self) -> None:
-        self.orders_state = ["PENDIENTE", "ENVIADO", "ENTREGADO", "CANCELADO" ]
-    def state(self,num=1):
-        self.state_order = dict(enumerate(self.orders_state,start=1))
-        return self.state_order.get(num)
+    status = Status.value=1
+    def __init__(self, id):
+        self.id = id
     def waiting_to_cancelled(self):
-        if self.state()=="PENDIENTE":
-         self.state(4)
+        if self.status == 1:
+           self.status = 4
+           self.show_status()
         else:
-            print("No se puede cancelar un producto que ya se ha enviado")
+            print("No se puede cancelar un producto que ya se ha enviado o entregado")  
     def waiting_to_sent(self):
-        if self.state()=="PENDIENTE":
-            self.state(2)
+        if self.status==1:
+           self.status=2
+           self.show_status()
         else:
             print("No se puede enviar un producto que ya se ha enviado, entregado o cancelado")
     def sent_to_delivered(self):
-        if self.state()=="ENVIADO":
-            self.state(3)
+        if  self.status==2:
+            self.status=3
+            self.show_status()
         else:
             print("No se puede marcar como entregado un producto que no se ha enviado, ya se ha entregado o se ha cancelado")
-
-orders_instance = Orders()
-
-
+    def cancelled_to_waiting(self):
+        if self.status == 4 or self.status == 1:
+           self.status = 1
+           self.show_status()
+        else:
+            print("No se puede volver a poner pendiente un producto que ya se ha enviado o entregado")  
+    def show_status(self):
+        print(f"El estado del producto {self.id} es: {Status(self.status).name}")
     
-product_dict = { "P1":1,"P2":1,"P3":1,"P4":1,"P5":1,"P6":1,"P7":1,"P8":1,"P9":1,"P10":1}
-
-while True:
-    product = int(input("Seleccione un nº de producto:"))
-    if product<1 or product>10 or product.is_integer == False:
-        print("Sólo se pueden introducir números del 1 al 10, intente de nuevo")
-    else:
-        my_product = "P"+str(product)
-        state = int(input("Elija una opción; 1-pasar a enviado 2-pasar a entregado 3-pasar a cancelado"))
-        if state <1 or state>4 or state.is_integer== False:
-             print("Sólo se pueden introducir números del 1 al 3, intente de nuevo")
-        elif state==1:
-            orders_instance.waiting_to_sent()
-            product_dict[my_product]=orders_instance.state()
-            print(f"El producto {my_product} se ha {orders_instance.state(2)}")
-            break
-        elif state==2:
-            if product_dict[my_product]!="ENVIADO":
-                print("No se puede entregar un producto que no se ha enviado")
-            else:
-                orders_instance.sent_to_delivered()
-                product_dict[my_product]=orders_instance.state()
-                print(f"El producto {my_product} se ha {orders_instance.state()}")
-                break
-
-   
+orders_instance_1 = Orders(1)
+orders_instance_1.sent_to_delivered()# Se intenta entregar un producto que no se ha enviado, devuelve aviso.
+orders_instance_1.waiting_to_sent()# El pedido sigue estando pendiente, se envía y devuelve el mensaje de enviado.
+orders_instance_1.sent_to_delivered()# El pedido está enviado, se entrega y devuelve el mensaje de entregado.
+orders_instance_1.waiting_to_cancelled()# Se intenta cancelar el pedido y devuelve aviso de que ya ha sido enviado o entregado.
+orders_instance_2 = Orders(2)
+orders_instance_2.cancelled_to_waiting()# Esta función devuelve el producto de cancelado a pendiente, como no se ha cancelado sigue pendiente.
+orders_instance_2.waiting_to_cancelled()# Se cancela el producto pendiente y muestra el estado de cancelado.
+orders_instance_2.cancelled_to_waiting()# Ahora sí devolvemos el pedido cancelado a pendiente.
+orders_instance_2.sent_to_delivered()# Se intenta entregar el pedido y devuelve el aviso de que aun no ha sido enviado.
+orders_instance_2.show_status()# Al llamar a este método imprimirá el estado actual del pedido.
+orders_instance_1.show_status()
     
     
     
