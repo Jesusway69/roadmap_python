@@ -31,31 +31,24 @@ os.system('cls')
  * - Controla posibles errores"""
 
 
-url_pokemon = "https://pokeapi.co/api/v2/pokemon?limit=151"
-
-# response = requests.get(url_pokemon)
-
-# for index, pokemon in enumerate(response.json()["results"]):
-#     pokemon_name = pokemon["name"]
-#     print(f"#{index + 1} {pokemon_name}")
 
 def find ():
     pokemon_name = input("Escriba el nombre o número del pokemon a buscar: ")
-    pokedata = get_data('https://pokeapi.co/api/v2/pokemon/' + pokemon_name)
-    pokevolve = get_data('https://pokeapi.co/api/v2/evolution-chain/' + pokemon_name)
-
+    pokedata = get_data('https://pokeapi.co/api/v2/pokemon/'+ pokemon_name)
+    
+    
     pokemon_types = [types['type']['name'] for types in pokedata['types']]
     pokemon_games = [game_indices['version']['name'] for game_indices in pokedata['game_indices']]
     
-    pokemon_chain = pokevolve['chain']
-    pokemon_evolution = [chain['species']['name'] for chain in pokemon_chain['evolves_to']]
     print('Nombre: ',pokedata['name'].capitalize())
     print('ID:     ',pokedata['id'])
     print('Peso:   ',pokedata['weight'])
     print('Altura: ',pokedata['height'])
     print('Tipos:  ',', '.join(pokemon_types).title())
     print('Juegos: ',', '.join(pokemon_games).title())
-    print(pokemon_evolution)
+    get_evolve('https://pokeapi.co/api/v2/evolution-chain/'+ str(pokedata['id']))
+
+
 
 def get_data(url=''):
     pokemon_data = {
@@ -67,9 +60,7 @@ def get_data(url=''):
      'game_indices':'',
      
     }
-    pokemon_evo = {
-        'evolves_to':''
-    }
+   
     response = requests.get(url)
     data = response.json()
     pokemon_data['name'] = data['name']
@@ -78,7 +69,49 @@ def get_data(url=''):
     pokemon_data['height'] = data['height']
     pokemon_data['types'] = data['types']
     pokemon_data['game_indices'] = data['game_indices']
-    pokemon_evo['chain'] = data['chain']
-
     return pokemon_data
+
+def get_evolve(url):
+
+    response = requests.get(url)
+    data = response.json()['chain'] #diccionario
+
+    evolve = data['evolves_to'] #lista de 1 elemento
+
+
+    if (len(evolve)<1):
+        return
+    else: 
+        print("Evoluciones:    ", "\b")
+        for i in range (len(evolve)):
+            evo1 = evolve[i]['species']['name']
+            print('\b',evo1.capitalize())
+
+    if (len(evolve[0]['evolves_to']))<1:
+        return
+    else:
+            
+        for j in range (len(evolve[0]['evolves_to'])):
+            evo2 = evolve[0]['evolves_to'][j]['species']['name']
+            print('\b',evo2.capitalize())
+
 find()
+
+
+
+
+
+
+
+
+    # pokemon_evo = {
+    #         'evolves_to':'',
+    #     }
+
+    # response = requests.get(url)
+    # data = response.json()
+
+    # pokemon_evo['evolves_to'] = data['chain']
+    # return pokemon_evo
+
+
