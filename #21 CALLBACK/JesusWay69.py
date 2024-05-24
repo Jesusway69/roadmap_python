@@ -2,6 +2,7 @@ import os
 os.system('cls')
 
 
+
 """
  * EJERCICIO:
  * Explora el concepto de callback en tu lenguaje creando un ejemplo
@@ -12,41 +13,12 @@ def show_result(result):
     print(result)
 
 def main_funtcion (fun, args,callback):
-
     result = fun(*args)
     callback(result)
 
 def sum(a,b):
     return a + b
 main_funtcion(sum, (546,7543), callback=show_result)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -60,3 +32,18 @@ main_funtcion(sum, (546,7543), callback=show_result)
  *   procesos.
  * - Debe invocar a cada callback siguiendo un orden de procesado.
  * - Debe notificar que el plato está listo o ha sido entregado."""
+
+
+def processing(state,args,callback):
+    result = state(*args)
+    callback(result)
+
+def confirmation():
+    pass
+
+def ready():
+    pass
+
+def delivery():
+    pass
+processing()
