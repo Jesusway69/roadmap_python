@@ -1,6 +1,6 @@
 import os
 os.system('cls')
-from datetime import date as D
+from datetime import datetime as DT
 
 """* EJERCICIO:
  * Explora el concepto de funciones de orden superior en tu lenguaje 
@@ -58,13 +58,13 @@ print('\n\n\n\n')
  *   de los alumnos.
  * - Una calificación debe estar comprendida entre 0 y 10 (admite decimales)."""
 
-students_list = [["Jesus",'26/12/1984',[6.8,8.3,6.5,9.9]],
-                 ["Sandra",'24/3/1989',[4.2,10,7.9,8,7.8]],
-                 ["Pablo",'14/8/1983',[6.5,3,8,9.6,5,8.5]],
-                 ["Leire",'2/11/1991',[5,6.7,10,9.3,4.7,7]]]
+students_list = [["Jesus",DT.strptime('26/12/1974','%d/%m/%Y'),[9.8, 8.3, 7.8, 9.9, 10, 9.7, 9.6, 9.7, 9.3]],
+                 ["Sandra",DT.strptime('24/3/1989','%d/%m/%Y'),[6.2, 9.6, 7.9, 8, 7.8, 8.4, 9, 7.8, 9.8, 8.6]],
+                 ["Pablo",DT.strptime('14/8/1982','%d/%m/%Y'),[6.5, 7.3, 8, 9.6, 5, 8.5, 9, 9.8, 8, 9.6, 9]],
+                 ["Leire",DT.strptime('2/11/1991','%d/%m/%Y'),[9.5, 9.7, 9.8, 9.3, 7.7, 9, 9, 8.7, 9.9, 8.9]]]
 
-def students(option):
-    def avg_qualification(students_list:list):
+def students(option:int):
+    def avg_qualification(students_list:list)->dict:
         qualification_list = []
         names_list=[]
         acc=0
@@ -76,18 +76,62 @@ def students(option):
                 qualification=0
             qualification_list.append(round(acc/len(student[2]),1))
             acc=0
-        for name, avg in zip(names_list,qualification_list) :
-            print("nombre:",name," Nota media:", avg)
+        if option == 1:
+            print("Nota media de los alumnos: \n")
+            for name, avg in zip(names_list,qualification_list) :
+                print("Nombre:",name," Nota media:", avg)
+        name_qualifications_dict = {name:avg for name, avg in zip(names_list,qualification_list)}     
+        return name_qualifications_dict
 
-        name_qualifications_dict = {name:avg for name, avg in zip(names_list,qualification_list)}
-        
-         
-        print(name_qualifications_dict)
+    def best(students_list:list):
+      best_students = avg_qualification(students_list)
+      print("Estudiantes con un 9 o más de nota media: \n")
+      for k,v in best_students.items():                                                                
+          if v>=9:
+              print (k,v)
+
+    def sorted_age(students_list:list):
+        print("Lista de estudiantes ordenados desde el más joven:\n")
+        sorted_age_list = sorted(students_list, key=lambda student: student[1],reverse=True)
+        for student in sorted_age_list:
+            birth_date = student[1].strftime('%d/%m/%Y')
+            print(f"{student[0]}  -  Fecha de nacimiento: {birth_date}")
+    
+
+    def hight_qualification(students_list:list):
+        print("Lista de estudiantes con su nota más alta: \n")
+        for student in students_list:
+            hightest=0
+            name = student[0]
+            for qualification in student[2]:
+                if qualification > hightest:
+                    hightest = qualification
+            print (f"{name}  -  Calificación más alta: {hightest}")
 
     if option==1:
         return avg_qualification
-prueba = students(1)
-prueba(students_list)
+    if option==2:
+        return best
+    if option==3:
+        return sorted_age
+    if option==4:
+        return hight_qualification
+    
+while True:
+    option = input("""Elija una opción:\n1-Mostrar la nota media de todos los alumnos\n2-Mostrar los alumnos con nota media igual o superior a 9
+    3-Mostrar todos los alumnos ordenados por fecha de nacimiento desde el más joven\n4-Mostrar todos los alumnos con su nota más alta\n5-Salir\n---> """)
+    if option=="5":
+        break
+    if option.isdigit:
+        option = int(option) 
+        if int(option)>4 or int(option)<1:
+            print("Solo se pueden introducir números del 1 al 5, intente de nuevo o pulse enter para salir")        
+        else:
+            students(int(option))(students_list)
+            break
+    else:
+        print("Solo se pueden introducir números del 1 al 5, intente de nuevo o pulse enter para salir") 
+
 
 
 
