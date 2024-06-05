@@ -73,32 +73,49 @@ students_list = [
 def students(option:int):
 
     def avg_grade(students_list:list): #->dict
-        print("Nota media de los alumnos: \n")
-        [print (a,"- Nota media:",b) for a,b in zip (list((map(lambda student:'{:<10}'.format(student[0]),
-        sorted(students_list, key=lambda student:sum(student[2])/len(student[2]),reverse=True)))),
-        list(map(lambda student : round(sum(student[2])/len(student[2]),1),
-        sorted(students_list, key=lambda student:sum(student[2])/len(student[2]),reverse=True))))]
+        grade_list = []
+        names_list = []
+        acc = 0
+        for student in students_list:
+            names_list.append(student[0])
+            for grade in student[2]:
+                acc = grade + acc
+                grade = 0
+            grade_list.append(round(acc/len(student[2]),1))
+            acc = 0
+        if option == 1:
+            print("Nota media de los alumnos: \n")
+            for name, avg in zip(names_list,grade_list) :
+                print('{:<10}'.format(name)," Nota media:", avg)
+        name_grades_dict = {name:avg for name, avg in zip(names_list,grade_list)}     
+        return name_grades_dict
+
 
     def best(students_list:list):
-        print("Estudiantes con un 9 o más de nota media: \n")
-        [print (a,"-  Nota media:",b) for a,b in zip (list((map(lambda student:'{:<10}'.format(student[0]),
-        sorted(list(filter(lambda student : sum(student[2]) / len(student[2]) >= 9, students_list)), key= lambda student : sum(student[2]) / len(student[2]), reverse= True)))),
-        list(map(lambda student : round(sum(student[2]) / len(student[2]),1),
-        sorted(list(filter(lambda student : sum(student[2]) / len(student[2]) >= 9, students_list)), key= lambda student : sum(student[2]) / len(student[2]), reverse= True))))]
+      best_students = avg_grade(students_list)
+      print("Estudiantes con un 9 o más de nota media: \n")
+      for name,grade_over_nine in best_students.items():                                                                
+          if grade_over_nine >= 9:
+              print ('{:<10}'.format(name), "-  Nota media:", grade_over_nine)
+
 
     def sorted_age(students_list:list):
         print("Lista de estudiantes ordenados desde el más joven:\n")
-        [print (a,"-  Fecha de nacimiento:",b) for a,b in zip (list((map(lambda student:'{:<10}'.format(student[0]),
-         sorted(students_list,key=lambda student: student[1],reverse=True)))),
-        list(map(lambda student :student[1].strftime('%d/%m/%Y'),
-         sorted(students_list,key=lambda student: student[1],reverse=True))))]  
+        sorted_age_list = sorted(students_list, key=lambda student: student[1], reverse=True)
+        for student in sorted_age_list:
+            birth_date = student[1].strftime('%d/%m/%Y')
+            print('{:<10}'.format(student[0]), "-  Fecha de nacimiento:", birth_date)
+    
 
     def hight_grade(students_list:list):
         print("Lista de estudiantes con su nota más alta: \n")
-        [print(a,"-  Calificación más alta: ",b) for a,b in zip (list((map(lambda student:'{:<10}'.format(student[0]),
-         sorted(students_list,key=lambda student:max(student[2]),reverse=True)))),
-        list(map(lambda student: max(student[2]),
-        sorted(students_list,key=lambda student:max(student[2]),reverse=True))))]
+        for student in students_list:
+            hightest = 0
+            name = student[0]
+            for grade in student[2]:
+                if grade > hightest:
+                    hightest = grade
+            print ('{:<10}'.format(name), "-  Calificación más alta: ",hightest)
 
     if option == 1:
         return avg_grade
