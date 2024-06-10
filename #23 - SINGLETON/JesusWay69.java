@@ -1,4 +1,4 @@
-package ejercicio23;
+package roadmap.ejercicio_23;
 
 /*
 * EJERCICIO:
@@ -27,27 +27,29 @@ public class JesusWay69 {
         System.out.println("Instancia1 = " + instance1);//Observamos que el objeto generado en esta instancia
         System.out.println("Instancia2 = " + instance2);// es el mismo que el generado en la siguiente instancia
 
-        Session session = Singleton.getInstance(1, "Jesusway69", "Jesus", "jesusway60@midominio.es");
-        Session session2 = Singleton.getInstance(2, "Pepe84", "Jose", "pepepepe@midominio.es");
+        Session sessionJesus = Singleton.getInstance(1, "Jesusway69", "Jesus", "jesusway60@midominio.es");
+        Session sessionJose = Singleton.getInstance(2, "Pepe84", "Jose", "pepepepe@midominio.es");
+
+        System.out.println("\nSesión de Jesús = " + sessionJesus + "\nID = " + sessionJesus.id
+                + "\nName = " + sessionJesus.name + "\nUsername = " + sessionJesus.username + "\nemail = " + sessionJesus.email);
+        //Al imprimir los datos solo recupera los datos de la primera instancia que es la de Jesus
+        System.out.println("\nSesión de Jose = " + sessionJose + "\nID = " + sessionJose.id
+                + "\nName = " + sessionJose.name + "\nUsername = " + sessionJose.username + "\nemail = " + sessionJose.email);
+        //Aunque intentemos imprimir los datos de Jose seguirá imprimiendo los de Jesus porque la sesión es la misma
         
-        System.out.println("Nombre2 = "+ session2.getName());
-        int id = session.getId();
-        
-        String username = session.getUsername();
-        String name = session.getName();
-        String email = session.getEmail();
-        System.out.println("\nSesión = " + session);
-        System.out.println("ID = " + id);
-        System.out.println("Name = " + name);
-        System.out.println("Username = " + username);
-        System.out.println("email = " + email);
+        System.out.println("\nBorrando sesion: " + sessionJesus);
         Session close = Singleton.deleteInstance();
-        System.out.println("Sesión = " + close);
+        System.out.println("Sesión borrada, valor actual = " + close);
+        //Una vez borrados los datos de la sesión podemos hacer una instancia nueva en este caso de Ana
+        Session sessionAna = Singleton.getInstance(3, "Ana57", "Ana", "anagarcia@midominio.es");
+        System.out.println("Nueva instancia para sesión de " + sessionAna.name + " = " + sessionAna);
+        //Imprime correctamente los datos de Ana al haber borrado la sesión anterior de Jesus
+        System.out.println("\nSesión de Ana = " + sessionAna + "\nID = " + sessionAna.id
+                + "\nName = " + sessionAna.name + "\nUsername = " + sessionAna.username + "\nemail = " + sessionAna.email);
 
     }
 
 }
-
 
 /*
  * DIFICULTAD EXTRA (opcional):
@@ -63,31 +65,12 @@ class Session {
     public String name;
     public String email;
 
-    public Session() {
-    }
-
     public Session(int id, String username, String name, String email) {
         this.id = id;
         this.username = username;
         this.name = name;
         this.email = email;
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
+    
     }
 
 }
@@ -96,9 +79,9 @@ class Singleton {
 
     private static Session session = null;
 
-    public synchronized static Session getInstance(int i, String u, String n, String e) {
+    public synchronized static Session getInstance(int id, String username, String name, String email) {
         if (session == null) {
-            session = new Session(i,u,n,e); // instar el Singleton si no hay todavía
+            session = new Session(id, username, name, email); // instar el Singleton si no hay todavía
         }
         return session;
     }
