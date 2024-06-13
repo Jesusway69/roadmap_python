@@ -1,4 +1,6 @@
-class UserSession:
+
+
+class Session:
 
     _instance = None
 
@@ -6,37 +8,49 @@ class UserSession:
     username: str = None
     name: str = None
     email: str = None
+    @staticmethod
+    def get_instance():
+        _instance = None
 
-    def __new__(cls):
-        if not cls._instance:
-            cls._instance = super(UserSession, cls).__new__(cls)
-        return cls._instance
+        if Session._instance == None:
+           Session(None,None,None,None) 
+        return Session._instance
 
-    def set_user(self, id, username, name, email):
-        self.id = id
-        self.username = username
-        self.name = name
-        self.email = email
+    def __init__(self, id, username, name, email):
+        if Session._instance != None:
+            
+            raise Exception("La instancia ya existe")
+            
+        else:
+            Session._instance = self
+            self.id = id
+            self.username = username
+            self.name = name
+            self.email = email
+            
+    
+    def print_data(self):
+        print(self.id,self.username,self.name,self.email)
 
-    def get_user(self):
-        return f"{self.id}, {self.username}, {self.name}, {self.email}"
+    # def get_user(self):
+    #     return f"{self.id}, {self.username}, {self.name}, {self.email}"
 
-    def clear_user(self):
-        self.id = None
-        self.username = None
-        self.name = None
-        self.email = None
+    # def clear_user(self):
+    #     self.id = None
+    #     self.username = None
+    #     self.name = None
+    #     self.email = None
 
 
-session1 = UserSession()
-print(session1.get_user())
-session1.set_user(1, "mouredev", "Brais Moure", "mouredev@gmail.com")
-print(session1.get_user())
+jesus = Session(1, "Jesusway69", "Jesus", "jesusway60@midominio.es")
+jesus.print_data()
+jose = Session(2, "Pepe84", "Jose", "pepepepe@midominio.es")
 
-session2 = UserSession()
-session2.set_user(1, "Jesusway69", "Jesus", "jesusway60@midominio.es")
-print(session2.get_user())
 
-session3 = UserSession()
-session3.clear_user()
-print(session3.get_user())
+print(jesus , " -- ", jose)
+print(f"Jesus = id: {jesus.id}, username: {jesus.username}, name: {jesus.name}, email: {jesus.email}")
+print(f"Jose = id: {jose.id}, username: {jose.username}, name: {jose.name}, email: {jose.email}")
+
+#remove_instance(jose)
+print(jesus)
+print(f"Jesus = id: {jesus.id}, username: {jesus.username}, name: {jesus.name},email: {jesus.email}")

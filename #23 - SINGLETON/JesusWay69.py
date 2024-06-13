@@ -1,4 +1,5 @@
 import os, platform
+
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
 else:
@@ -45,36 +46,38 @@ def singleton (class_instance):
     def get_instance(*args, **kwargs):
         if class_instance not in instances:
             instances[class_instance] = class_instance(*args, **kwargs)
-        return instances[class_instance]
-        #elif class_instance == None:
-            #instances.clear()
+            return instances[class_instance]
+        elif class_instance in instances:
+            return instances[class_instance]
+        elif class_instance == None:
+            instances.clear()
+            return instances[class_instance]
     return get_instance
+    
 
 
 @singleton 
 class Session:
-    def __init__(self,id,username,name,email):
-        
-        self.id = id
-        self.username = username
-        self.name = name
-        self.email = email
-# def remove_instance(instance:Session):
+    def __init__(self,id=None,username=None,name=None,email=None):
+   
+            self.id = id
+            self.username = username
+            self.name = name
+            self.email = email
+
+
     
-#    instance = None
-    
-#    singleton(instance)
     
 
 jesus = Session(1, "Jesusway69", "Jesus", "jesusway60@midominio.es")
 jose = Session(2, "Pepe84", "Jose", "pepepepe@midominio.es")
 print(jesus , " -- ", jose)
-print(f"Jesus = id:{jesus.id}, username{jesus.username}, name:{jesus.name},email:{jesus.email}")
-print(f"Jose = id:{jose.id}, username{jose.username}, name:{jose.name},email:{jose.email}")
-# remove_instance(jesus)
-# remove_instance(jose)
+print(f"Jesus = id: {jesus.id}, username: {jesus.username}, name: {jesus.name}, email: {jesus.email}")
+print(f"Jose = id: {jose.id}, username: {jose.username}, name: {jose.name}, email: {jose.email}")
+
+#remove_instance(jose)
 print(jesus)
-print(f"Jesus = id:{jesus.id}, username{jesus.username}, name:{jesus.name},email:{jesus.email}")
+print(f"Jesus = id: {jesus.id}, username: {jesus.username}, name: {jesus.name},email: {jesus.email}")
 
 
 
