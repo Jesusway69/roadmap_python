@@ -19,7 +19,7 @@ def make_title(func):#Función decoradora a la que le pasamos la función princi
 
 def add_javascript(func):
     def wrapper()->str:
-        return func()+" y jAVasCrIpT"
+        return func() + " y jAVasCrIpT"
     return wrapper
 
 def hello_world_es()->str:#Función principal a decorar
@@ -35,7 +35,7 @@ def hello_python_es()->str:#Función principal a decorar
     return "hOLa pYThON"
 print(hello_python_es())
 
-def hello_java_es()->str:#La notación solo servirá para la primera función bajo esta, en la siguiente no se aplica
+def hello_java_es()->str:#La anotación solo servirá para la primera función bajo esta, en la siguiente no se aplica
     return "hOLA jaVA"
 print(hello_java_es())
 
@@ -44,7 +44,7 @@ print(hello_java_es())
 @make_title#Este se aplica primero su decoración que formatea el texto a .title y luego el @add_javascript
            # que añade ' y jAVasCrIpT' al texto ya formateado por @make_title pero sin decorar por este.
 def hello_java_es_2()->str:
-    return "hOLA jaVA"
+    return "hOLA jAvA"
 print(hello_java_es_2())
 print()
 
@@ -57,19 +57,19 @@ print()
 
 def call_counter(fun):
     calls=[]
-    def counter(a:int,b:int)->str:
+    def counter(a:int, b:int)->str:
         calls.append(fun)
-        how_many_calls = len(calls)
-        return '{:<25}'.format(fun(a,b))+", Llamada Nª: " + (str(how_many_calls))
+        calls_counter = len(calls)
+        return '{:<25}'.format(fun(a, b)) + ", Llamada Nª: " + (str(calls_counter))
     return counter
     
 @call_counter  
-def my_call(a:int,b:int)->str:
-    result = a+b
+def my_call(a:int, b:int)->str:
+    result = a + b
     return f"Resultado de {a} + {b} = {result}"
 
-print(my_call(3,8))
-print(my_call(14,9))
-print(my_call(9,7))
-print(my_call(42,4))
-print(my_call(6,13))
+print(my_call(3, 8))
+print(my_call(14, 9))
+print(my_call(9, 7))
+print(my_call(42, 4))
+print(my_call(6, 13))
