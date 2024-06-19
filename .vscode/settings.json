@@ -1,0 +1,16 @@
+{
+    "files.autoSave": "afterDelay",
+    "editor.fontFamily": "'Fira Code'",
+    "editor.fontSize": 12,
+    "editor.fontLigatures": true,
+    "editor.formatOnSave": true,
+    "editor.cursorBlinking": "expand",
+    "editor.linkedEditing": true,
+    "editor.guides.bracketPairs": true,
+    "editor.cursorSmoothCaretAnimation": "on",
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.scrollbar.vertical": "hidden",
+    "editor.overviewRulerBorder": false,
+    "editor.hideCursorInOverviewRuler": true,
+    "editor.smoothScrolling": true
+}
