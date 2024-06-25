@@ -1,11 +1,10 @@
-import os, platform,logging, sys
-
-
+import os, platform,logging
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
 else:
     os.system('cls')
+
 
 """ * EJERCICIO:
  * Explora el concepto de "logging" en tu lenguaje. Configúralo y muestra
@@ -13,6 +12,8 @@ else:
  *
 """
 
+
+#Valores representativos en número de cada nivel de severidad
 #NONSET = 0
 #DEBUG = 10
 #INFO = 20
@@ -29,20 +30,17 @@ LEVELS = {
     'critical': logging.CRITICAL,
 }
 
- 
-level = LEVELS.get('nonset', 0)
+level = LEVELS.get('debug')#Podemos establecer el nivel mínimo de severidad desde una variable
     
 
 logging.basicConfig(
-	
-    
-	#filename="#25.log",
-	#filemode= "a",
+	#filename="#25.log", #Podemos creal un fichero con extensión .log para almacenar los mensajes de logging
+	#filemode= "a", # Con el modo "a" añadimos siempre al final del fichero los nuevos mensajes, con "w" solo se guradan los últimos mensajes
 	encoding="utf-8",
-	level=level,
-	format="%(asctime)s,%(msecs)1d - %(levelname)s %(message)s",
-	datefmt='%d-%B-%Y,%H:%M:%S'
-	
+	level=level,#Tambien podemos asignar a la clave level del diccionario de configuración básico el propio nivel
+	# así: level=logging.DEBUG o con su valor numérico así: level=10
+	format="%(asctime)s,%(msecs)1d - %(levelname)s %(message)s",#En format determinamos el formato del mensaje de logging
+	datefmt='%d-%B-%Y,%H:%M:%S'#En datefmt le damos formato concreto a la fecha y hora igual que haríamos con datetime.datetime.strftime()
 )
 
 
@@ -50,7 +48,7 @@ def division(a:int, b:int)->int:
 	try:
 		result = round((a / b),2)
 		logging.info(f"División de {a} entre {b}. Resultado: {result} , operación correcta")
-		
+		#Mensaje de logging formateado para mostrar si el resultado de la función es correcto
 	except ZeroDivisionError as zero:
 		result = None
 		logging.error(zero)
@@ -60,7 +58,7 @@ def division(a:int, b:int)->int:
 
 	return result
 
-def to_upper(text:str)->str:
+def to_upper(text:str)->str: #Podemos prevenir los posibles errores dentro de las funciones con generación de mensajes de logging
 	try:
 		text = text*2
 		text = text.upper()
@@ -68,43 +66,47 @@ def to_upper(text:str)->str:
 		logging.info(text)
 	except ValueError as val:
 		text = None
-		logging.warning(val)
+		logging.warning(val) #Dentro de una excepción específica..
 	except Exception as ex:
 		text = None
-		logging.warning(ex)
+		logging.warning(ex) # o dentro de una excepción genérica
 	
 	return text
+
 def show_element(my_list:list,index:int)->int:
 	try:
 		num = my_list[index]
 		logging.info(f"El índice {index} de la lista {my_list} es {num}")
+		#Mensaje de logging formateado para mostrar si el resultado de la función es correcto
 	except IndexError as indexerr:
 		num = None
 		logging.critical(indexerr)
 	
     
 
-# try:
-# 	division(8, 3)
-# 	division(2, 0)
-# 	division(9, "3")
-# 	print()
-# 	show_element([1,2,3],2)
-# 	show_element([1,2,3],3)
-# 	print()
-# 	to_upper(45)
-# 	to_upper("Hola Python ")
-# 	to_upper("Hola", "Python")
+try:
+	division(8, 3)#Función con valores válidos para una división
+	division(2, 0)#Aquí provocamos un error de division entre cero
+	division(9, "3")#Aquí provocamos un error de tipo de dato
+	print()
+	show_element([1,2,3],2)#Función con valores correctos para mostrar un elemento de una lista
+	show_element([1,2,3],3)#Aquí provocamos un error de fuera de índice
+	print()
+	to_upper(45)#Provocamos un error porque aunque un int admite multiplicación no admite el método .upper()
+	to_upper("Hola Python ")#Aquí le pasamos un string que admite multiplicación y método .upper()
+	to_upper("Hola", "Python")#Aquí provocamos que no se pueda ejecutar la función y el programa salta al except,
+	# si pusiéramos esta llamada al principio de esta lista no se ejecutaría ninguna llamada
 	
-	
-	
-# except Exception as ex:
-# 	logging.warning(ex)
-# 	print("excepción general")
-# logging.info(f"Runnig at: {platform.platform()} with Python {platform.python_version()}")
+except Exception as ex:
+	logging.warning(ex)
+	print("excepción general antes de la función")
+	#Tambien podemos prevenir los errores que no permiten ejecutar la función como en el caso de
+	# to_upper() al que le estamos pasando 2 argumentos cuando requiere solo uno
 
 
-
+	#Tambien podemos generar mensajes de logging no relacionados con la propia ejecución como este que
+	# nos da información del sistema operativo , su versión y la versión en este caso de python que estamos usando
+logging.info(f"Runnig at: {platform.platform()} with Python {platform.python_version()}")
 
 
 """ * DIFICULTAD EXTRA (opcional):
@@ -119,21 +121,20 @@ def show_element(my_list:list,index:int)->int:
 
 tasks = {}
 
-def add_task(name:str,description:str):
-	tasks[name]= description
-	logging.info(f"La tarea {name} se ha añadido correctamente\n")
+def add_task(task:str,description:str):
+	tasks[task]= description
+	logging.info(f"La tarea {task} se ha añadido correctamente\n")
 
 def show_tasks():
-	[print("Tarea: ", k ,"- Descripción: ", v , end = '\n') for k,v in tasks.items()]
+	[print("Tarea: ", t ,"- Descripción: ", d , end = '\n') for t,d in tasks.items()]
 print()
 	
-def delete_task(name:str):
-	if name in tasks:
-		tasks.pop(name)
-		logging.info(f"La tarea {name} ha sido eliminada correctamente\n")
+def delete_task(task:str):
+	if task in tasks:
+		tasks.pop(task)
+		logging.info(f"La tarea {task} ha sido eliminada correctamente\n")
 	else:
-		logging.warning(f"Tarea {name} no encontrada\n")
-
+		logging.warning(f"Tarea {task} no encontrada\n")
 
 
 while True:
