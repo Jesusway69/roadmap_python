@@ -21,25 +21,25 @@ os.system('cls')
 
 #Asignando a una variable la sentencia open() y pasándole como argumentos el nombre del archivo
 # y la letra "w" generamos el mismo y nos permite escribir en él
-file=open("JesusWay69.txt", "w")
+file=open("#11 - FICHEROS/JesusWay69.txt", "w")
 file.write("Jesus\n") #Con el método .write escribimos en archivo creado antes de cerrarlo.
 file.write("99\n")
 file.write("Python\n")
 file.close()# Con el método .close() cerramos el archivo, si lo volvemos a abrir con "w" se vuelve a generar vacío
 # o lo que es lo mismo borra todo el contenido.
 
-file=open("JesusWay69.txt", "r")# Con "r" nos permite leer todo el contenido del archivo
+file=open("#11 - FICHEROS/JesusWay69.txt", "r")# Con "r" nos permite leer todo el contenido del archivo
 readfile = file.read()# asignando a una variable el método .read que devuelve el contenido en un string.
 file.close
 print(readfile)
 
-with open("JesusWay69.txt", "a") as file:#Abriéndolo con with el archivo se cierra automáticamente 
+with open("#11 - FICHEROS/JesusWay69.txt", "a") as file:#Abriéndolo con with el archivo se cierra automáticamente 
   file.write("linea nueva añadida\n")# cuando termine el bloque de código tabulado.
-with open("JesusWay69.txt", "r") as file:
+with open("#11 - FICHEROS/JesusWay69.txt", "r") as file:
   readfile = file.read()
 print(readfile)
 
-file = open("JesusWay69.txt", "r+")#Con "r+" nos permite leer y añadir contenido al fichero de una vez
+file = open("#11 - FICHEROS/JesusWay69.txt", "r+")#Con "r+" nos permite leer y añadir contenido al fichero de una vez
 #También existe el parámetro "w+" que nos permite leer y escribir pero al igual que con "w" con la llamada
 # a .write() se "autogenera" de nuevo el fichero existente borrando el contenido o crea uno nuevo si no existe
 # permitiendo leerlo tambien despues de generarlo y antes de cerrarlo.
