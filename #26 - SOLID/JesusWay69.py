@@ -43,3 +43,103 @@ class Device (object):
 Device("macbook", "laptop").print_device()
 
 
+"""Referencias actuales:
+https://www.freecodecamp.org/espanol/news/los-principios-solid-explicados-en-espanol/
+https://softwarecrafters.io/python/principios-solid-python"""
+
+
+
+class Library(object):
+    def __init__(self) -> None:
+        self.books_list = []
+        self.users_list = []
+        self.state_dict = {}
+        self.title = ""
+        self.author = ""
+        self.units = None
+        self.id = None
+        self.name = ""
+        self.email = ""
+
+    # def books(title, author, units): 
+    #     # self.title = title
+    #     # self.author = author
+    #     # self.units = units
+    #     user_list = [] 
+    #     user_list.append(title)
+    #     user_list.append(author)
+    #     user_list.append(units)
+    #     return user_list
+        
+    def add_book(self,object_book):
+        self.object_book = object_book
+        self.books_list.append(list(self.object_book))
+        return self.books_list
+
+    # def users (self, id, name, email):
+    #     self.id = id
+    #     self.name = name
+    #     self.email = email
+    #     book_list = []
+    #     book_list.append(self.id)
+    #     book_list.append(self.name)
+    #     book_list.append(self.email)
+    #     return book_list
+
+
+    def add_user(self, object_user):
+        self.object_user = object_user
+        self.users_list.append(list(object_user))
+        return self.users_list
+
+    def rent_book(self, book, user):
+        self.book = book
+        self.user = user
+        self.state_dict[book] = user
+        self.books_list[len(self.books_list)][2]-1
+
+    def return_book(self, book, user):
+        self.book = book
+        self.user = user
+        self.state_dict.pop(book)
+        self.books_list[len(self.books_list)][2]+1
+    def printer(object):
+       
+        print(object)
+
+class Book(Library):
+    def __init__(self, title, author, units) -> None:
+        self.title = title
+        self.author = author
+        self.units = units
+
+class User(Library):
+    def __init__(self, id, name, email) -> None:
+        self.id = id
+        self.name = name
+        self.email = email
+
+
+book1 = Book("Don Quijote", "Cervantes", 3)
+my_library = Book.printer(book1)
+
+
+
+
+
+
+
+# book2 = Library.books("Git y Github", "Mouredev", 4)
+# jesus = Library.users(1, "Jesus", "jesus@gmail.com")
+# sandra = Library.users(2, "Sandra", "sandra@icloud.com")
+# Library.printer(Library.add_book(book1))
+# Library.add_book(book2)
+# Library.add_user(jesus)
+# Library.add_user(sandra)
+
+
+
+
+        
+    
+        
