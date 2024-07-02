@@ -49,81 +49,83 @@ https://softwarecrafters.io/python/principios-solid-python"""
 
 
 
-class Library(object):
+class Library():
     def __init__(self) -> None:
         self.books_list = []
         self.users_list = []
         self.state_dict = {}
-        self.title = ""
-        self.author = ""
-        self.units = None
-        self.id = None
-        self.name = ""
-        self.email = ""
 
-    # def books(title, author, units): 
-    #     # self.title = title
-    #     # self.author = author
-    #     # self.units = units
-    #     user_list = [] 
-    #     user_list.append(title)
-    #     user_list.append(author)
-    #     user_list.append(units)
-    #     return user_list
-        
-    def add_book(self,object_book):
-        self.object_book = object_book
-        self.books_list.append(list(self.object_book))
+    def add_book(self,title, author, units): 
+        self.title = title
+        self.author = author
+        self.units = units
+        book = [] 
+        book.append(title)
+        book.append(author)
+        book.append(units)
+        self.books_list.append(book)
         return self.books_list
 
-    # def users (self, id, name, email):
-    #     self.id = id
-    #     self.name = name
-    #     self.email = email
-    #     book_list = []
-    #     book_list.append(self.id)
-    #     book_list.append(self.name)
-    #     book_list.append(self.email)
-    #     return book_list
-
-
-    def add_user(self, object_user):
-        self.object_user = object_user
-        self.users_list.append(list(object_user))
+    def add_user (self, id, name, email):
+        self.id = id
+        self.name = name
+        self.email = email
+        user = []
+        user.append(self.id)
+        user.append(self.name)
+        user.append(self.email)
+        self.users_list.append(user)
         return self.users_list
 
     def rent_book(self, book, user):
         self.book = book
         self.user = user
-        self.state_dict[book] = user
-        self.books_list[len(self.books_list)][2]-1
+        id=0
+        title=""
+        for data in book:
+            if data == type(int):
+                id=data
+                title = self.book[0]
+        
+        self.state_dict[title] = id
+        uds = self.books_list[len(self.books_list)-1][2]
+        uds -=1
+        return self.state_dict
 
-    def return_book(self, book, user):
-        self.book = book
-        self.user = user
-        self.state_dict.pop(book)
-        self.books_list[len(self.books_list)][2]+1
-    def printer(object):
-       
-        print(object)
+    def return_book(self, book):
+        self.book = book     
+        title= book[0]
+        for titles in self.state_dict.keys():
+            if title in self.state_dict:
+               self.state_dict.pop(titles)
+        uds = self.books_list[len(self.books_list)-1][2]
+        uds +=1
+        return self.state_dict
 
-class Book(Library):
-    def __init__(self, title, author, units) -> None:
-        self.title = title
-        self.author = author
-        self.units = units
+    def printer_book(books:list):
+        header = ["Título: ", "   Autor: ", "   Uds: "]
+        for book in books:
+            for data, head in zip(book,header):
+                print(head , data, end="")
+            print()
 
-class User(Library):
-    def __init__(self, id, name, email) -> None:
-        self.id = id
-        self.name = name
-        self.email = email
-
-
-book1 = Book("Don Quijote", "Cervantes", 3)
-my_library = Book.printer(book1)
+    def printer_user(users:list):
+        header = ["ID: ", "   Nombre: ", "   Email: "]
+        for user in users:
+            for data, head in zip(user,header):
+                print(head, data, end="  ")
+            print()
 
 
+
+book1 = Library()
+user1 = Library()
+rent1 = Library()
+quijote = book1.add_book("Don Quijote", "Cervantes", 3)
+Library.printer_book(quijote)
+jesus = user1.add_user(1,"Jesus","jesus@gmail.com")
+Library.printer_user(jesus)
+print(rent1.rent_book(quijote, jesus))
 
 
 
@@ -139,6 +141,58 @@ my_library = Book.printer(book1)
 
 
 
+class Book:
+    def __init__(self, title, author, units) -> None:
+        self.title = title
+        self.author = author
+        self.units = units
+
+class User:
+    def __init__(self, id, name, email) -> None:
+        self.id = id
+        self.name = name
+        self.email = email
+
+class Rent:
+    def __init__(self) -> None:
+        self.rent_books = []
+    def rent_book(self, book, user):
+        if book.units > 0:
+            book.units -= 1
+            self.rent_books.append([book.title, user.id])
+    def return_book(self,book):
+        for rent in self.rent_books:
+            if rent[0]==book:
+                self.rent_books.pop(rent)
+                book.units +=1
+                
+class Management(Rent):
+    def __init__(self) -> None:
+        self.books = []
+        self.users = []
+
+    def add_book(self, book):
+        self.books.append(book)
+
+    def add_user(self, user):
+        self.users.append(user)
+
+    def manage_rent(self,title,id):
+        for user in self.users:
+            if user[0] == title and user[1] == id:
+                return self.rent_book(title,id)
+            else:
+                return False
+    def manage_return(self,title,id):
+        for user in self.users:
+            if user[0] == title and user[1] == id:
+                return self.return_book(title,id)
+            else:
+                return False
+    
+
+
+        
 
         
     
