@@ -125,19 +125,13 @@ quijote = book1.add_book("Don Quijote", "Cervantes", 3)
 Library.printer_book(quijote)
 jesus = user1.add_user(1,"Jesus","jesus@gmail.com")
 Library.printer_user(jesus)
-print(rent1.rent_book(quijote, jesus))
 
 
 
 
 
-# book2 = Library.books("Git y Github", "Mouredev", 4)
-# jesus = Library.users(1, "Jesus", "jesus@gmail.com")
-# sandra = Library.users(2, "Sandra", "sandra@icloud.com")
-# Library.printer(Library.add_book(book1))
-# Library.add_book(book2)
-# Library.add_user(jesus)
-# Library.add_user(sandra)
+
+
 
 
 
@@ -162,7 +156,7 @@ class Rent:
             self.rent_books.append([book.title, user.id])
     def return_book(self,book):
         for rent in self.rent_books:
-            if rent[0]==book:
+            if rent[0]==book.title:
                 self.rent_books.pop(rent)
                 book.units +=1
                 
@@ -193,7 +187,18 @@ class Management(Rent):
 
 
         
+book2 = Book("Git y Github", "Mouredev", 4)
+jesus = User(1, "Jesus", "jesus@gmail.com")
+sandra = User(2, "Sandra", "sandra@icloud.com")
 
+Rent.rent_book(book2,sandra)
+print(book2.units)
+
+
+# Library.printer(Library.add_book(book1))
+# Library.add_book(book2)
+# Library.add_user(jesus)
+# Library.add_user(sandra)
         
     
         
