@@ -4,13 +4,30 @@ if (platform.platform().startswith("macOS") or platform.platform().startswith("L
     os.system('clear')
 else:
     os.system('cls')
-print(os.getcwd())
 
-""" * EJERCICIO:
+""" 
+ * EJERCICIO:
  * Explora el "Principio SOLID de Responsabilidad Única (Single Responsibility
  * Principle, SRP)" y crea un ejemplo simple donde se muestre su funcionamiento
  * de forma correcta e incorrecta.
- *
+ """
+
+
+class Device (object):
+    def __init__(self, model, type) -> None:
+        self.model = model
+        self.type = type
+    def get_model(self):
+        return self.model()
+    def get_type(self):
+        return self.type()
+    def print_device(self):
+        return print(f"El {self.model} es un {self.type}")
+Device("macbook", "laptop").print_device()
+
+print("\n")
+
+"""
  * DIFICULTAD EXTRA (opcional):
  * Desarrolla un sistema de gestión para una biblioteca. El sistema necesita
  * manejar diferentes aspectos como el registro de libros, la gestión de usuarios
@@ -29,26 +46,6 @@ print(os.getcwd())
  * 2. Refactoriza el código: Separa las responsabilidades en diferentes clases
  * siguiendo el Principio de Responsabilidad Única."""
 
-
-class Device (object):
-    def __init__(self, model, type) -> None:
-        self.model = model
-        self.type = type
-    def get_model(self):
-        return self.model()
-    def get_type(self):
-        return self.type()
-    def print_device(self):
-        return print(f"El {self.model} es un {self.type}")
-Device("macbook", "laptop").print_device()
-
-
-"""Referencias actuales:
-https://www.freecodecamp.org/espanol/news/los-principios-solid-explicados-en-espanol/
-https://softwarecrafters.io/python/principios-solid-python"""
-
-
-
 class Library():
     def __init__(self) -> None:
         self.books_list = []
@@ -60,9 +57,9 @@ class Library():
         self.author = author
         self.units = units
         book = [] 
-        book.append(title)
-        book.append(author)
-        book.append(units)
+        book.append(self.title)
+        book.append(self.author)
+        book.append(self.units)
         self.books_list.append(book)
         return self.books_list
 
@@ -79,27 +76,19 @@ class Library():
 
     def rent_book(self, book, user):
         self.book = book
-        self.user = user
-        id=0
-        title=""
-        for data in book:
-            if data == type(int):
-                id=data
-                title = self.book[0]
-        
-        self.state_dict[title] = id
-        uds = self.books_list[len(self.books_list)-1][2]
-        uds -=1
+        self.user = user  
+        if book.units > 0:   
+            self.state_dict[self.book.title] = self.user.id
+            self.book.units -=1 
         return self.state_dict
 
-    def return_book(self, book):
-        self.book = book     
-        title= book[0]
-        for titles in self.state_dict.keys():
-            if title in self.state_dict:
-               self.state_dict.pop(titles)
-        uds = self.books_list[len(self.books_list)-1][2]
-        uds +=1
+    def return_book(self, book, user):
+        self.book = book 
+        self.user = user    
+        if book.title in self.state_dict.keys():
+            if user.id in self.state_dict.values():
+               del self.state_dict[book.title] 
+               self.book.units +=1
         return self.state_dict
 
     def printer_book(books:list):
@@ -117,23 +106,27 @@ class Library():
             print()
 
 
+print("EJEMPLO CON UNA CLASE PARA TODA LA GESTIÓN")
+print("------------------------------------------")
 
 book1 = Library()
 user1 = Library()
 rent1 = Library()
-quijote = book1.add_book("Don Quijote", "Cervantes", 3)
-Library.printer_book(quijote)
+
+quijote = book1.add_book("Don Quijote de La Mancha", "Miguel de Cervantes", 3)
 jesus = user1.add_user(1,"Jesus","jesus@gmail.com")
 Library.printer_user(jesus)
+Library.printer_book(quijote)
+print (f"El libro '{book1.title}' tiene {book1.units} ejemplares")
+rent1.rent_book(book1,user1)
+print(f"El usuario {user1.name} ha alquilado un ejemplar del libro '{book1.title}'")
+print (f"El libro '{book1.title}' ahora tiene {book1.units} ejemplares")
+rent1.return_book(book1, user1)
+print(f"El usuario {user1.name} ha devuelto un ejemplar del libro '{book1.title}'")
+print (f"El libro '{book1.title}' vuelve a tener {book1.units} ejemplares")
 
 
-
-
-
-
-
-
-
+print("\n")
 
 class Book:
     def __init__(self, title, author, units) -> None:
@@ -154,16 +147,15 @@ class Rent:
         if book.units > 0:
             book.units -= 1
             self.rent_books.append([book.title, user.id])
-    def return_book(self,book):
-        for rent in self.rent_books:
-            if rent[0]==book.title:
-                self.rent_books.pop(rent)
-                book.units +=1
-                
-class Management(Rent):
+            return self.rent_books
+                  
+class Management:
     def __init__(self) -> None:
         self.books = []
         self.users = []
+        self.rent_books = []
+        self.rent = Rent()
+        
 
     def add_book(self, book):
         self.books.append(book)
@@ -172,33 +164,39 @@ class Management(Rent):
         self.users.append(user)
 
     def manage_rent(self,title,id):
-        for user in self.users:
-            if user[0] == title and user[1] == id:
-                return self.rent_book(title,id)
+        self.rent.rent_book(title, id)
+        for user in self.rent_books:
+            if user[0] == title and user[1] == id:              
+                return self.rent()
             else:
                 return False
-    def manage_return(self,title,id):
-        for user in self.users:
-            if user[0] == title and user[1] == id:
-                return self.return_book(title,id)
+    def manage_return(self,book,user):
+            if [book.title,user.id] in self.rent.rent_books:
+                self.rent.rent_books.remove([book.title,user.id])
+                book.units +=1
             else:
                 return False
-    
-
-
-        
+            
+print("EJEMPLO VARIAS CLASES CON RESPONSABILIDADES ÚNICAS PARA LA GESTIÓN")
+print("------------------------------------------------------------------")
+   
 book2 = Book("Git y Github", "Mouredev", 4)
 jesus = User(1, "Jesus", "jesus@gmail.com")
 sandra = User(2, "Sandra", "sandra@icloud.com")
+rent = Management() 
 
-Rent.rent_book(book2,sandra)
-print(book2.units)
+print(f"Uds disponibles del título '{book2.title}' : {book2.units}")
+rent.manage_rent(book2, sandra)
+print(f"La usuaria {sandra.name} ha alquilado un ejemplar del libro '{book2.title}'")
+print(f"Uds disponibles del título '{book2.title}' : {book2.units}")
+rent.manage_rent(book2, jesus)
+print(f"El usuario {jesus.name} ha alquilado un ejemplar del libro '{book2.title}'")
+print(f"Uds disponibles del título '{book2.title}' : {book2.units}")
+rent.manage_return(book2, sandra)
+print(f"La usuaria {sandra.name} ha devuelto un ejemplar del libro '{book2.title}'")
+print(f"Uds disponibles del título '{book2.title}' : {book2.units}")
 
 
-# Library.printer(Library.add_book(book1))
-# Library.add_book(book2)
-# Library.add_user(jesus)
-# Library.add_user(sandra)
         
     
         
