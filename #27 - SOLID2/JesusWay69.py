@@ -5,8 +5,8 @@ if (platform.platform().startswith("macOS") or platform.platform().startswith("L
     os.system('clear')
 else:
     os.system('cls')
-
-    """ * EJERCICIO:
+"""
+ * EJERCICIO:
  * Explora el "Principio SOLID Abierto-Cerrado (Open-Close Principle, OCP)"
  * y crea un ejemplo simple donde se muestre su funcionamiento
  * de forma correcta e incorrecta.
@@ -18,7 +18,7 @@ class Figure:
         self.data2 = data2 # o radio y PI si se trata de un círculo por ejemplo
 
 class RectangleArea: # Al crear una clase con una función específica para calcular el área de un rectángulo
-    def calc(object):  # no nos serviría para calcular el área de otra figura geométrica
+    def calc(object:Figure):  # no nos serviría para calcular el área de otra figura geométrica
         return object.data1 * object.data2
     
 rectangle = Figure(2,4)
@@ -26,23 +26,35 @@ print(f"El área del rectángulo es: {RectangleArea.calc(rectangle)}")
 
 
 class CalulateArea(Figure):#Si creamos una clase genérica que herede los objetos de la clase padre Figure
-    def rectangle(object): # podremos ampliar el cálculo de áreas de más figuras añadiendo más métodos a esa clase hija
-        return object.data1 * object.data2
-    
+    def rectangle(object:Figure) -> int: # podremos ampliar el cálculo de áreas de más figuras añadiendo más métodos a esa clase hija
+        return object.data1 * object.data2 # añadiendo a esta directamente los objetos creados en la clase padre y llamando
+                                            # a su correspondiente método
     def circle_for_radius(object):
-        return round((object.data1 ** 2 * pi),2)
+        if object.data2 == None or (object.data1 == object.data2):
+            return round((object.data1 ** 2 * pi),2)
+        else:
+            return "Operación incorrecta"
+        
+    def circle_for_diameter(object:Figure):
+        if object.data2 == None or (object.data1 == object.data2):
+            return round(((object.data1 / 2) ** 2 * pi),2)
+        else:
+            return "Operación incorrecta"
+        
+    def circle_for_perimeter(object:Figure):
+        if object.data2 == None or (object.data1 == object.data2):
+            return round((object.data1 * 2),2)
+        else:
+            return "Operación incorrecta"
+        
+    def square(object:Figure):
+        if object.data2 == None or (object.data1 == object.data2):
+            return object.data1 ** 2
+        else:
+            return "Operación incorrecta"
     
-    def circle_for_diameter(object):
-        return round(((object.data1 / 2) ** 2 * pi),2)
-    
-    def circle_for_perimeter(object):
-        return round((object.data1 * 2),2)
-    
-    def square(object):
-        return object.data1 ** 2
-    
-    def triangle(object):
-        return round((object.data1 * object.data2 / 2),2)
+    def triangle(object:Figure) -> int:
+        return round((object.data1 * object.data2 / 2), 2)
     
 square1 = Figure(4,None)
 circle1 = Figure(4, None)
@@ -57,55 +69,52 @@ print (f"El área del triángulo es: {CalulateArea.triangle(triangle1)}")
 print()
 
  
-
- 
 """
-    * DIFICULTAD EXTRA (opcional):
-    * Desarrolla una calculadora que necesita realizar diversas operaciones matemáticas.
-    * Requisitos:
-    * - Debes diseñar un sistema que permita agregar nuevas operaciones utilizando el OCP.
-    * Instrucciones:
-    * 1. Implementa las operaciones de suma, resta, multiplicación y división.
-    * 2. Comprueba que el sistema funciona.
-    * 3. Agrega una quinta operación para calcular potencias.
-    * 4. Comprueba que se cumple el OCP."""
+* DIFICULTAD EXTRA (opcional):
+* Desarrolla una calculadora que necesita realizar diversas operaciones matemáticas.
+* Requisitos:
+* - Debes diseñar un sistema que permita agregar nuevas operaciones utilizando el OCP.
+* Instrucciones:
+* 1. Implementa las operaciones de suma, resta, multiplicación y división.
+* 2. Comprueba que el sistema funciona.
+* 3. Agrega una quinta operación para calcular potencias.
+* 4. Comprueba que se cumple el OCP."""
     
 class Operator:
-    def __init__(self,num1, num2) -> None:
+    def __init__(self,num1:int, num2:int) -> None:
         self.num1 = num1
         self.num2 = num2
 
-    def my_sum(self):
+    def my_sum(self) -> int:
         return self.num1 + self.num2
-    def my_subt(self):
+    def my_subt(self) -> int:
         return self.num1 - self.num2
-    def my_mult(self):
+    def my_mult(self) -> int:
         return self.num1 * self.num2
-    def my_div(self):
+    def my_div(self) -> float:
         return round((self.num1 / self.num2),2)
         
 op1 = Operator(2,3)
-
-print(op1.my_sum())
-print(op1.my_subt())
-print(op1.my_div())
-print(op1.my_mult())
+print("Suma de 2 + 3 desde clase Operator:", op1.my_sum())
+print("Resta de 2 - 3 desde clase Operator:",op1.my_subt())
+print("División de 2 entre 3 desde clase Operator:",op1.my_div())
+print("Multiplicación de 2 x 3 desde clase Operator:",op1.my_mult())
+print()
 
 class Power(Operator):
-    def __init__(self,num1, num2) -> None:
+    def __init__(self,num1:int, num2:int) -> None:
         self.num1 = num1
-        self.num2 = num2
-        
+        self.num2 = num2     
 
-    def my_pow(self):
+    def my_pow(self) -> int:
         acc = self.num1
         for i in range(1, self.num2):
             acc = Operator(self.num1 , acc).my_mult()   
         return acc
-print()
-op1 = Power(2,3)
-print(op1.my_sum())
-print(op1.my_subt())
-print(op1.my_div())
-print(op1.my_mult())
-print(op1.my_pow())
+    
+op2 = Power(2,3)
+print("Suma de 2 + 3 desde clase Power:",op2.my_sum())
+print("Resta de 2 - 3 desde clase Power:",op2.my_subt())
+print("División de 2 entre 3 desde clase Power:",op2.my_div())
+print("Multiplicación de 2 x 3 desde clase Power:",op2.my_mult())
+print("Cálculo de 2 elevado a 3 desde clase Power:",op2.my_pow())
