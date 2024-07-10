@@ -93,3 +93,50 @@ print(circle2)
  * 4. Desarrolla un código que compruebe que se cumple el LSP."""
 
 
+class Vehicle():
+    name = "vehículo en general"
+    def speed_up(self):
+        return True
+    
+    def curb(self):
+        return True
+    
+
+class Car(Vehicle):
+    name = "coche"
+    def speed_up(self):
+        return super().speed_up()
+    def curb(self):
+        return super().curb()
+    
+    
+class Motorbike(Vehicle):
+    name = "moto"
+    def speed_up(self):
+        return super().speed_up()
+    def curb(self):
+        return super().curb()
+    
+    
+class Truck(Vehicle):
+    name = "camión"
+    def speed_up(self):
+        return super().speed_up()
+    def curb(self):
+        return super().curb()
+    
+vehicle = Vehicle()
+car = Car()
+truck = Truck()
+motorbike = Motorbike()
+
+
+def lsp(object):
+    print(f"¿El vehículo '{object.name}' acelera?:  {object.speed_up()}")
+    print(f"¿El  vehículo '{object.name}' frena?:  {object.curb()}")
+
+lsp(vehicle)
+lsp(car)
+lsp(truck)
+lsp (motorbike)
+
