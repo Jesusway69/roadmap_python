@@ -78,6 +78,7 @@ rectangle2 = Rectangle2(2,5).calculate_area()
 square2 = Square2(5).calculate_area()
 circle2 = Circle2(5).calculate_area()
 figure = Figure().calculate_area()
+
 print(rectangle2)
 print(square2)
 print(circle2)
@@ -88,8 +89,6 @@ print()
    de esta manera podemos seguir creando sublases con diferentes formas geométricas aplicando a cada una
    de ellas las funcionalidades concretas de esos métodos tanto los argumentos requeridos al iniciar la instancia
    como el cálculo del área para cada forma"""
-
-
 
 
 
@@ -112,23 +111,20 @@ class Vehicle():
     def curb(self):
         return True
     
-
 class Car(Vehicle):
     name = "coche"
     def speed_up(self):
         return super().speed_up()
     def curb(self):
         return super().curb()
-    
-    
+       
 class Motorbike(Vehicle):
     name = "moto"
     def speed_up(self):
         return super().speed_up()
     def curb(self):
         return super().curb()
-    
-    
+      
 class Truck(Vehicle):
     name = "camión"
     def speed_up(self):
@@ -140,7 +136,6 @@ vehicle = Vehicle()
 car = Car()
 truck = Truck()
 motorbike = Motorbike()
-
 
 def lsp(object):
     print(f"¿El vehículo '{object.name}' acelera? : {object.speed_up()}")
