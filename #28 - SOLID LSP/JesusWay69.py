@@ -50,35 +50,46 @@ la clase padre y llamar a su método calculate_area """
 
 
 class Figure(ABC):
-    @abstractmethod
-    def calculate_area(self):
+    def __init__(self) -> None:
         pass
+    def calculate_area(self):
+        return "Figura no definida"
 
 class Rectangle2(Figure):
-    def __init__(self,base, height) -> None:
-        self.base = base
-        self.height = height
+    def __init__(self, arg1, arg2) -> None:
+        self.arg1 = arg1
+        self.arg2 = arg2       
     def calculate_area(self):
-        return self.base * self.height
+        return f"El área del rectángulo con base {self.arg1} y altura {self.arg2} es: {self.arg1 * self.arg2}"                       
     
 class Square2(Figure):
     def __init__(self, side) -> None:
         self.side = side
     def calculate_area(self):
-        return self.side ** 2
+        return f"El área del cuadrado con lado {self.side} es: {self.side ** 2}"
     
 class Circle2(Figure):
      def __init__(self, radius) -> None:
         self.radius = radius
      def calculate_area(self):
-         return round((self.radius ** 2 * pi),2)
-     
+         return f"El área del círculo con radio {self.radius} es: {round((self.radius ** 2 * pi),2)}"
+          
 rectangle2 = Rectangle2(2,5).calculate_area()
 square2 = Square2(5).calculate_area()
 circle2 = Circle2(5).calculate_area()
+figure = Figure().calculate_area()
 print(rectangle2)
 print(square2)
 print(circle2)
+print(figure)
+print()
+
+"""En este caso creamos una clase abstracta con ABC que defina los métodos a usar en las subclases
+   de esta manera podemos seguir creando sublases con diferentes formas geométricas aplicando a cada una
+   de ellas las funcionalidades concretas de esos métodos tanto los argumentos requeridos al iniciar la instancia
+   como el cálculo del área para cada forma"""
+
+
 
 
 
@@ -132,8 +143,8 @@ motorbike = Motorbike()
 
 
 def lsp(object):
-    print(f"¿El vehículo '{object.name}' acelera?:  {object.speed_up()}")
-    print(f"¿El  vehículo '{object.name}' frena?:  {object.curb()}")
+    print(f"¿El vehículo '{object.name}' acelera? : {object.speed_up()}")
+    print(f"¿El vehículo '{object.name}' frena? : {object.curb()}")
 
 lsp(vehicle)
 lsp(car)
