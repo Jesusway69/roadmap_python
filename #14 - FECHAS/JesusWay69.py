@@ -73,7 +73,7 @@ os.system('pause')
 def input_data()->D:
     while True:
         year = input("Escriba su año de nacimiento: ")
-        if not year.isdigit or len(year)!=4:
+        if not year.isdigit() or len(year)!=4:
             print ("ERROR: El año debe ser numérico de 4 cifras")
             continue
         elif int(year)<1900:
@@ -87,7 +87,7 @@ def input_data()->D:
             continue
         while True:
             month = input("Escriba el mes de nacimiento: ")
-            if  not month.isdigit or len(month)>2 or len(month)<=0:
+            if  not month.isdigit() or len(month)>2 or len(month)<=0:
                 print ("ERROR: El mes debe ser numérico de 1 o 2 cifras")
                 continue
             elif int(month)<1 or int(month)>12:
@@ -95,7 +95,7 @@ def input_data()->D:
                 continue
             while True:
                 day = input("Escriba el día de nacimiento: ")
-                if not day.isdigit or len(day)>2 or len(day)<=0:
+                if not day.isdigit() or len(day)>2 or len(day)<=0:
                    print ("ERROR: El día debe ser numérico de 1 o 2 cifras")
                    continue
                 elif int(month)==4 or int(month)==6 or int(month)==9 or int(month)==11 and int(day)>30:
