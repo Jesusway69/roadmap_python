@@ -1,6 +1,4 @@
-
-package ejercicio28;
-
+package roadmap.ejercicio28
 /*
  * EJERCICIO:
  * Explora el "Principio SOLID de Sustitución de Liskov (Liskov Substitution Principle, LSP)" 
@@ -33,9 +31,21 @@ public class Jesusway69 {
 
     }
 
-    public static void vehicleTest(Vehicle vehicle) {
+    public static void vehicleTest(Object object) {
+        String name = "";
+        boolean accelerate = false;
+        if (object instanceof Car) {
+            name = ((Car) object).name;
+            accelerate = ((Car) object).accelerate();
+        } else if (object instanceof Motorcycle) {
+            name = ((Motorcycle) object).name;
+            accelerate = ((Motorcycle) object).accelerate();
+        } else if (object instanceof Truck) {
+            name = ((Truck) object).name;
+            accelerate = ((Truck) object).accelerate();
+        }
 
-        System.out.println("El Vehículo " + vehicle.name + " acelera?: " + vehicle.accelerate());
+        System.out.println("El Vehículo " + name + " acelera?: " + accelerate);
 
     }
 
@@ -148,8 +158,7 @@ class Circle2 extends Figure2 {
 
 /*
  * DIFICULTAD EXTRA (opcional):
- * Crea una jerarquía de vehículos. Todos ellos deben poder acelerar y frenar,
- * así como
+ * Crea una jerarquía de vehículos. Todos ellos deben poder acelerar y frenar, así como
  * cumplir el LSP.
  * Instrucciones:
  * 1. Crea la clase Vehículo.
@@ -164,7 +173,7 @@ class Vehicle {
     public boolean brake = true;
 
     public Vehicle() {
-        this.name = "";
+
     }
 
     public boolean accelerate() {
