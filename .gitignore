@@ -225,4 +225,7 @@ pyrightconfig.json
 .history
 .ionide
 
+#Java Class
+.class
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,macos
