@@ -217,13 +217,13 @@ interface SwimmingBirdISP {
 
 interface RunnerBirdISP {
 
-    boolean run();
+    boolean runISP();
 }
 
 class OstrichISP implements BirdISP, RunnerBirdISP {
 
     @Override
-    public boolean run() {
+    public boolean runISP() {
         return CHARACTERISTICISP;
     }
 
@@ -252,7 +252,7 @@ class PenguinISP implements BirdISP, SwimmingBirdISP, RunnerBirdISP {
     }
 
     @Override
-    public boolean run() {
+    public boolean runISP() {
         return CHARACTERISTICISP;
     }
 
