@@ -1,4 +1,5 @@
 import os, platform
+from abc import ABC, abstractmethod
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
@@ -30,14 +31,15 @@ class Fruit:
         if self.object.name.endswith('a'):
             self.article = "una"
         print (f"La fruta es {self.article} {self.name} ")
+        
 class Pear(Fruit):
     def __init__(self) -> None:
         self.name = "pera"
-    def print_fruit(self):
-        super().print_fruit()
+
 class Apple(Fruit):
     def __init__(self) -> None:
         self.name = "manzana"
+
 class Melon(Fruit):
     def __init__(self) -> None:
         self.name = "melón"
@@ -46,6 +48,46 @@ class Melon(Fruit):
 pera = Fruit(Pear()).print_fruit()
 melon = Fruit(Melon()).print_fruit()
 manzana = Fruit(Apple()).print_fruit()
+
+class FruitDIP(ABC):
+    @abstractmethod
+    def set_name(self, name):
+        self.name = name
+class PrintFruitDIP(ABC):
+    @abstractmethod
+    def print_fruit(self):
+        self.article = "un"
+        if self.name.endswith('a'):
+            self.article = "una"
+        print (f"La fruta es {self.article} {self.name} ")
+
+class Orange(FruitDIP, PrintFruitDIP):
+    name = "naranja"
+    def set_name(self, name):
+        return super().set_name(name)
+    def print_fruit(self):
+        return super().print_fruit()
+    
+class WaterMelon(FruitDIP, PrintFruitDIP):
+    name = "sandía"
+    def set_name(self, name):
+        return super().set_name(name)
+    def print_fruit(self):
+        return super().print_fruit()
+    
+class Lemon(FruitDIP, PrintFruitDIP):
+    name = "limón"
+    def set_name(self, name):
+        return super().set_name(name)
+    def print_fruit(self):
+        return super().print_fruit()
+    
+naranja = Orange().print_fruit()
+sandia = WaterMelon().print_fruit()
+limon = Lemon().print_fruit()
+
+
+        
 
 
     
