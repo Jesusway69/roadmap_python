@@ -13,6 +13,8 @@ else:
  * de forma correcta e incorrecta.
  *
 """
+
+
 """
 El Principio de Inversión de Dependencia (DIP) establece que las clases de alto nivel
  no deben depender de clases de bajo nivel.
@@ -86,10 +88,6 @@ naranja = Orange().print_fruit()
 sandia = WaterMelon().print_fruit()
 limon = Lemon().print_fruit()
 
-
-        
-
-
     
 """ 
  * DIFICULTAD EXTRA (opcional):
@@ -102,3 +100,55 @@ limon = Lemon().print_fruit()
  * 2. Desarrolla las implementaciones específicas.
  * 3. Crea el sistema de notificaciones usando el DIP.
  * 4. Desarrolla un código que compruebe que se cumple el principio."""
+
+
+class MessageInterface(ABC):
+    @abstractmethod
+    def email(self):
+        pass
+    @abstractmethod
+    def push(self):
+        pass
+    @abstractmethod
+    def sms(self):
+        pass
+
+class SendNotification(MessageInterface):
+    def email(self, message):
+        self.message = message
+        print (self.message, "--> Enviando email...")
+    def push(self,message):
+        self.message = message
+        print (self.message,"--> Enviando push...")
+    def sms(self,message):
+        self.message = message
+        print (self.message,"--> Enviando SMS...")
+
+class Confirmation(MessageInterface):   
+    def confEmail(self,message):
+        message = SendNotification()
+        print (message,"--> Email enviado")
+    def push(self,message):
+        self.message = message
+        print (self.message,"--> Mensaje PUSH enviado")
+    def sms(self,message):
+        self.message = message
+        print (self.message,"--> Mensaje SMS enviado")
+    
+class Email(SendNotification, Confirmation):
+    def __init__(self):
+        message = "Esto es un mensaje de email..."
+        return super().email(message)
+class Push(SendNotification):
+    def __init__(self) -> None:
+        message = "Esto es un mensaje PUSH..."
+        return super().push(message)
+class Sms(SendNotification):
+    def __init__(self) -> None:
+        message = "Esto es un mensaje SMS..."
+        return super().sms(message)
+    
+email = Email()
+email.confEmail(email)
+push = Push()
+sms = Sms()
