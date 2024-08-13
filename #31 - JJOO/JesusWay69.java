@@ -123,8 +123,10 @@ class OlympicGames {
         Scanner sc = new Scanner(System.in);
         System.out.println("Comienzan los eventos!!");
         System.out.println("-----------------------");
-        TreeMap<String, String> selectecCompetitors = new TreeMap<>();
-        
+        //TreeMap<String, String> selectecCompetitors = new TreeMap<>();
+        List<String> competitorsNames = new ArrayList<>();
+        List<String> competitorsCountries = new ArrayList<>();
+
         boolean flag = true;
 
         while (flag) {
@@ -142,7 +144,7 @@ class OlympicGames {
             showAthletes();
             System.out.print("Elija el número de un deportista para empezar la competición de: "
                     + sportEvents.get(sportNum - 1)
-                    + "\n e introduce 0 cuando se hayan seleccionado al menos 3 participantes para terminar la selección");
+                    + "\n e introduce 0 cuando se hayan seleccionado al menos 3 participantes para terminar la selección: ");
             athNum = sc.nextInt();
             if (athNum < 0 || athNum > competitors.size()) {
                 System.out.println("El número " + athNum + " no corresponde a ningún deportista");
@@ -152,40 +154,42 @@ class OlympicGames {
                     String value = competitors.get(key);
                     i++;
                     if (athNum == i) {
-                        selectecCompetitors.put(key, value);
+                        competitorsNames.add(key);
+                        competitorsCountries.add(value);
+                        //selectecCompetitors.put(key, value);
                         System.out.println("Participante nº " + athNum + " añadido a la competición de " + sportEvents.get(sportNum - 1));
-                    } else if (athNum == 0 && selectecCompetitors.size() < 3) {
+                    } else if (athNum == 0 && competitorsNames.size() < 3) {
                         System.out.println("Debe elegir al menos 3 participantes");
-                    } else if (athNum == 0 && selectecCompetitors.size() >= 3) {
-                        randomCompetition(selectecCompetitors);
+                    } else if (athNum == 0 && competitorsNames.size() >= 3) {
+                        competitors.clear();
+                        randomCompetition(competitorsNames, competitorsCountries);
                     }
                 }
-            } 
+            }
         }
-        
-        
+
     }
 
-    public void randomCompetition(TreeMap selectecCompetitors) {
+    public void randomCompetition(List competitorsNames, List competitorsCountries) {
         String[] podium = {"oro", "plata", "bronce"};
-        int medal =0;
-        
-        while (!selectecCompetitors.isEmpty()) {
+        int medal = 0;
 
-            for (var podiumkey : selectecCompetitors.keySet()) {
-                podiumkey = selectecCompetitors.lastKey();
-                System.out.println("El deportista " + podiumkey + " de " + selectecCompetitors.get(podiumkey)
+        while (!competitorsNames.isEmpty() && !competitorsCountries.isEmpty()) {
+
+            for (int i = 0; i < 3; i++) {
+                int winner = (int) (Math.random() * competitorsNames.size());
+                System.out.println("El atleta " + competitorsNames.get(winner) + " de " + competitorsCountries.get(winner)
                         + " gana la medalla de " + podium[medal]);
                 medal++;
-                podiumkey.toString();
-                selectecCompetitors.remove(podiumkey);
+                competitorsNames.remove(winner);
+                competitorsCountries.remove(winner);
+                if (medal>=2){
+                    break;
+                }
 
             }
 
         }
-
     }
-
-
 
 }
