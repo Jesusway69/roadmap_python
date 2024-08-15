@@ -27,7 +27,6 @@ import java.util.Scanner;
  * 4. Muestra la vida en cada turno.
  * 5. Muestra el resultado final.
  */
-
 public class JesusWay69 {
 
     public static void main(String[] args) throws InterruptedException {
@@ -39,42 +38,46 @@ public class JesusWay69 {
         deadpool.lifePoints = sc.nextInt();
         System.out.print("Introduzca los puntos de inicio de Wolverine: ");
         wolverine.lifePoints = sc.nextInt();
-        battle(wolverine.lifePoints,deadpool.lifePoints,regenerateState,wolverine.maxDamage,deadpool.maxDamage,wolverine.shield,deadpool.shield);
+        battle(wolverine.lifePoints, deadpool.lifePoints, regenerateState,
+                wolverine.maxDamage, deadpool.maxDamage, wolverine.shield, deadpool.shield);
 
     }
 
-    public static void battle(int vPoints, int dPoints, boolean regenerateState, int vMaxDamage, int dMaxDamage, int vShield, int dShield) throws InterruptedException {
-        String name ="";
-        int round =1;
-        while (vPoints > 0 && dPoints > 0) {
-                System.out.println("\nRonda: " + round);
-            //ataque de deadpool
-            if (regenerateState) {
+    public static void battle(int wPoints, int dPoints, boolean regenerateState,
+            int vMaxDamage, int dMaxDamage, int vShield, int dShield) throws InterruptedException {
+        String name = "";
+        int round = 1;
+        while (wPoints > 0 && dPoints > 0) {
+            System.out.println("\nRonda: " + round);
+            
+            /////////////////////////////////////ATACA DEADPOOL////////////////////////////////////////////////////////
+            if (regenerateState) { //Comprobamos si en el turno del oponente ha generado ataque máximo y ha cambado el estado a true (empieza en false por defecto)
                 System.out.println(name + " pierde su turno por haber recibido daño máximo y tiene que regenerarse ");
-                regenerateState = false;
-            } else if (Math.random() > (double)(vShield / 100)) {
-                int dDamage = (int) (Math.random() * dMaxDamage + 10);
+                regenerateState = false;//Tras perder el turno se vuelve a poner el estado en false
+            } else if (Math.random() > (double) (vShield / 100)) {//En caso contrario generamos un número aleatorio entre 0 y 1 que sea mayor al porcentaje de la capacidad del escudo
+                int dDamage = (int) (Math.random() * dMaxDamage + 10);//Y otro número random entre 10 y el máximo daño del atacante en caso de que la condición anterior se cumpla
                 System.out.println(" El ataque de Deadpool le ha restado " + dDamage + " puntos de vida a Wolverine");
-                if (dDamage == 100) {
+                if (dDamage == 100) { //Dentro del if del ataque comprobamos si el daño coincide con el ataque mçaximo
                     System.out.println("Ataque máximo de Deadpool");
-                    regenerateState = true;
+                    regenerateState = true;//Cambiamos el estado a true para que en el turno del oponente salte el primer if y ceda turno
                     name = "Wolverine";
                 }
-                vPoints = vPoints - dDamage;
-                if (vPoints <= 0) {
+                wPoints = wPoints - dDamage;// Le restamos los puntos generados en el ataque al saldo del oponente
+                if (wPoints <= 0) {//Comprobamos si el oponente se ha quedado sin puntos de vida
                     System.out.println("Wolverine se ha quedado sin puntos de vida");
-                } else {
-                    System.out.println("A Wolverine le quedan " + vPoints + " puntos");
+                } else {// Si no es así imprimimos el saldo de puntos del oponente
+                    System.out.println("A Wolverine le quedan " + wPoints + " puntos");
                 }
-            } else {
+            } else {//En caso de que el número generado sea menor a la probabilidad de escudo del oponente no se genera ataque y se informa sobre la defensa del oponente
                 System.out.println("Wolverine repele el ataque y no pierde puntos");
             }
+            //Todas las anotaciones anteriores sirven para el siguiente bloque de código que sigue dentro del while
 
-            //ataque de Wolverine
+            /////////////////////////////////////ATACA WOLVERINE////////////////////////////////////////////////////////
             if (regenerateState) {
                 System.out.println(name + " pierde su turno por haber recibido daño máximo y tiene que regenerarse ");
                 regenerateState = false;
-            } else if (Math.random() > (double)(dShield / 100)) {
+            } else if (Math.random() > (double) (dShield / 100)) {
                 int vDamage = (int) (Math.random() * vMaxDamage + 10);
                 System.out.println(" \nEl ataque de Wolverine le ha restado " + vDamage + " puntos de vida a Deadpool");
                 if (vDamage == 120) {
@@ -94,11 +97,11 @@ public class JesusWay69 {
             Thread.sleep(1000);
             round++;
         }
-        
-        if (dPoints > 0) {
-            System.out.println("Deadpool gana con "+dPoints+" puntos de vida restantes");
+
+        if (dPoints > 0) {//Una vez se quede uno de los contendientes a 0 o menos y se salga del while se comprueba cual de los 2 ha sido y se anuncia el ganador
+            System.out.println("Deadpool gana con " + dPoints + " puntos de vida restantes");
         } else {
-            System.out.println("Wolverine gana con "+vPoints+" puntos de vida restantes");
+            System.out.println("Wolverine gana con " + wPoints + " puntos de vida restantes");
         }
     }
 

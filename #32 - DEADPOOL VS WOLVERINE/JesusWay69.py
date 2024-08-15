@@ -29,7 +29,6 @@ else:
  * 4. Muestra la vida en cada turno.
  * 5. Muestra el resultado final."""
     
-
 class Deadpool:
     name = "Deadpool"
     max_damage = 100
@@ -44,7 +43,7 @@ class Wolverine:
 
 def battle(local_name, foreign_name, shield, max_damage, local_points, enemy_points, regenerate_state ):
     if regenerate_state:
-        print(" pierde su turno por haber recibido daño máximo y tiene que regenerarse ")
+        print(f"{local_name} pierde su turno por haber recibido daño máximo y tiene que regenerarse ")
         regenerate_state = False
         return
     elif random.random() > shield/100:
@@ -53,14 +52,15 @@ def battle(local_name, foreign_name, shield, max_damage, local_points, enemy_poi
         if damage == 100:
             print(f"Ataque máximo de {local_name}")
             regenerate_state = True
-            local_points -= enemy_points
-        if local_points <= 0:
-            print(f"{local_name} se ha quedado sin puntos de vida")
+        enemy_points -= damage
+        if enemy_points <= 0:
+            print(f"{foreign_name} se ha quedado sin puntos de vida")
+            print(f"\n----- {local_name} gana el torneo con {local_points} puntos de vida restantes -----")
         else:
-            print(f"A {local_name} le quedan {local_points} puntos")
+            print(f" A {foreign_name} le quedan {enemy_points} puntos")
     else:
-        print(f"{foreign_name} repele el ataque y no pierde puntos")
-    return  local_points, regenerate_state
+        print(f" {foreign_name} repele el ataque de {local_name} y no pierde puntos, conserva sus {enemy_points} puntos")
+    return  tuple((enemy_points, regenerate_state))
 
 deadpool = Deadpool()
 wolverine = Wolverine()
@@ -68,10 +68,18 @@ wolverine = Wolverine()
 d_points = int(input("Introduzca los puntos de inicio de Deadpool: "))
 w_points = int(input("Introduzca los puntos de inicio de Wolverine: "))
 regenerate_state = False
-
+round = 1
 while d_points>0 and w_points>0:
-
-    d_points, regenerate_state = battle(deadpool.name, wolverine.name, wolverine.shield, deadpool.max_damage, d_points, w_points, regenerate_state)
-    w_points, regenerate_state = battle(wolverine.name, deadpool.name, deadpool.shield, wolverine.max_damage, w_points, d_points, regenerate_state)
+    print("Ronda: ",round)
+    #ataque de deadpool
+    w_points, regenerate_state = battle(deadpool.name, wolverine.name, wolverine.shield, deadpool.max_damage, d_points, w_points, regenerate_state)
+    print()
+    if w_points <=0:
+        break
+    #ataque de wolverine
+    d_points, regenerate_state = battle(wolverine.name, deadpool.name, deadpool.shield, wolverine.max_damage, w_points, d_points, regenerate_state)
+    round+=1
+    print()
     time.sleep(1)
-
+    
+#queda pendiente la caída del programa si hay ataque máximo
