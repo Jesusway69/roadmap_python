@@ -33,28 +33,26 @@ class Deadpool:
     name = "Deadpool"
     max_damage = 100
     shield = 25
-    lifepoints = 0
 
 class Wolverine:
     name = "Wolverine"
     max_damage = 120
     shield = 20
-    lifepoints = 0
 
 def battle(local_name, foreign_name, shield, max_damage, local_points, enemy_points, regenerate_state ):
     if regenerate_state:
-        print(f"{local_name} pierde su turno por haber recibido daño máximo y tiene que regenerarse ")
+        print(f" {local_name} pierde su turno por haber recibido daño máximo y tener que regenerarse ")
         regenerate_state = False
-        return
+        
     elif random.random() > shield/100:
         damage = random.randint(10, max_damage)
-        print (f" El ataque de {local_name} le ha restado  {damage}  puntos de vida a {foreign_name}")
+        print (f" El ataque de {local_name} le ha restado {damage} puntos de vida a {foreign_name}")
         if damage == 100:
-            print(f"Ataque máximo de {local_name}")
+            print(f" ¡¡Ataque máximo de {local_name}!!")
             regenerate_state = True
         enemy_points -= damage
         if enemy_points <= 0:
-            print(f"{foreign_name} se ha quedado sin puntos de vida")
+            print(f" {foreign_name} se ha quedado sin puntos de vida")
             print(f"\n----- {local_name} gana el torneo con {local_points} puntos de vida restantes -----")
         else:
             print(f" A {foreign_name} le quedan {enemy_points} puntos")
@@ -71,15 +69,14 @@ regenerate_state = False
 round = 1
 while d_points>0 and w_points>0:
     print("Ronda: ",round)
-    #ataque de deadpool
+    ####################Ataca Deadpool####################
     w_points, regenerate_state = battle(deadpool.name, wolverine.name, wolverine.shield, deadpool.max_damage, d_points, w_points, regenerate_state)
     print()
     if w_points <=0:
         break
-    #ataque de wolverine
+    ####################Ataca Wolverine####################
     d_points, regenerate_state = battle(wolverine.name, deadpool.name, deadpool.shield, wolverine.max_damage, w_points, d_points, regenerate_state)
     round+=1
     print()
     time.sleep(1)
     
-#queda pendiente la caída del programa si hay ataque máximo
