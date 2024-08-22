@@ -35,80 +35,89 @@ labyrinth =[["🐭","⬛️","⬛️","⬜️","⬜️","⬜️",],
             ["⬛️","⬜️","⬛️","⬜️","⬜️","⬛️",],
             ["⬜️","⬜️","⬛️","⬜️","⬜️","🚪",],
             ["⬜️","⬜️","⬜️","⬜️","⬛️","⬜️",],]
-row = 0
-column = 0
+# row = 0
+# column = 0
 mickey_position = [0,0]
 
-def movements(movement):
+def printer(labyrinth):
+    for v in labyrinth:
+        print()
+        for h in v:
+            print(h, end='') 
+    print()
 
-    def up(labyrinth):
-            if mickey_position in labyrinth[0]:
-                print("No se puede subir")
-            else:
-                labyrinth[row-1][column] = '🐭'
-    printer(labyrinth)
 
-    def down(labyrinth):
-        if mickey_position in labyrinth[5]:
-            print("No se puede bajar")
-        else:
-           labyrinth[row+1][column] = '🐭' 
-    printer(labyrinth)
 
-    def left(labyrinth):
-        for rows in labyrinth:
-            if '🐭' in rows:
-                if rows.index('🐭') == 0: 
-                   print("No se puede ir a la izquierda")
-                   return
-            else:
-               labyrinth[row][column-1] = '🐭'
-    printer(labyrinth) 
-                    
-    def right(labyrinth):
-        for rows in labyrinth:
-            if '🐭' in rows:
-                if rows.index('🐭') == 5: 
-                    print("No se puede ir a la derecha")
-                    return
-        else:
-            labyrinth[row][column+1] = '🐭' 
-    printer(labyrinth) 
-    def printer(labyrinth):
-        for v in labyrinth:
-            print()
-            for h in v:
-                print(h, end='') 
-    
-    if movement == "n":
-        return up
-    elif movement == "s":
-        return down
-    elif movement == "w":
-        return left
-    elif movement == "e":
-        return right
-    else:
+def up(last_row, last_column, mickey_position):
+    if last_row<0:
+        print("No se puede subir")
+        last_row+=1
         printer(labyrinth)
-   
+        
+    else:
+        labyrinth[row][column] = "⬜️"
+        labyrinth[last_row][last_column] = "🐭"
+        mickey_position = [last_row, last_column]
+        printer(labyrinth)
+    return mickey_position
 
+def down(last_row, last_column, mickey_position):
+    if last_row>5:
+        print("No se puede bajar")
+        last_row-=1
+        printer(labyrinth)
+        
+    else:
+        labyrinth[row][column] = "⬜️"
+        labyrinth[last_row][last_column] = "🐭"
+        mickey_position = [last_row, last_column]
+        printer(labyrinth)
+    return mickey_position
+
+def left(last_row, last_column, mickey_position):
+    if last_column<0:
+        print("No se puede ir a la izquierda") 
+        last_column+=1
+        printer(labyrinth)
+       
+    else:
+        labyrinth[row][column] = "⬜️"
+        labyrinth[last_row][last_column] = "🐭"
+        mickey_position = [last_row, last_column]
+        printer(labyrinth)
+    return mickey_position 
+                
+def right(last_row, last_column, mickey_position):
+    if last_column>5:
+        print("No se puede ir a la derecha")
+        last_column -=1
+        printer(labyrinth)
+        
+    else:
+        labyrinth[row][column] = "⬜️"
+        labyrinth[last_row][last_column] = "🐭"
+        mickey_position = [last_row, last_column]
+        printer(labyrinth)
+    return mickey_position 
+
+   
+printer(labyrinth)
 while True:
-    
-    movements("")(labyrinth)
-    
-    movement = input("""Elija un movimiento para guiar a Mickey por el laberinto:
+ 
+    movement = input("""\n\nElija un movimiento para guiar a Mickey por el laberinto:
               n - Subir
               s - Bajar
               w - Izquierda
               e - Derecha
                   
-              """).lower()
+              """)
     row, column = mickey_position
     last_row, last_column = row, column
     
-    if movement is not "n" or "s" or "w" or "e":
-        print("comando no válido")
 
+    if movement != "n" and movement != "s" and movement != "w" and movement != "e":
+        print("comando no válido")
+        continue
     elif labyrinth[row][column] == '⬛️':
         print("Por las zonas negras no puedes pasar, intenta de nuevo")
         continue
@@ -116,8 +125,19 @@ while True:
         print("¡¡Has encontrado la salida del laberinto!!")
         break
     else:
-        labyrinth[last_row][last_column]
-        movements(movement)(labyrinth)
+
+        if movement == "n":
+            last_row = row -1
+            mickey_position = up(last_row, last_column, mickey_position)
+        elif movement == "s":
+            last_row = row +1
+            mickey_position = down(last_row, last_column, mickey_position)
+        elif movement == "w":
+            last_column = column -1
+            mickey_position =left(last_row, last_column, mickey_position)
+        elif movement == "e":
+            last_column = column +1
+            mickey_position =right(last_row, last_column, mickey_position)
 
     
     
