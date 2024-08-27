@@ -33,11 +33,18 @@ else:
     
 def create_dict(id:int, name:str, spouse:str="", sons:list=[])->dict:
     character = {}
-    character["ID"] = id
-    character["Nombre"] = name
-    character["Cónyuge"] = spouse
-    character["Hijos"] = sons
+    character_value = {}
+    character[id] = character_value
+    character_value["Nombre"] = name
+    character_value["Cónyuge"] = spouse
+    character_value["Hijos"] = sons
     return character
+
+def print_json_contain(file:str):
+        with open(file) as contains:
+            payload = json.load(contains)
+        for element in  payload:
+            print(element)
 
 
 my_path = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
@@ -54,27 +61,47 @@ while True:
           4 - Modificar hijo
           5 - salir
 """)
+    
     option = int(input("Introduzca un número del 1 al 5: "))
-
+    id = 0
     match option:
         case 1: 
             sons =[]
-            id = input("Escriba el id del personaje: ")
-            name = input("Escriba el nombre del personaje: ")
-            spouse = input("Escriba el nombre de la pareja del personaje si tiene, si no pulse enter: ")
+            id +=1
+            name = input("Escriba el nombre del personaje: ").title()
+            spouse = input("Escriba el nombre de la pareja del personaje si tiene, si no pulse enter: ").title()
             son = None
             while son != "":
-               son = input("Escriba el nombre de un hijo del personaje, si no tiene o ya ha escrito todos pulse enter: ")
-               sons.append(son)
-               json_root.append(create_dict(id, name, spouse, sons))
-               if son == "":
-                   break
+                son = input("Escriba el nombre de un hijo del personaje, si no tiene o ya ha escrito todos pulse enter: ").title()
+                sons.append(son)
+                if son == "":
+                    json_root.append(create_dict(id, name, spouse, sons))
+                    if spouse == "":
+                        spouse = None
+                    else:
+                       json_root.append(create_dict(id+1, spouse, name, sons))
+                    del sons[len(sons)-1]
+                    break
+                else:
+                   continue
             with open(file, 'w') as add_dict:
-              json.dump(file, json_root, indent=4, sort_keys=False)
+                json.dump(json_root, add_dict, indent=4, sort_keys=False)
+            print_json_contain(file)
             
 
         case 2:
-            pass
+            id_del = input("escriba el id del personaje a eliminar: ")
+            firstData  = json.load(open(file))
+            print(firstData)
+                                              
+            for row in firstData:              
+                if id_del in row:
+                #if row.keys() == str(id_del):
+                    del row
+                          
+            open(file, "w").write(
+                json.dump(firstData, indent=4, sort_keys=False)
+)
         case 3:
             pass
         case 4:
