@@ -36,7 +36,7 @@ def create_dict(id:int, name:str, spouse:str="", sons:list=[])->dict:
     character_value = {}
     character[id] = character_value
     character_value["Nombre"] = name
-    character_value["Cónyuge"] = spouse
+    character_value["Pareja"] = spouse
     character_value["Hijos"] = sons
     return character
 
@@ -46,10 +46,16 @@ def print_json_contain(file:str):
         for element in  payload:
             print(element)
 
+def get_json_contain(file:str)->list:
+    with open(file) as contains:
+            payload = json.load(contains)
+    return payload
+
 
 my_path = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
 file = my_path + "family_tree.json"
 json_root = []
+id = 0
 # with open(file, 'w') as create_json:
 #     json.dump(file,create_json, indent=4, sort_keys=False)
 
@@ -58,14 +64,19 @@ while True:
           1 - Añadir personaje
           2 - Eliminar personaje
           3 - Modificar pareja
-          4 - Modificar hijo
+          4 - Añadir hijo
           5 - salir
 """)
     
     option = int(input("Introduzca un número del 1 al 5: "))
-    id = 0
-    match option:
+    #id = 0
+    match option: 
         case 1: 
+            json_root = get_json_contain(file)
+            last_dict = json_root[len(json_root)-1] #INTENTAR REDUCIR ESTA PARTE(O NO)
+            print(last_dict)
+            list_key = list(last_dict.keys())
+            id = int(list_key[0])
             sons =[]
             id +=1
             name = input("Escriba el nombre del personaje: ").title()
@@ -79,7 +90,7 @@ while True:
                     if spouse == "":
                         spouse = None
                     else:
-                       json_root.append(create_dict(id+1, spouse, name, sons))
+                       json_root.append(create_dict(id+1, spouse, name, sons)) 
                     del sons[len(sons)-1]
                     break
                 else:
@@ -91,21 +102,36 @@ while True:
 
         case 2:
             id_del = input("escriba el id del personaje a eliminar: ")
-            firstData  = json.load(open(file))
-            print(firstData)
-                                              
+            firstData = get_json_contain(file)                               #json.load(open(file))                                  
             for row in firstData:              
                 if id_del in row:
-                #if row.keys() == str(id_del):
-                    del row
-                          
-            open(file, "w").write(
-                json.dump(firstData, indent=4, sort_keys=False)
-)
+                    firstData.remove(row)
+                 
+            with open(file, "w") as add_dict:
+                json.dump(firstData, add_dict, indent=4, sort_keys=False)
+                
+
         case 3:
-            pass
+            id_mod = input("escriba el id del personaje cuya pareja se va a editar: ")
+            firstData = get_json_contain(file)                               #json.load(open(file)) 
+            for row in firstData:              
+                if id_mod in row:
+                    print(f"La pareja actual de {row[id_mod]["Nombre"]} es {row[id_mod]["Pareja"]}")
+                    new_spouse = input(f"Escriba el nombre de la nueva pareja de {row[id_mod]["Nombre"]}: ").capitalize()
+                    row[id_mod]["Pareja"] = new_spouse
+            with open(file, "w") as add_dict:
+                json.dump(firstData, add_dict, indent=4, sort_keys=False)        
+                    
         case 4:
-            pass
+            id_mod = input("escriba el id del personaje cuyo hijo se va a añadir: ")
+            firstData = get_json_contain(file)                               #json.load(open(file))  
+            for row in firstData:              
+                if id_mod in row:
+                    print(f"Los hijos de {row[id_mod]["Nombre"]} y {row[id_mod]["Pareja"]} son {row[id_mod]["Hijos"]}")
+                    new_son = input(f"Escriba el nombre del nuevo/a hijo/a de {row[id_mod]["Nombre"]} y {row[id_mod]["Pareja"]}: ").capitalize()
+                    row[id_mod]["Hijos"].append(new_son)
+            with open(file, "w") as add_dict:
+                json.dump(firstData, add_dict, indent=4, sort_keys=False) 
         case 5:
             break
         case _:
