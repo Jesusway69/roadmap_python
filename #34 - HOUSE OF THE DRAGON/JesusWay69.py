@@ -51,9 +51,9 @@ def get_json_contain(file:str)->list:
             json_load = json.load(contains)
     return json_load
 
-def create_file_json(file:str):
+def create_file_json(file:str, json_root:list):
         with open(file, 'w') as create_json:
-           json.dump(file,create_json, indent=4, sort_keys=False)
+           json.dump(json_root,create_json, indent=4, sort_keys=False)
 
 def print_family_tree(file:str):
     with open(file) as contains:
@@ -72,16 +72,15 @@ def print_family_tree(file:str):
                 print(f"\b\b {child}")
         
 
-
-
-
-
+########      FICHERO ORIGINAL     ########
 my_path:str = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
 file:str = my_path + "family_tree.json"
-#create_file_json(file)
-json_root:list = []
+# json_root:list = []
+#create_file_json(file, json_root)
+
 while True:
     print("""\nElija una opción:
+          0 - Crear nuevo fichero o borrar contenido de fichero ya existente
           1 - Añadir personaje
           2 - Eliminar personaje
           3 - Modificar pareja
@@ -89,41 +88,47 @@ while True:
           5 - Imprimir árbol genealógico y salir
 """)
     
-    option = int(input("Introduzca un número del 1 al 5: "))
+    option = input("Introduzca un número del 1 al 5: ")
+    if not option.isdigit():
+        print("Sólo se pueden introducir números del 1 al 5, intente de nuevo")
+        continue
+    else:
+        option = int(option)
     match option: 
+        case 0:
+            new_file = input("Introduzca el nombre del nuevo fichero json sin extensión, si el fichero ya existe se borrará todo su contenido: ")
+            my_path:str = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
+            file:str = my_path + new_file + ".json"
+            json_root:list = []
+            create_file_json(file, json_root)
         
         case 1: 
-            json_root:list = get_json_contain(file)#si pongo esto aquí se cae con archivo vacío
+            json_root:list = get_json_contain(file)
             if len(json_root)>0: 
-                #json_root:list = get_json_contain(file)  si lo pongo aquí lo inicia bien incluso vacío pero lo machaca cada vez que se ejecuta de nuevo para añadir
                 last_dict:dict = json_root[len(json_root)-1] 
                 print(last_dict)
                 list_key = list(last_dict.keys())
                 id = int(list_key[0])
             else:
                 id=0
-                create_file_json(file)
+
             children =[]
             id +=1
             name:str = input("Escriba el nombre del personaje: ").title()
             spouse:str = input("Escriba el nombre de la pareja del personaje si tiene, si no pulse enter: ").title()
+            if spouse == "":
+                spouse = None
             son:str = None
             while son != "":
                 son = input("Escriba el nombre de un hijo del personaje, si no tiene o ya ha escrito todos pulse enter: ").title()
                 children.append(son)
-                if son == "":
-                    json_root.append(create_dict(id, name, spouse, children))
-                    if spouse == "":
-                        spouse = None
-                    else:
-                       json_root.append(create_dict(id+1, spouse, name, children)) 
-                    del children[len(children)-1]
-                    break
-                else:
-                   continue
-            with open(file, 'w') as add_dict:
-                json.dump(json_root, add_dict, indent=4, sort_keys=False)
-            print_json_contain(file)
+            del children[len(children)-1] 
+            json_root.append(create_dict(id, name, spouse, children))
+            if spouse != None:
+                json_root.append(create_dict(id+1, spouse, name, children)) 
+                    
+                 
+            create_file_json(file, json_root)
             
 
         case 2:
@@ -132,9 +137,13 @@ while True:
             for row in json_data:              
                 if id_del in row:
                     json_data.remove(row)
+                    print(f"El personaje {row[id_del]["Nombre"]} se ha eliminado correctamnete")
+                    create_file_json(file, json_data)
+                    continue
+            print(f"El id {id_del} no corresponde a ningún personaje, pruebe de nuevo.")
+            
                  
-            with open(file, "w") as add_dict:
-                json.dump(json_data, add_dict, indent=4, sort_keys=False)
+            
                 
 
         case 3:
@@ -145,8 +154,7 @@ while True:
                     print(f"La pareja actual de {row[id_mod]["Nombre"]} es {row[id_mod]["Pareja"]}")
                     new_spouse:str = input(f"Escriba el nombre de la nueva pareja de {row[id_mod]["Nombre"]}: ").capitalize()
                     row[id_mod]["Pareja"] = new_spouse
-            with open(file, "w") as add_dict:
-                json.dump(json_data, add_dict, indent=4, sort_keys=False)        
+            create_file_json(file, json_data)      
                     
         case 4:
             id_add_child:str = input("Escriba el id del personaje cuyo hijo se va a añadir: ")
@@ -156,8 +164,7 @@ while True:
                     print(f"Los hijos de {row[id_add_child]["Nombre"]} y {row[id_add_child]["Pareja"]} son {row[id_add_child]["Hijos"]}")
                     new_child = input(f"Escriba el nombre del nuevo/a hijo/a de {row[id_add_child]["Nombre"]} y {row[id_add_child]["Pareja"]}: ").capitalize()
                     row[id_add_child]["Hijos"].append(new_child)
-            with open(file, "w") as add_dict:
-                json.dump(json_data, add_dict, indent=4, sort_keys=False) 
+            create_file_json(file, json_data)
         case 5:
             print_family_tree(file)
             break

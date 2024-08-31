@@ -1,0 +1,32 @@
+[
+    {
+        "1": {
+            "Nombre": "Grgr",
+            "Pareja": "",
+            "Hijos": [
+                "Dfb"
+            ]
+        }
+    },
+    {
+        "2": {
+            "Nombre": "Gdrgr",
+            "Pareja": null,
+            "Hijos": [
+                "Gegas",
+                "Rgrgr"
+            ]
+        }
+    },
+    {
+        "3": {
+            "Nombre": "Drgr",
+            "Pareja": "Rgr",
+            "Hijos": [
+                "Argag",
+                "Dsasd",
+                "Rett"
+            ]
+        }
+    }
+]
