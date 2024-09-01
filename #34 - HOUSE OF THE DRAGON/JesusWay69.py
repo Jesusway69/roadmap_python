@@ -56,27 +56,26 @@ def create_file_json(file:str, json_root:list):
            json.dump(json_root,create_json, indent=4, sort_keys=False)
 
 def print_family_tree(file:str):
-    with open(file) as contains:
+    with open(file, 'r') as contains:
         json_load:list = json.load(contains)
+
     for i in range(len(json_load)):
         name = list(json_load[i].values())[0]["Nombre"]
         spouse = list(json_load[i].values())[0]["Pareja"]
         children = list(json_load[i].values())[0]["Hijos"]
-        print(f"\n---- Nombre: {name} ---------------------- Pareja: {spouse} -----")
-        print("-------Hijos: ",end='------')
+        print(f"\n----- Nombre: {name} ---------------------- Pareja: {spouse} -----")
+        print("------- Hijos: ", end = '------  ')
         for j in range(len(children)):
             child = children[j]
-            if j < len(children)-1:
+            if j < len(children) - 1:
                 print(f"\b{child}", end=',  ')
             else:
-                print(f"\b\b {child}")
+                print(f"\b\b {child} ------")
         
 
 ########      FICHERO ORIGINAL     ########
 my_path:str = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
 file:str = my_path + "family_tree.json"
-# json_root:list = []
-#create_file_json(file, json_root)
 
 while True:
     print("""\nElija una opción:
@@ -116,7 +115,7 @@ while True:
             id +=1
             name:str = input("Escriba el nombre del personaje: ").title()
             spouse:str = input("Escriba el nombre de la pareja del personaje si tiene, si no pulse enter: ").title()
-            if spouse == "":
+            if spouse == "" :
                 spouse = None
             son:str = None
             while son != "":
@@ -125,12 +124,9 @@ while True:
             del children[len(children)-1] 
             json_root.append(create_dict(id, name, spouse, children))
             if spouse != None:
-                json_root.append(create_dict(id+1, spouse, name, children)) 
-                    
-                 
+                json_root.append(create_dict(id+1, spouse, name, children))                     
             create_file_json(file, json_root)
             
-
         case 2:
             id_del:str = input("escriba el id del personaje a eliminar: ")
             json_data:list = get_json_contain(file)                                                              
@@ -142,10 +138,6 @@ while True:
                     continue
             print(f"El id {id_del} no corresponde a ningún personaje, pruebe de nuevo.")
             
-                 
-            
-                
-
         case 3:
             id_mod:str = input("Escriba el id del personaje cuya pareja se va a editar: ")
             json_data:list = get_json_contain(file)                               
@@ -165,17 +157,67 @@ while True:
                     new_child = input(f"Escriba el nombre del nuevo/a hijo/a de {row[id_add_child]["Nombre"]} y {row[id_add_child]["Pareja"]}: ").capitalize()
                     row[id_add_child]["Hijos"].append(new_child)
             create_file_json(file, json_data)
+
         case 5:
             print_family_tree(file)
             break
+
         case _:
             print("Sólo se pueden introducir números del 1 al 5, intente de nuevo")
 
 
 
+#Salida de print_family_tree() tras incorporar los datos de los personajes de la serie y recuperarlos desde un fichero json 
 
+"""
+----- Nombre: Jocelyn Baratheon ---------------------- Pareja: Aemon Targaryen -----
+------- Hijos: ------ Rhaenys Targaryen ------
 
+----- Nombre: Aemon Targaryen ---------------------- Pareja: Jocelyn Baratheon -----
+------- Hijos: ------ Rhaenys Targaryen ------
 
+----- Nombre: Daella Targaryen ---------------------- Pareja: Rodrik Arryn -----
+------- Hijos: ------ Aemma Arryn ------
+
+----- Nombre: Rodrik Arryn ---------------------- Pareja: Daella Targaryen -----
+------- Hijos: ------ Aemma Arryn ------
+
+----- Nombre: Baelon I Targaryen ---------------------- Pareja: Alissa Targaryen -----
+------- Hijos: ------ Viserys I Targaryen, Daemon Targaryen ------
+
+----- Nombre: Alissa Targaryen ---------------------- Pareja: Baelon I Targaryen -----
+------- Hijos: ------ Viserys I Targaryen, Daemon Targaryen ------
+
+----- Nombre: Otto Hightower ---------------------- Pareja: None -----
+------- Hijos: ------ Alicent Hightower, Gwayne Higthtower ------
+
+----- Nombre: Alicent Hightower ---------------------- Pareja: Viserys I Targaryen -----
+------- Hijos: ------ Aegon II Targaryen, Helaena Targaryen, Aemond Targaryen, Daeron targaryen ------
+
+----- Nombre: Viserys I Targaryen ---------------------- Pareja: Alicent Hightower -----
+------- Hijos: ------ Aegon II Targaryen, Helaena Targaryen, Aemond Targaryen, Daeron targaryen ------      
+
+----- Nombre: Aemma Arryn ---------------------- Pareja: Viserys I Targaryen -----
+------- Hijos: ------ Rhaenyra Targaryen ------
+
+----- Nombre: Corlys Velaryon ---------------------- Pareja: Rhaenys Targaryen -----
+------- Hijos: ------ Laena Velaryon, Laenor Velaryon ------
+
+----- Nombre: Rhaenys Targaryen ---------------------- Pareja: Corlys Velarion -----
+------- Hijos: ------ Laena Velaryon, Laenor Velaryon ------
+
+----- Nombre: Rhaenyra Targaryen ---------------------- Pareja: Laenor Velaryon -----
+------- Hijos: ------ Jacaerys Velaryon, Lucerys Velaryon, Joffrey Velaryon ------
+
+----- Nombre: Laenor Velaryon ---------------------- Pareja: Rhaenyra Targaryen -----
+------- Hijos: ------ Jacaerys Velaryon, Lucerys Velaryon, Joffrey Velaryon ------
+
+----- Nombre: Laena Velaryon ---------------------- Pareja: Daemon Targaryen -----
+------- Hijos: ------ Baela Targaryen, Rhaena Targaryen ------
+
+----- Nombre: Daemon Targaryen ---------------------- Pareja: Laena Velaryon -----
+------- Hijos: ------ Baela Targaryen, Rhaena Targaryen ------
+"""
 
 
 
@@ -188,22 +230,3 @@ while True:
 
     
 
-        
-# my_dict = {"ID":id,
-#         "Nombre":name,
-#         "Cónyuge":spouse,
-#         "Hijos":children}
-# return dict
-
-# class Character:
-#     def __init__(self, id, name) -> None:
-#         self.id = id
-#         self.name = name
-#     def set_spouse(self, spouse):
-#         self.spouse = spouse
-#     def get_spouse(self):
-#         return self.spouse
-#     def set_children(self, *args):
-#         self.args = args
-#     def get_children(self):
-#         return self.args

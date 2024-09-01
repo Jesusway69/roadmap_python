@@ -1,31 +1,163 @@
 [
     {
         "1": {
-            "Nombre": "Grgr",
-            "Pareja": "",
+            "Nombre": "Jocelyn Baratheon",
+            "Pareja": "Aemon Targaryen",
             "Hijos": [
-                "Dfb"
+                "Rhaenys Targaryen"
             ]
         }
     },
     {
         "2": {
-            "Nombre": "Gdrgr",
-            "Pareja": null,
+            "Nombre": "Aemon Targaryen",
+            "Pareja": "Jocelyn Baratheon",
             "Hijos": [
-                "Gegas",
-                "Rgrgr"
+                "Rhaenys Targaryen"
             ]
         }
     },
     {
         "3": {
-            "Nombre": "Drgr",
-            "Pareja": "Rgr",
+            "Nombre": "Daella Targaryen",
+            "Pareja": "Rodrik Arryn",
             "Hijos": [
-                "Argag",
-                "Dsasd",
-                "Rett"
+                "Aemma Arryn"
+            ]
+        }
+    },
+    {
+        "4": {
+            "Nombre": "Rodrik Arryn",
+            "Pareja": "Daella Targaryen",
+            "Hijos": [
+                "Aemma Arryn"
+            ]
+        }
+    },
+    {
+        "5": {
+            "Nombre": "Baelon I Targaryen",
+            "Pareja": "Alissa Targaryen",
+            "Hijos": [
+                "Viserys I Targaryen",
+                "Daemon Targaryen"
+            ]
+        }
+    },
+    {
+        "6": {
+            "Nombre": "Alissa Targaryen",
+            "Pareja": "Baelon I Targaryen",
+            "Hijos": [
+                "Viserys I Targaryen",
+                "Daemon Targaryen"
+            ]
+        }
+    },
+    {
+        "7": {
+            "Nombre": "Otto Hightower",
+            "Pareja": null,
+            "Hijos": [
+                "Alicent Hightower",
+                "Gwayne Higthtower"
+            ]
+        }
+    },
+    {
+        "8": {
+            "Nombre": "Alicent Hightower",
+            "Pareja": "Viserys I Targaryen",
+            "Hijos": [
+                "Aegon II Targaryen",
+                "Helaena Targaryen",
+                "Aemond Targaryen",
+                "Daeron targaryen"
+            ]
+        }
+    },
+    {
+        "9": {
+            "Nombre": "Viserys I Targaryen",
+            "Pareja": "Alicent Hightower",
+            "Hijos": [
+                "Aegon II Targaryen",
+                "Helaena Targaryen",
+                "Aemond Targaryen",
+                "Daeron targaryen",
+                "Rhaenyra targaryen"
+            ]
+        }
+    },
+    {
+        "10": {
+            "Nombre": "Aemma Arryn",
+            "Pareja": "Viserys I Targaryen",
+            "Hijos": [
+                "Rhaenyra Targaryen"
+            ]
+        }
+    },
+    {
+        "11": {
+            "Nombre": "Corlys Velaryon",
+            "Pareja": "Rhaenys Targaryen",
+            "Hijos": [
+                "Laena Velaryon",
+                "Laenor Velaryon"
+            ]
+        }
+    },
+    {
+        "12": {
+            "Nombre": "Rhaenys Targaryen",
+            "Pareja": "Corlys Velarion",
+            "Hijos": [
+                "Laena Velaryon",
+                "Laenor Velaryon"
+            ]
+        }
+    },
+    {
+        "13": {
+            "Nombre": "Rhaenyra Targaryen",
+            "Pareja": "Laenor Velaryon",
+            "Hijos": [
+                "Jacaerys Velaryon",
+                "Lucerys Velaryon",
+                "Joffrey Velaryon"
+            ]
+        }
+    },
+    {
+        "14": {
+            "Nombre": "Laenor Velaryon",
+            "Pareja": "Rhaenyra Targaryen",
+            "Hijos": [
+                "Jacaerys Velaryon",
+                "Lucerys Velaryon",
+                "Joffrey Velaryon"
+            ]
+        }
+    },
+    {
+        "15": {
+            "Nombre": "Laena Velaryon",
+            "Pareja": "Daemon Targaryen",
+            "Hijos": [
+                "Baela Targaryen",
+                "Rhaena Targaryen"
+            ]
+        }
+    },
+    {
+        "16": {
+            "Nombre": "Daemon Targaryen",
+            "Pareja": "Laena Velaryon",
+            "Hijos": [
+                "Baela Targaryen",
+                "Rhaena Targaryen"
             ]
         }
     }
