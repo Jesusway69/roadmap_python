@@ -2,8 +2,10 @@ import os, platform, json
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
+    my_path:str = "#34 - HOUSE OF THE DRAGON/"
 else:
     os.system('cls')
+    my_path:str = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
 
     """ * EJERCICIO:
     * ¡La Casa del Dragón ha finalizado y no volverá hasta 2026!
@@ -35,9 +37,9 @@ def create_dict(id:int, name:str, spouse:str="", children:list=[])->dict:
     character:dict = {}
     character_value:dict = {}
     character[id] = character_value
-    character_value["Nombre"] = name
-    character_value["Pareja"] = spouse
-    character_value["Hijos"] = children
+    character_value['Nombre'] = name
+    character_value['Pareja'] = spouse
+    character_value['Hijos'] = children
     return character
 
 def print_json_contain(file:str):
@@ -60,9 +62,9 @@ def print_family_tree(file:str):
         json_load:list = json.load(contains)
 
     for i in range(len(json_load)):
-        name = list(json_load[i].values())[0]["Nombre"]
-        spouse = list(json_load[i].values())[0]["Pareja"]
-        children = list(json_load[i].values())[0]["Hijos"]
+        name = list(json_load[i].values())[0]['Nombre']
+        spouse = list(json_load[i].values())[0]['Pareja']
+        children = list(json_load[i].values())[0]['Hijos']
         print(f"\n----- Nombre: {name} ---------------------- Pareja: {spouse} -----")
         print("------- Hijos: ", end = '------  ')
         for j in range(len(children)):
@@ -74,7 +76,8 @@ def print_family_tree(file:str):
         
 
 ########      FICHERO ORIGINAL     ########
-my_path:str = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
+#my_path:str = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
+#my_path:str = "#34 - HOUSE OF THE DRAGON/"
 file:str = my_path + "family_tree.json"
 
 while True:
@@ -133,7 +136,7 @@ while True:
             for row in json_data:              
                 if id_del in row:
                     json_data.remove(row)
-                    print(f"El personaje {row[id_del]["Nombre"]} se ha eliminado correctamnete")
+                    print(f"El personaje {row[id_del]['Nombre']} se ha eliminado correctamnete")
                     create_file_json(file, json_data)
                     continue
             print(f"El id {id_del} no corresponde a ningún personaje, pruebe de nuevo.")
@@ -143,9 +146,9 @@ while True:
             json_data:list = get_json_contain(file)                               
             for row in json_data:              
                 if id_mod in row:
-                    print(f"La pareja actual de {row[id_mod]["Nombre"]} es {row[id_mod]["Pareja"]}")
-                    new_spouse:str = input(f"Escriba el nombre de la nueva pareja de {row[id_mod]["Nombre"]}: ").capitalize()
-                    row[id_mod]["Pareja"] = new_spouse
+                    print(f"La pareja actual de {row[id_mod]['Nombre']} es {row[id_mod]['Pareja']}")
+                    new_spouse:str = input(f"Escriba el nombre de la nueva pareja de {row[id_mod]['Nombre']}: ").capitalize()
+                    row[id_mod]['Pareja'] = new_spouse
             create_file_json(file, json_data)      
                     
         case 4:
@@ -153,9 +156,9 @@ while True:
             json_data:list = get_json_contain(file)                              
             for row in json_data:              
                 if id_add_child in row:
-                    print(f"Los hijos de {row[id_add_child]["Nombre"]} y {row[id_add_child]["Pareja"]} son {row[id_add_child]["Hijos"]}")
-                    new_child = input(f"Escriba el nombre del nuevo/a hijo/a de {row[id_add_child]["Nombre"]} y {row[id_add_child]["Pareja"]}: ").capitalize()
-                    row[id_add_child]["Hijos"].append(new_child)
+                    print(f"Los hijos de {row[id_add_child]['Nombre']} y {row[id_add_child]['Pareja']} son {row[id_add_child]['Hijos']}")
+                    new_child = input(f"Escriba el nombre del nuevo/a hijo/a de {row[id_add_child]['Nombre']} y {row[id_add_child]['Pareja']}: ").capitalize()
+                    row[id_add_child]['Hijos'].append(new_child)
             create_file_json(file, json_data)
 
         case 5:
