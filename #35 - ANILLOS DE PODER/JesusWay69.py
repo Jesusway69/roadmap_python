@@ -33,7 +33,7 @@ def prime_generator(num)->list:# Creamos una función que nos devuelva una lista
     return prime_list
 
 while True:
-    rings = input("Escriba el número de anillos a repartir: ")
+    rings = input("\nEscriba el número de anillos a repartir: ")
     if not rings.isdigit() or int(rings) < 6: # Condicional para evitar que se introduzcan caracteres no numéricos o menores a 6
             print("Sólo se pueden introducir números a partir de 6, intente de nuevo")
             continue
@@ -41,9 +41,7 @@ while True:
             rings = int(rings) # Casteamos la cifra introducida a int 
             start_rings = rings # Guardamos un backup de esa cifra para imprimir al final
 
-    print(prime_generator(rings))
-
-    adjust = rings//50 # Creamos una variable para dar más precisión a la cifra del número primo
+    adjust = rings//70 # Creamos una variable para dar más precisión a la cifra del número primo
     div = len(prime_generator(rings))//2 #Dividimos entre 2 redondeando a int para seleccionar un nº primo a la mitad del total
     if adjust == 0:
          adjust = 1
@@ -56,32 +54,29 @@ while True:
     if rings % 2 == 0: # Si lo que queda es par asignamos justo la mitad a los hombres y la otra mitad menos 1 a los elfos
         men = rings / 2
         elves = men - 1
-        if men % 2 != 0: # Comprobamos de nuevo por si tras la división anterior hubiera vuelto a dar impar
-            men += 1  # y le hubiéramos asignado una cifra impar a los hombres, le sumamos 1 para asegurarnos que es par
-            elves = men - 1 # y le asignamos ese valor menos 1 a los elfos
+        if men % 2 != 0: # Comprobamos de nuevo por si tras la división anterior hubiera resultado impar
+            elves = men  # y le hubiéramos asignado una cifra impar a los hombres, se la asignamos a los elfos
+            men += 1 # y le asignamos ese valor mas 1 a los hombres
         
     else:
-        men = (rings-1) / 2 # Si es impar le quitamos 1 al total y dividimos entre 2 
-        elves = men - 1 #  y el resto menos 1 se lo asignamos a los elfos
+        men = (rings-1) / 2 # Si es impar le quitamos 1 al total y dividimos entre 2 para los hombres 
+        elves = men + 1 #  y el resto mas el que hemos restado antes se lo asignamos a los elfos
         if men % 2 != 0: # Comprobamos de nuevo por si tras la división anterior hubiera vuelto a dar impar
-            men += 1   # y le hubiéramos asignado una cifra impar a los hombres, le sumamos 1 para asegurarnos que es par
-            elves = men - 1 # y le asignamos ese valor menos 1 a los elfos 
+            elves = men   # y le hubiéramos asignado una cifra impar a los hombres, se la asignamos a los elfos
+            men += 1 # y le asignamos ese valor mas 1 a los hombres 
         
     rings = rings - men - elves
-    print(rings)
-    if rings < 0:
+    if rings < 0:#Condicionamos para que no se asignen más anillos de los disponibles
         men -= 2
         rings += 2
-    elif rings == 2:
+    elif rings == 2:# ni sobren 2 en cuyo caso se los asignamos a los elfos
         elves += 2
-        rings -=2
-    print(rings)
-    
+        rings -=2 
 
     print (f"""De los {start_rings} anillos se han repartido {sauron} para Sauron, {int(elves)} para los elfos, {int(dwarves)} para los enanos y {int(men)} para los hombres""")
-
     print ("Anillos sobrantes: ",int(rings))
-    
+    print()
+    break
 
 
 

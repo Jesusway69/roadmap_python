@@ -5,7 +5,7 @@ if (platform.platform().startswith("macOS") or platform.platform().startswith("L
     my_path:str = "#34 - HOUSE OF THE DRAGON/"
 else:
     os.system('cls')
-    my_path:str = r"C:\Users\jesus\Documents\Python3project\roadmap_python\#34 - HOUSE OF THE DRAGON\\"
+    my_path:str = r"#34 - HOUSE OF THE DRAGON\\"
 
     """ * EJERCICIO:
     * ¡La Casa del Dragón ha finalizado y no volverá hasta 2026!
