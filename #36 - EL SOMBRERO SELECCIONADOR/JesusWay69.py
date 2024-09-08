@@ -25,20 +25,75 @@ else:
  *    pero indicándole al alumno que la decisión ha sido complicada)."""
 
 
+houses = [0,0,0,0]
+#houses = {"Frontend":0, "Backend":0, "Mobile":0 , "Data":0}
+# points = [{1:{1:[1,3,2,4],2:[1,4,2,3],3:[1,3,4,2],4:[4,1,3,2]}},
+#          {2:{1:[2,3,4,1],2:[4,1,3,2],3:[1,3,2,4],4:[2,4,1,3]}},
+#          {3:{1:[1,2,3,4],2:[4,1,3,2],3:[1,4,2,3],4:[1,2,4,3]}},
+#          {4:{1:[1,3,4,2],2:[1,3,2,4],3:[1,4,3,2],4:[4,1,3,2]}},
+#          {5:{1:[1,4,2,4],2:[2,1,4,3],3:[4,2,3,1],4:[2,1,3,4]}},
+#          {6:{1:[1,4,2,3],2:[4,1,3,2],3:[1,3,2,4],4:[3,1,4,2]}},
+#          {7:{1:[1,4,2,3],2:[4,2,3,1],3:[1,3,2,4],4:[3,1,4,2]}}]
 
-houses = {"Frontend":0, "Backend":0, "Mobile":0 , "Data":0}
-questions = {"¿Cual de estas definiciones se ajusta más a tu personalidad?":
+points_distribution =  [{1:[1,3,2,4],2:[1,4,2,3],3:[1,3,4,2],4:[4,1,3,2]},
+                        {1:[2,3,4,1],2:[4,1,3,2],3:[1,3,2,4],4:[2,4,1,3]},
+                        {1:[1,2,3,4],2:[4,1,3,2],3:[1,4,2,3],4:[1,2,4,3]},
+                        {1:[1,3,4,2],2:[1,3,2,4],3:[1,4,3,2],4:[4,1,3,2]},
+                        {1:[1,4,2,4],2:[2,1,4,3],3:[4,2,3,1],4:[2,1,3,4]},
+                        {1:[1,4,2,3],2:[4,1,3,2],3:[1,3,2,4],4:[3,1,4,2]},
+                        {1:[1,4,2,3],2:[4,2,3,1],3:[1,3,2,4],4:[3,1,4,2]}]
+
+questions = {"pregunta 1: ¿Cual de estas definiciones se ajusta más a tu personalidad?":
              ["1 - Analítico, me gusta tener todo perféctamente calculado",
              "2 - Introvertido, me gusta tener perfil bajo y trabajar en la sombra",
              "3 - Nómada digital, me gusta viajar pero estar siempre conectado",
-              "4 - Creativo, me gusta enseñar mis obras y disfruto con el estilo"],
-              "¿Cual de estas tecnologías te gusta más?":
+             "4 - Creativo, me gusta enseñar mis obras y disfruto con el estilo"],
+              "pregunta 2: ¿Cual de estas tecnologías te gusta más?":
               ["1 - Kotlin", "2 - CSS", "3 - MySQL", "4 - Python"],
-              "¿Cual de estos dispositivos preferirías como regalo?":
+              "pregunta 3: ¿Cual de estos dispositivos portátiles preferirías como regalo?":
               ["1 - Un Chromebook", "2 - Un iPad con apple pencil", "3 - Un laptop con Arch Linux", "4 - Un smartphone de gama alta"],
-              "¿Cual de estas asignaturas te gusta o te gustó más estudiar?":
+              "pregunta 4: ¿Cual de estas asignaturas te gusta o te gustó más estudiar?":
               ["1 - Telecomunicaciones", "2 - Matemáticas", "3 - Robótica", "4 - Dibujo artístico"],
-              "¿Cual de 4 películas según tu personalidad crees que más se adapte a ti por temática?, (si no la has visto busca la sinopsis)":
-              ["1 - El indomable will Hunting--back", " 2 - Her--mobile", "3 - Ghost in the shell--front", "4 - Moneyball--data"]}
+              "pregunta 5: ¿Cual de 4 películas según tu personalidad crees que más se adapte a ti por temática?, (si no la has visto busca la sinopsis)":
+              ["1 - El indomable will Hunting--back", "2 - Her--mobile", "3 - Ghost in the shell--front", "4 - Moneyball--data"],
+              "pregunta 6: ¿Cual de estos coches crees que va mejor contigo?":["1 - Cualquier utilitario barato, funcional y discreto",
+              "2 - Uno con estilo tipo Fiat 500 o Mini Cooper", "3 - El que mejor relación específica tenga entre CV/Cilindrada/Consumo",
+              "4 - Un Tesla o similar, que sea eléctrico y con conectividad de todo tipo con mi smartphone a bordo y en remmoto"],
+              "pregunta 7: ¿Cual de estas carreras hubieses elegido de no haber sido la de informática?":["1 - Cualquier otra ingeniería",
+              "2 - Bellas artes", "3 - Sin duda administración de empresas", "4 - Si existe, alguna que estudie nanotecnología"],
+              }
 
 
+name = input("introduzca su nombre: ")
+
+def user(answer:int, round:int):
+    #index = 0
+    distribution_question:dict = points_distribution[round-1]
+    distribution_answer:list = distribution_question.get(answer)
+    for index in range(len(houses)):
+        houses[index] = houses[index] + distribution_answer[index]
+
+
+
+def quest_printer(questions:dict):
+    for question in list(questions.keys()):
+        round = 1
+        print(question)
+        for answers in questions[question]:
+            print(answers)
+        answer = input("Elija una de las 4 opciones--> ")
+        if not answer.isdigit() or int(answer)<1 or int(answer)>4:
+            print("Sólo se pueden introducir números del 1 al 4, pruebe de nuevo")
+            continue
+    round +=1
+    user(answer, round)
+print ("resultado = " , houses)
+quest_printer(questions)
+
+
+"""Arreglar este error 
+
+line 74, in user
+    houses[index] = houses[index] + distribution_answer[index]
+                                    ~~~~~~~~~~~~~~~~~~~^^^^^^^
+TypeError: 'NoneType' object is not subscriptable"""
