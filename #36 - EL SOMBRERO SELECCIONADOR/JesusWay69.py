@@ -25,7 +25,7 @@ else:
  *    pero indicándole al alumno que la decisión ha sido complicada)."""
 
 
-houses = [0,0,0,0]
+houses_score = [0,0,0,0]
 houses_dict = {"Frontend":0, "Backend":0, "Mobile":0 , "Data":0}
 
 points_distribution =  [{1:[1,4,2,6],2:[1,6,2,4],3:[1,4,6,2],4:[6,1,4,2]},
@@ -35,7 +35,9 @@ points_distribution =  [{1:[1,4,2,6],2:[1,6,2,4],3:[1,4,6,2],4:[6,1,4,2]},
                         {1:[1,6,2,4],2:[2,1,6,4],3:[6,2,4,1],4:[2,1,4,6]},
                         {1:[1,6,2,4],2:[6,1,4,2],3:[1,4,2,6],4:[4,1,6,2]},
                         {1:[1,6,2,4],2:[6,2,4,1],3:[1,4,2,6],4:[4,1,6,2]},
-                        {1:[1,6,4,2],2:[2,4,1,6],3:[4,2,6,1],4:[6,2,4,1]}]
+                        {1:[1,6,4,2],2:[2,4,1,6],3:[4,2,6,1],4:[6,2,4,1]},
+                        {1:[6,2,1,4],2:[4,2,1,6],3:[4,6,1,2],4:[1,4,6,2]},
+                        {1:[6,1,4,2],2:[2,6,4,1],3:[4,2,6,1],4:[2,1,4,6]}]
 
 questions = {"\nPregunta 1: ¿Cual de estas definiciones se ajusta más a tu personalidad?":
              ["1 - Analítico, me gusta tener todo perféctamente calculado",
@@ -62,19 +64,27 @@ questions = {"\nPregunta 1: ¿Cual de estas definiciones se ajusta más a tu per
               "\nPregunta 7: ¿Cual de estas carreras hubieses elegido de no haber sido la de informática?":["1 - Cualquier otra ingeniería",
               "2 - Bellas artes", "3 - Sin duda administración de empresas", "4 - Si existe, alguna que estudie nanotecnología"],
 
-              "\nPregunta 8: Otra de tecnologías , ¿Cual de estas te gusta más?":["1 - Java", "2 - MongoDB", "3 - Swift", "4 - Tailwind"]
+              "\nPregunta 8: Otra de tecnologías , ¿Cual de estas te gusta más?":["1 - Java", "2 - MongoDB", "3 - Swift", "4 - Tailwind"],
+
+              "\nPregunta 9: ¿Qué programa/aplicación de estas te gusta o usas más?":["1 - Google Chrome", "2 - PowerBI", "3 - VScode", "Android Studio"],
+
+              "\nPregunta 10: ¿Cual de estas características de la marca Apple crees que es más importante en su éxito?":
+                ["1- Su interfaz visual , el diseño de sus dispositivos, su enfoque hacia el mundo creativo y visual y su framework gráfico SwiftUI",
+                 "2 - Su lenguaje propio Swift y lo buenos y productivos que son sus ordenadores para trabajo con cualquier lenguaje de programación en general"
+                 "3 - Sus dispositivos y los sistemas operativos iOS, IpadOS, watchOS, tvOS y sobre todo la joya de la corona, el iPhone",
+                 "4 - Su capacidad de innovación y de mantenerse siempre en los ranking de ventas, 9 de cada 10 personas en el mundo conocen a Apple"]
               }
 
 
 name = input("introduzca su nombre: ").capitalize()
 
-def user(answer:int, round:int):
+def points_management(answer:int, round:int):
     distribution_question:dict = points_distribution[round-1]
     distribution_answer:list = distribution_question[answer]
-    for points in range (0,len(houses),1):
+    for points in range (0,len(houses_score),1):
             
-            houses[points] = houses[points] + distribution_answer[points]
-            print(houses)
+            houses_score[points] = houses_score[points] + distribution_answer[points]
+            print(houses_score)
 
 
 def quest_printer(questions:dict):
@@ -88,24 +98,24 @@ def quest_printer(questions:dict):
             print("Sólo se pueden introducir números del 1 al 4, pruebe de nuevo")
             answer = input("Elija una de las 4 opciones--> ")
             
-        round +=1
-        user(int(answer), round)
+        round += 1
+        points_management(int(answer), round)
 
 quest_printer(questions)
-print ("resultado = " , houses)
+print ("resultado = " , houses_score)
 tie = False
-for result in houses:
+for result in houses_score:
     my_bool = random.randint(0, 1)
     bool(my_bool)
-    while houses.count(result) > 1:   
+    while houses_score.count(result) > 1:   
         if bool:
             result -= 1
         tie = True
           
-houses_dict["Frontend"] = houses[0]
-houses_dict["Backend"] = houses[1]
-houses_dict["Mobile"] = houses[2]
-houses_dict["Data"] = houses[3]
+houses_dict["Frontend"] = houses_score[0]
+houses_dict["Backend"] = houses_score[1]
+houses_dict["Mobile"] = houses_score[2]
+houses_dict["Data"] = houses_score[3]
 win = max(houses_dict.items(), key=lambda x: x[1])[0]
 
 print(f"Por las respuestas que has dado {name} parece que el sector de programación que más se adapta a ti es el de {win}")
