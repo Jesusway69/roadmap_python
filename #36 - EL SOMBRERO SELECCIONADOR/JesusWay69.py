@@ -66,17 +66,17 @@ questions = {"\nPregunta 1: ¿Cual de estas definiciones se ajusta más a tu per
 
               "\nPregunta 8: Otra de tecnologías , ¿Cual de estas te gusta más?":["1 - Java", "2 - MongoDB", "3 - Swift", "4 - Tailwind"],
 
-              "\nPregunta 9: ¿Qué programa/aplicación de estas te gusta o usas más?":["1 - Google Chrome", "2 - PowerBI", "3 - VScode", "Android Studio"],
+              "\nPregunta 9: ¿Qué programa/aplicación de estas te gusta o usas más?":["1 - Google Chrome", "2 - PowerBI", "3 - VScode", "4 - Android Studio"],
 
               "\nPregunta 10: ¿Cual de estas características de la marca Apple crees que es más importante en su éxito?":
-                ["1- Su interfaz visual , el diseño de sus dispositivos, su enfoque hacia el mundo creativo y visual y su framework gráfico SwiftUI",
+                ["1 - Su interfaz visual , el diseño de sus dispositivos, su enfoque hacia el mundo creativo y visual y su framework gráfico SwiftUI",
                  "2 - Su lenguaje propio Swift y lo buenos y productivos que son sus ordenadores para trabajo con cualquier lenguaje de programación en general"
                  "3 - Sus dispositivos y los sistemas operativos iOS, IpadOS, watchOS, tvOS y sobre todo la joya de la corona, el iPhone",
                  "4 - Su capacidad de innovación y de mantenerse siempre en los ranking de ventas, 9 de cada 10 personas en el mundo conocen a Apple"]
               }
 
 
-name = input("introduzca su nombre: ").capitalize()
+name = input("introduzca su nombre: ").title()
 
 def points_management(answer:int, round:int):
     distribution_question:dict = points_distribution[round-1]
@@ -84,9 +84,7 @@ def points_management(answer:int, round:int):
     for points in range (0,len(houses_score),1):
             
             houses_score[points] = houses_score[points] + distribution_answer[points]
-            print(houses_score)
-
-
+            
 def quest_printer(questions:dict):
     round = 0
     for question in list(questions.keys()):  
@@ -102,12 +100,12 @@ def quest_printer(questions:dict):
         points_management(int(answer), round)
 
 quest_printer(questions)
-print ("resultado = " , houses_score)
+
 tie = False
 for result in houses_score:
-    my_bool = random.randint(0, 1)
-    bool(my_bool)
-    while houses_score.count(result) > 1:   
+    while houses_score.count(result) > 1: 
+        my_bool = random.randint(0, 1)
+        bool(my_bool)  
         if bool:
             result -= 1
         tie = True
