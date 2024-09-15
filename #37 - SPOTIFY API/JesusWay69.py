@@ -1,6 +1,4 @@
-
-import os, platform, spotipy
-
+import os, platform, spotipy, credentials
 from spotipy.oauth2 import SpotifyClientCredentials
 
 
@@ -25,73 +23,129 @@ else:
  * 3. Muestra todos los resultados por consola para notificar al usuario.
  * 4. Desarrolla un criterio para seleccionar qué banda es más popular."""
 
+client_ID = credentials.client_ID #clave de cliente propia de 32 caracteres
+secret_ID = credentials.secret_ID #clave secreta propia de 32 caracteres
 
-client_ID = "********************************"
-secret_ID = "********************************"
-
-m = SpotifyClientCredentials(client_id=client_ID, client_secret=secret_ID)
+ccm = SpotifyClientCredentials(client_id=client_ID, client_secret=secret_ID)
 sp = spotipy.Spotify(client_credentials_manager=ccm)
 
 
-<<<<<<< HEAD
-# artist = sp.search(q="queen", limit=1, type="artist")
-# artist_ID = artist["artists"]["items"][0]["id"]
-# artist_urn = "spotify:artist:" + artist_ID
-# artist_name = artist["artists"]["items"][0]["name"]
-# artist_followers = artist["artists"]["items"][0]["followers"]["total"]
-# popularity_level = artist["artists"]["items"][0]["popularity"]
-
-# print(artist_name, artist_followers, popularity_level)
-# albums = sp.artist_albums(artist_ID, album_type="album",offset=0)
-# print(sp.artist_top_tracks(artist_ID))
-#[print(album["name"]) for album in albums["items"]]
-
-
-
-def get_artist(artist_name:str)->str:
-    artist = sp.search(q=artist_name, limit=1, type="artist")
+def get_artist(artist_name:str)->object:
+    artist = sp.search(q=artist_name, limit=1, type="artist", offset=0)
     if artist == None:
         return f"El artista {artist_name} no existe"
-
+ 
     return artist
 
-oasis = get_artist("oasis")
-linkin_park = get_artist("Linkin park")
-
-
-def get_artist_stats(artist):
+def get_artist_stats(artist:object)->tuple:
+    total_popularity_songs = 0
+    artist_id = artist["artists"]["items"][0]["id"]
+    top_songs = sp.artist_top_tracks(artist_id)
+    artist_name = artist["artists"]["items"][0]["name"]
     artist_followers = artist["artists"]["items"][0]["followers"]["total"]
     popularity_level = artist["artists"]["items"][0]["popularity"]
-    return artist_followers, popularity_level
+    for song in top_songs["tracks"]:
+        total_popularity_songs = total_popularity_songs + song["popularity"]
 
-def print_top_songs(artist):
-    top_songs = sp.artist_top_tracks(artist["artists"]["items"][0]["id"])
-    #for song in top_songs["tracks"]:
-    print(top_songs["tracks"][0]["name"], top_songs["tracks"][0]["popularity"])
+    return artist_name, artist_followers, popularity_level, total_popularity_songs
 
-def print_artist_stats(artist:str):
-    print (f"""Nombre del artista: {artist["artists"]["items"][0]["name"]}
-    Número de followers: {artist["artists"]["items"][0]["followers"]["total"]}
-    Nivel de popularidad: {artist["artists"]["items"][0]["popularity"]}""")
+def print_top_songs(artist:object): 
+    artist = artist["artists"]["items"][0]
+    print(f"\nCanciones más populares de {artist["name"]}")
+    print("************************************************")
+    print('{:<30}'.format("   TITULO"), "PUNTUACIÓN")
+    top_songs = sp.artist_top_tracks(artist["id"])
+    for song in top_songs["tracks"]:
+        song_name = song["name"].split(" - ")
+        print("- ",'{:<30}'.format(song_name[0]), song["popularity"])
+        
+
+def print_artist_stats(artist:object):
+    artist = artist["artists"]["items"][0]
+    print (f"""\nNombre del artista: {artist["name"]}
+Género musical: {artist["genres"][0]}/{artist["genres"][1]}
+Número de followers: {artist["followers"]["total"]}
+Nivel de popularidad: {artist["popularity"]}""")
+
+def print_albums(artist:object):
+    artist = artist["artists"]["items"][0]
+    print(f"\nDiscografía de {artist["name"]}:")
+    print("**********************************************************************************")
+    print('{:<63}'.format("  TITULO"), "AÑO DE LANZAMIENTO")
+    albums = sp.artist_albums(artist["id"], album_type="album",offset=0, limit=30)
+    for album in albums["items"]:
+        print(f"- " '{:<63}'.format(album["name"]), album["release_date"][:4])
+
+def compare(artist1:object, artist2:object):
+    name1, followers1, popularity1, popularity_songs1 = get_artist_stats(artist1)
+    name2, followers2, popularity2, popularity_songs2 = get_artist_stats(artist2)
+
+    print(f"\n{name1} tiene {followers1} seguidores y su índice de popularidad es de {popularity1} puntos.")
+    print(f"\n{name2} tiene {followers2} seguidores y su índice de popularidad es de {popularity2} puntos.")
+    print(f"\nLa suma de la puntuación por escuchas de las 10 mejores canciones de {name1} es de: {popularity_songs1} puntos.")
+    print(f"\nLa suma de la puntuación por escuchas de las 10 mejores canciones de {name2} es de: {popularity_songs2} puntos.")
+
+    if followers1 > followers2 and popularity1 > popularity2:
+        print(f"\n{name1} tiene más seguidores e índice de popularidad que {name2}")
+        if popularity_songs1 > popularity_songs2:
+            print(f"Además {name1} acumula más puntos que {name2} en las escuchas de sus 10 mejores canciones...")
+            print(f"\n..por lo tanto el ganador claro es: {name1.upper()}")
+        elif popularity_songs1 == popularity_songs2:
+            print(f"En puntuación acumulada de las escuchas de sus 10 mejores canciones están empatados..")
+            print(f"\n..aun así el ganador es: {name1.upper()}")
+        else:
+            print(f"{name2} tiene mejor puntuación en sus 10 mejores canciones pero {name1} ha ganado en todo lo demás..")
+            print(f"\n...por lo tanto el ganador es: {name1.upper()}")
+    elif followers1 < followers2 and popularity1 < popularity2:
+        print(f"\n{name2} tiene más seguidores e índice de popularidad que {name1}")
+        if popularity_songs1 < popularity_songs2:
+            print(f"Además {name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones...")
+            print(f"\n..por lo tanto el ganador claro es: {name2.upper()}")
+        elif popularity_songs1 == popularity_songs2:
+            print(f"En puntuación acumulada de las escuchas de sus 10 mejores canciones están empatados..")
+            print(f"\n..aun así el ganador es: {name2.upper()}")
+        else:
+            print(f"{name1} tiene mejor puntuación en las escuchas de sus 10 mejores canciones pero {name2} ha ganado en todo lo demás..")
+            print(f"\n...por lo tanto el ganador es: {name2.upper()}")
+    elif followers1 > followers2 and popularity1 < popularity2:
+        print(f"\n{name1} tiene más seguidores que {name2} pero este tiene mejor índice de popularidad")
+        if popularity_songs1 > popularity_songs2:
+            print(f"{name1} acumula más puntos que {name2} en las escuchas de sus 10 mejores canciones y acumula también más seguidores...")
+            print(f"\n..aunque {name2} tenga más índice de popularidad el ganador es: {name1.upper()}")
+        elif popularity_songs1 == popularity_songs2:
+            print(f"En puntuación acumulada de las escuchas de sus 10 mejores canciones están empatados..")
+            print(f"\n..no hay un ganador claro, ambos artistas tienen estadísticas muy similares.")
+        else:
+            print(f"{name2} tiene mejor puntuación en las escuchas de sus 10 mejores canciones que {name1} y ha ganado también en popularidad..")
+            print(f"\n...aunque {name1} tenga más seguidores el ganador es: {name2.upper()}")
+    elif followers1 < followers2 and popularity1 > popularity2:
+        print(f"\n{name2}tiene más seguidores que {name1} pero este tiene mejor índice de popularidad")
+        if popularity_songs1 < popularity_songs2:
+            print(f"{name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones y acumula también más seguidores...")
+            print(f"..aunque {name1} tenga más índice de popularidad el ganador es: {name2.upper()}")
+        elif popularity_songs1 == popularity_songs2:
+            print(f"En puntuación acumulada de las escuchas de sus 10 mejores canciones están empatados..")
+            print(f"\n..no hay un ganador claro, ambos artistas tienen estadísticas muy similares.")
+        else:
+            print(f"{name1} tiene mejor puntuación en las escuchas de sus 10 mejores canciones que {name2} y ha ganado también en popularidad..")
+            print(f"\n...aunque {name2} tenga más seguidores el ganador es: {name1.upper()}")
+    print()
+
+    
+oasis = get_artist("Oasis")
+linkin_park = get_artist("Linkin park")
+
+print_artist_stats(linkin_park)
+print_albums(linkin_park)
+print_top_songs(linkin_park)
 
 print_artist_stats(oasis)
-print_artist_stats(linkin_park)
-print_top_songs(oasis)
+print_albums(oasis)
+print_top_songs(oasis) 
+
+compare(linkin_park, oasis)
 
 
-def print_albums(artist):
-    artist_id = artist["artists"]["items"][0]["id"]
-    albums = sp.artist_albums(artist_id, album_type="album",offset=0)
-    for album in albums["items"]:
-        print(f"Album: {album["name"]}, Año de lanzamiento: {album["release_date"][:4]}")
 
 
-def compare(artist1, artist2):
-    followers1, popularity1 = get_artist_stats(artist1)
-    followers2, popularity2 = get_artist_stats(artist2)
-
-    print(f"{artist1} tiene {followers1} seguidores y su índice de popularidad es de {popularity1} puntos")
-    print(f"{artist2} tiene {followers2} seguidores y su índice de popularidad es de {popularity2} puntos")
-
-    print()
 
