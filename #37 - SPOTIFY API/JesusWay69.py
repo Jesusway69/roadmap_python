@@ -1,5 +1,7 @@
+
 import os, platform, spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
@@ -22,11 +24,14 @@ else:
  * 3. Muestra todos los resultados por consola para notificar al usuario.
  * 4. Desarrolla un criterio para seleccionar qué banda es más popular."""
 
+
 client_ID = "********************************"
 secret_ID = "********************************"
 
+
 ccm = SpotifyClientCredentials(client_id=client_ID, client_secret=secret_ID)
 sp = spotipy.Spotify(client_credentials_manager=ccm)
+
 
 # artist = sp.search(q="queen", limit=1, type="artist")
 # artist_ID = artist["artists"]["items"][0]["id"]
@@ -71,9 +76,6 @@ def print_artist_stats(artist:str):
 print_artist_stats(oasis)
 print_artist_stats(linkin_park)
 print_top_songs(oasis)
-
-
-
 
 
 def print_albums(artist):
