@@ -1,5 +1,6 @@
 
 import os, platform, spotipy
+
 from spotipy.oauth2 import SpotifyClientCredentials
 
 
@@ -28,11 +29,11 @@ else:
 client_ID = "********************************"
 secret_ID = "********************************"
 
-
-ccm = SpotifyClientCredentials(client_id=client_ID, client_secret=secret_ID)
+m = SpotifyClientCredentials(client_id=client_ID, client_secret=secret_ID)
 sp = spotipy.Spotify(client_credentials_manager=ccm)
 
 
+<<<<<<< HEAD
 # artist = sp.search(q="queen", limit=1, type="artist")
 # artist_ID = artist["artists"]["items"][0]["id"]
 # artist_urn = "spotify:artist:" + artist_ID
@@ -85,8 +86,6 @@ def print_albums(artist):
         print(f"Album: {album["name"]}, Año de lanzamiento: {album["release_date"][:4]}")
 
 
-
-
 def compare(artist1, artist2):
     followers1, popularity1 = get_artist_stats(artist1)
     followers2, popularity2 = get_artist_stats(artist2)
@@ -95,3 +94,4 @@ def compare(artist1, artist2):
     print(f"{artist2} tiene {followers2} seguidores y su índice de popularidad es de {popularity2} puntos")
 
     print()
+
