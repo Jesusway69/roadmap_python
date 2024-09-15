@@ -229,3 +229,6 @@ pyrightconfig.json
 .class
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,macos
+
+# CredentialsSpotify
+credentials.py
