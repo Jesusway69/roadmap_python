@@ -34,7 +34,6 @@ def get_artist(artist_name:str)->object:
     artist = sp.search(q=artist_name, limit=1, type="artist", offset=0)
     if artist == None:
         return f"El artista {artist_name} no existe"
- 
     return artist
 
 def get_artist_stats(artist:object)->tuple:
@@ -96,6 +95,7 @@ def compare(artist1:object, artist2:object):
         else:
             print(f"{name2} tiene mejor puntuación en sus 10 mejores canciones pero {name1} ha ganado en todo lo demás..")
             print(f"\n...por lo tanto el ganador es: {name1.upper()}")
+            
     elif followers1 < followers2 and popularity1 < popularity2:
         print(f"\n{name2} tiene más seguidores e índice de popularidad que {name1}")
         if popularity_songs1 < popularity_songs2:
@@ -107,6 +107,7 @@ def compare(artist1:object, artist2:object):
         else:
             print(f"{name1} tiene mejor puntuación en las escuchas de sus 10 mejores canciones pero {name2} ha ganado en todo lo demás..")
             print(f"\n...por lo tanto el ganador es: {name2.upper()}")
+
     elif followers1 > followers2 and popularity1 < popularity2:
         print(f"\n{name1} tiene más seguidores que {name2} pero este tiene mejor índice de popularidad")
         if popularity_songs1 > popularity_songs2:
@@ -118,6 +119,7 @@ def compare(artist1:object, artist2:object):
         else:
             print(f"{name2} tiene mejor puntuación en las escuchas de sus 10 mejores canciones que {name1} y ha ganado también en popularidad..")
             print(f"\n...aunque {name1} tenga más seguidores el ganador es: {name2.upper()}")
+
     elif followers1 < followers2 and popularity1 > popularity2:
         print(f"\n{name2}tiene más seguidores que {name1} pero este tiene mejor índice de popularidad")
         if popularity_songs1 < popularity_songs2:
@@ -140,12 +142,12 @@ def compare(artist1:object, artist2:object):
             print(f"\n..no hay un ganador claro, ambos artistas tienen estadísticas muy similares.")
         else:
             print(f"{name1} tiene mejor puntuación en las escuchas de sus 10 mejores canciones que {name2} y han empatado en popularidad..")
-            print(f"\n...como {name2} tiene más seguidores no hay un ganador claro")
+            print(f"\n...pero {name2} tiene más seguidores así que no hay un ganador claro.")
 
     elif followers1 > followers2 and popularity1 == popularity2:
         print(f"\n{name1}tiene más seguidores que {name2} pero en índice de popularidad están empatado")
         if popularity_songs1 < popularity_songs2:
-            print(f"{name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones y acumula también más seguidores...")
+            print(f"{name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones y en popularidad están empatados...")
             print(f"\n...como {name1} tiene más seguidores no hay un ganador claro")
         elif popularity_songs1 == popularity_songs2:
             print(f"En puntuación acumulada de las escuchas de sus 10 mejores canciones están empatados..")
