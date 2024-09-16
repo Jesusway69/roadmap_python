@@ -129,6 +129,30 @@ def compare(artist1:object, artist2:object):
         else:
             print(f"{name1} tiene mejor puntuación en las escuchas de sus 10 mejores canciones que {name2} y ha ganado también en popularidad..")
             print(f"\n...aunque {name2} tenga más seguidores el ganador es: {name1.upper()}")
+
+    elif followers1 < followers2 and popularity1 == popularity2:
+        print(f"\n{name2}tiene más seguidores que {name1} pero en índice de popularidad están empatados")
+        if popularity_songs1 < popularity_songs2:
+            print(f"{name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones y acumula también más seguidores...")
+            print(f"..aunque ambos tengan el índice de popularidad empatado el ganador es: {name2.upper()}")
+        elif popularity_songs1 == popularity_songs2:
+            print(f"En puntuación acumulada de las escuchas de sus 10 mejores canciones están empatados..")
+            print(f"\n..no hay un ganador claro, ambos artistas tienen estadísticas muy similares.")
+        else:
+            print(f"{name1} tiene mejor puntuación en las escuchas de sus 10 mejores canciones que {name2} y han empatado en popularidad..")
+            print(f"\n...como {name2} tiene más seguidores no hay un ganador claro")
+
+    elif followers1 > followers2 and popularity1 == popularity2:
+        print(f"\n{name1}tiene más seguidores que {name2} pero en índice de popularidad están empatado")
+        if popularity_songs1 < popularity_songs2:
+            print(f"{name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones y acumula también más seguidores...")
+            print(f"\n...como {name1} tiene más seguidores no hay un ganador claro")
+        elif popularity_songs1 == popularity_songs2:
+            print(f"En puntuación acumulada de las escuchas de sus 10 mejores canciones están empatados..")
+            print(f"\n..no hay un ganador claro, ambos artistas tienen estadísticas muy similares.")
+        else:
+            print(f"{name1} tiene mejor puntuación en las escuchas de sus 10 mejores canciones que {name2} y han empatado en popularidad..")
+            print(f"..y aunque ambos tengan el índice de popularidad empatado el ganador es: {name1.upper()}")  
     print()
 
     
