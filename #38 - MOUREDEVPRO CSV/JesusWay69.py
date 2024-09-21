@@ -1,4 +1,4 @@
-import os, platform, csv, random
+import os, platform, csv, random, time
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
@@ -60,33 +60,68 @@ def create_csv(users:list):
            writer.writerow(user)
     
 
-#create_csv(users)
-
 def read_list_csv():
     with open(my_file) as file:
         content_list_csv = csv.reader(file, delimiter=';')
         next(content_list_csv)
         for row in content_list_csv:
             print('El email es:', row[1])
-read_list_csv()
+
 
 def read_dict_csv():
-
     with open(my_file) as file:
         content_dict_csv = csv.DictReader(file, delimiter=';')
         for row in content_dict_csv:
-            print('El email es:', row['email'])
-read_dict_csv()
+            print("ID:", '{:<4}'.format(row['id']), "Email:", '{:<30}'.format(row['email']), "Estado activo: ", row['activo'])
+    print()
 
-def lottery():
-    with open('#38 - MOUREDEVPRO CSV/newsletter_users.csv') as file:
+def lottery()->dict:
+    with open(my_file) as file:
+        active_list:list[dict] =[]
         content_dict_csv = csv.DictReader(file, delimiter=';')
         content_list_csv = list(content_dict_csv)
-        winner_num = random.choice(content_list_csv)
-        winner_num['activo'] = False
-        print(winner_num['email'])
-        print(winner_num['activo'])
-    create_csv(content_list_csv)
+        for user in content_list_csv:
+            if user['activo'] == True:
+                active_list.append(user)
+        if len(active_list) < 3:
+            print("No quedan suficientes participantes para lanzar los 3 sorteos, fin del programa.")
+            return   
+        winner = random.choice(active_list)
+        winner['activo'] = False
+        create_csv(content_list_csv)
+    return winner  
+
+        
+def menu():
+    while True:
+        print("""1- Mostrar listado de participantes
+2- Lanzar sorteo
+3- Resetear la lista de participantes con estado activo 
+4- Salir""")
+        option = input("Elija entre estas 4 opciones -> ")
+        if not option.isdigit() or int(option) < 1 or int(option) > 4:
+            print("Sólo se pueden introducir números del 1 al 3")
+        elif option == '1':
+            read_dict_csv()
+        elif option == '2':
+            subscription_winner = dict(lottery())
+            print(f"El ganador de la subscripción tiene el ID: {subscription_winner['id']} y su email es{subscription_winner['email']}")
+            time.sleep(1)
+            discount_winner = lottery()
+            print(f"El ganador del descuento tiene el ID: {discount_winner['id']} y su email es{discount_winner['email']}")
+            time.sleep(1)
+            book_winner = lottery()
+            (f"El ganador de la subscripción tiene el ID: {book_winner['id']} y su email es{book_winner['email']}")
+        elif option == '3':
+            create_csv(users)
+        else:
+            break
+menu()
+
+
+
+
+
         
 
 
