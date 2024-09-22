@@ -60,13 +60,6 @@ def create_csv(users:list):
            writer.writerow(user)
     
 
-def read_list_csv():
-    with open(my_file) as file:
-        content_list_csv = csv.reader(file, delimiter=';')
-        next(content_list_csv)
-        for row in content_list_csv:
-            print('El email es:', row[1])
-
 
 def read_dict_csv():
     with open(my_file) as file:
@@ -76,19 +69,21 @@ def read_dict_csv():
     print()
 
 def lottery()->dict:
+    active_list = []
     with open(my_file) as file:
-        active_list:list[dict] =[]
         content_dict_csv = csv.DictReader(file, delimiter=';')
-        content_list_csv = list(content_dict_csv)
-        for user in content_list_csv:
+        for user in map(dict, content_dict_csv):
+            print(user)
             if user['activo'] == True:
-                active_list.append(user)
+                active_list.append(dict(user))  
         if len(active_list) < 3:
+            print(active_list)
             print("No quedan suficientes participantes para lanzar los 3 sorteos, fin del programa.")
-            return   
-        winner = random.choice(active_list)
-        winner['activo'] = False
-        create_csv(content_list_csv)
+            return
+        else:    
+            winner = random.choice(active_list)
+            winner['activo'] = False
+            create_csv(list(content_dict_csv))
     return winner  
 
         
@@ -104,7 +99,7 @@ def menu():
         elif option == '1':
             read_dict_csv()
         elif option == '2':
-            subscription_winner = dict(lottery())
+            subscription_winner = lottery()
             print(f"El ganador de la subscripción tiene el ID: {subscription_winner['id']} y su email es{subscription_winner['email']}")
             time.sleep(1)
             discount_winner = lottery()
