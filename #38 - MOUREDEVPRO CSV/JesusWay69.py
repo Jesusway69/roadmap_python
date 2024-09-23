@@ -30,33 +30,33 @@ else:
  *    no debe tenerse en cuenta."""
 
 my_file = "#38 - MOUREDEVPRO CSV/newsletter_users.csv"
-columns = ['id', 'email', 'activo']
-users = [{'id':1, 'email':'supermario@mouredev.com', 'activo':True},
-         {'id':2, 'email':'darkvader@mouredev.com', 'activo':True},
-         {'id':3, 'email':'pikachu@mouredev.com', 'activo':True},
-         {'id':4, 'email':'joseluistorrente@mouredev.com', 'activo':True},
-         {'id':5, 'email':'homersimpson@mouredev.com', 'activo':True},
-         {'id':6, 'email':'mickeymouse@mouredev.com', 'activo':True},
-         {'id':7, 'email':'sansastark@mouredev.com', 'activo':True},
-         {'id':8, 'email':'fionagalagher@mouredev.com', 'activo':True},
-         {'id':9, 'email':'michaelscott@mouredev.com', 'activo':True},
-         {'id':10, 'email':'sheldoncooper@mouredev.com', 'activo':True},
-         {'id':11, 'email':'spiderman@mouredev.com', 'activo':True},
-         {'id':12, 'email':'walterwhite@mouredev.com', 'activo':True},
-         {'id':13, 'email':'petergriffin@mouredev.com', 'activo':True},
-         {'id':14, 'email':'rachelgreen@mouredev.com', 'activo':True},
-         {'id':15, 'email':'jessicajones@mouredev.com', 'activo':True},
-         {'id':16, 'email':'ricksanchez@mouredev.com', 'activo':True},
-         {'id':17, 'email':'maxrockatansky@mouredev.com', 'activo':True},
-         {'id':18, 'email':'hackerman@mouredev.com', 'activo':True},
-         {'id':19, 'email':'elliotalderson@mouredev.com', 'activo':True},
-         {'id':20, 'email':'jesusway69@mouredev.com', 'activo':True},]
+columns = ['id', 'email', 'status']
+users = [{'id':1, 'email':'supermario@mouredev.com', 'status':'activo'},
+         {'id':2, 'email':'darkvader@mouredev.com', 'status':'activo'},
+         {'id':3, 'email':'pikachu@mouredev.com', 'status':'activo'},
+         {'id':4, 'email':'joseluistorrente@mouredev.com', 'status':'activo'},
+         {'id':5, 'email':'homersimpson@mouredev.com', 'status':'activo'},
+         {'id':6, 'email':'mickeymouse@mouredev.com', 'status':'activo'},
+         {'id':7, 'email':'sansastark@mouredev.com', 'status':'activo'},
+         {'id':8, 'email':'fionagalagher@mouredev.com', 'status':'activo'},
+         {'id':9, 'email':'michaelscott@mouredev.com', 'status':'activo'},
+         {'id':10, 'email':'sheldoncooper@mouredev.com', 'status':'activo'},
+         {'id':11, 'email':'spiderman@mouredev.com', 'status':'activo'},
+         {'id':12, 'email':'walterwhite@mouredev.com', 'status':'activo'},
+         {'id':13, 'email':'petergriffin@mouredev.com', 'status':'activo'},
+         {'id':14, 'email':'rachelgreen@mouredev.com', 'status':'activo'},
+         {'id':15, 'email':'jessicajones@mouredev.com', 'status':'activo'},
+         {'id':16, 'email':'ricksanchez@mouredev.com', 'status':'activo'},
+         {'id':17, 'email':'maxrockatansky@mouredev.com', 'status':'activo'},
+         {'id':18, 'email':'hackerman@mouredev.com', 'status':'activo'},
+         {'id':19, 'email':'elliotalderson@mouredev.com', 'status':'activo'},
+         {'id':20, 'email':'jesusway69@mouredev.com', 'status':'activo'},]
 
-def create_csv(users:list):
+def create_csv(users_list:list):
     with open(my_file, mode='w', newline='') as file:
         writer = csv.DictWriter(file, delimiter = ';', fieldnames = columns )
         writer.writeheader()
-        for user in users:
+        for user in users_list:
            writer.writerow(user)
     
 
@@ -65,33 +65,29 @@ def read_dict_csv():
     with open(my_file) as file:
         content_dict_csv = csv.DictReader(file, delimiter=';')
         for row in content_dict_csv:
-            print("ID:", '{:<4}'.format(row['id']), "Email:", '{:<30}'.format(row['email']), "Estado activo: ", row['activo'])
+            print("ID:", '{:<4}'.format(row['id']), "Email:", '{:<30}'.format(row['email']), "Estado: ", row['status'])
+            content_dict_csv
     print()
 
-def lottery()->dict:
+def lottery()->list:
     active_list = []
     with open(my_file) as file:
         content_dict_csv = csv.DictReader(file, delimiter=';')
-        for user in map(dict, content_dict_csv):
-            print(user)
-            if user['activo'] == True:
-                active_list.append(dict(user))  
-        if len(active_list) < 3:
-            print(active_list)
-            print("No quedan suficientes participantes para lanzar los 3 sorteos, fin del programa.")
-            return
-        else:    
-            winner = random.choice(active_list)
-            winner['activo'] = False
-            create_csv(list(content_dict_csv))
-    return winner  
+        content_list_csv = list(content_dict_csv)
+    for user in content_list_csv:
+        if user['status'] == 'activo':
+            active_list.append(dict(user))  
+    if len(active_list) < 3:
+        print("No quedan suficientes participantes para lanzar los 3 sorteos, fin del programa.")
+        return
+    return active_list  
 
         
 def menu():
     while True:
-        print("""1- Mostrar listado de participantes
+        print("""\n1- Mostrar listado de participantes
 2- Lanzar sorteo
-3- Resetear la lista de participantes con estado activo 
+3- Resetear toda la lista de participantes con estado activo 
 4- Salir""")
         option = input("Elija entre estas 4 opciones -> ")
         if not option.isdigit() or int(option) < 1 or int(option) > 4:
@@ -99,14 +95,23 @@ def menu():
         elif option == '1':
             read_dict_csv()
         elif option == '2':
-            subscription_winner = lottery()
-            print(f"El ganador de la subscripción tiene el ID: {subscription_winner['id']} y su email es{subscription_winner['email']}")
+            subscription_winner = random.choice(lottery())
+            print(f"\nEl ganador de la subscripción tiene el ID: {subscription_winner['id']} y su email es {subscription_winner['email']}")
+            subscription_winner['status'] = 'inactivo'
+            create_csv(list(lottery()))
             time.sleep(1)
-            discount_winner = lottery()
-            print(f"El ganador del descuento tiene el ID: {discount_winner['id']} y su email es{discount_winner['email']}")
+
+            discount_winner = random.choice(lottery())
+            print(f"El ganador del descuento tiene el ID: {discount_winner['id']} y su email es {discount_winner['email']}")
+            discount_winner['status'] = 'inactivo'
+            create_csv(list(lottery()))
             time.sleep(1)
-            book_winner = lottery()
-            (f"El ganador de la subscripción tiene el ID: {book_winner['id']} y su email es{book_winner['email']}")
+
+            book_winner = random.choice(lottery())
+            print(f"El ganador del libro tiene el ID: {book_winner['id']} y su email es {book_winner['email']}")
+            book_winner['status'] = 'inactivo'
+            create_csv(list(lottery()))
+
         elif option == '3':
             create_csv(users)
         else:
