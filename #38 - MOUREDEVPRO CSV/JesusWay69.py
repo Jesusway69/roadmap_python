@@ -79,7 +79,7 @@ def lottery()->list:
             active_list.append(dict(user))  
     if len(active_list) < 3:
         print("No quedan suficientes participantes para lanzar los 3 sorteos, fin del programa.")
-        return
+        return []
     return active_list  
 
         
@@ -95,6 +95,8 @@ def menu():
         elif option == '1':
             read_dict_csv()
         elif option == '2':
+            if len(lottery()) == 0:
+                break
             subscription_winner = random.choice(lottery())
             print(f"\nEl ganador de la subscripción tiene el ID: {subscription_winner['id']} y su email es {subscription_winner['email']}")
             subscription_winner['status'] = 'inactivo'
