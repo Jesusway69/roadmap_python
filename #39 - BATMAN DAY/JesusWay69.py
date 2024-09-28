@@ -38,19 +38,19 @@ else:
  *   sus amenazas, la distancia a la Batcueva y si se debe activar el
  *   protocolo de seguridad."""
 
-batman_day_2024 = '{} / {} / {}'.format(date(2024,9,21).day, date(2024,9,21).month, date(2024,9,21).year)
-print(f"El Batman Day de 2024 se celebró el {batman_day_2024} , este evento se celebra cada 3er Sábado de Septiembre,")
-print("este año 2024 se celebra el 85º aniversario, estas serán las próximas fechas en las que se celebre este evento ")
-print("hasta llegar al centenario que será en 2039:")
-for year in range(2025,2040):
-    week:int = 0
-    batman_day = date(year,9,1)
-    for day in range(1,31):
-        batman_day = date(year,9,day)
-        if batman_day.weekday() == 5:
-            week += 1
-            if week == 3:
-                print('{} / {} / {}'.format(batman_day.day, batman_day.month, batman_day.year))
+# batman_day_2024 = '{} / {} / {}'.format(date(2024,9,21).day, date(2024,9,21).month, date(2024,9,21).year)
+# print(f"El Batman Day de 2024 se celebró el {batman_day_2024} , este evento se celebra cada 3er Sábado de Septiembre,")
+# print("este año 2024 se celebra el 85º aniversario, estas serán las próximas fechas en las que se celebre este evento ")
+# print("hasta llegar al centenario que será en 2039:")
+# for year in range(2025,2040):
+#     week:int = 0
+#     batman_day = date(year,9,1)
+#     for day in range(1,31):
+#         batman_day = date(year,9,day)
+#         if batman_day.weekday() == 5:
+#             week += 1
+#             if week == 3:
+#                 print('{} / {} / {}'.format(batman_day.day, batman_day.month, batman_day.year))
 
 
 
@@ -74,24 +74,61 @@ gotham_map = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],]
-sensor1 = '⌺'
-sensor2 = '⌺'
-sensor3 = '⌺'
-sensor4 = '⌺'
 
 
-for i in range(len(gotham_map)):
-    for j in range (len(gotham_map[i])):
-        gotham_map[i][j] = random.randint(0,9)
-        if i == 0 and j == 0:
-            gotham_map[i][j] = '▓'
-        if (i == 4 and j == 4 ) or (i == 15 and j == 4) or (i == 4 and j == 15) or (i == 15 and j == 15):
-            gotham_map[i][j] = '⌺'
+#sensor1,sensor2,sensor3,sensor4 = []
 
-for row in gotham_map:
-    print()
-    for column in row:
-       print('{:<2}'.format(column), end=' ')
+
+def create_map(map:list)->list:
+    batcave = '▓'
+    sensor = '⌺'
+    for i in range(len(map)):
+        for j in range (len(map[i])):
+            map[i][j] = random.randint(0,9)
+            if i == 0 and j == 0:
+                map[i][j] = batcave
+            if (i == 4 and j == 4 ) or (i == 15 and j == 4) or (i == 4 and j == 15) or (i == 15 and j == 15):
+                map[i][j] = sensor
+    return map
+
+def print_map(map:list):
+    for row in map:
+        print()
+        for column in row:
+            print('{:<2}'.format(column), end=' ')
+
+def threat_level(map:list)->tuple:
+    threat = 0
+    threat_area = []
+    for i , row in enumerate(map):
+        for j, column in enumerate(row):
+            if column == '⌺':
+                threat = sum([map[i-1][j-1],#sum tiene que recibir iterable
+                             map[i-1][j],
+                             map[i-1][j+1],
+                             map[i][j-1],
+                             map[i][j+1],
+                             map[i+1][j-1],
+                             map[i+1][j],
+                             map[i+1][j+1]]
+                             )
+                threat_area.append(threat)
+                
+    return tuple(threat_area)
+
+
+
+test_map = create_map(gotham_map)
+
+print_map(test_map)
+
+print(threat_level(test_map))
+
+
+
+
+
+
 
 
 
