@@ -54,42 +54,49 @@ else:
 
 
 
-gotham_map = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-              [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],]
+# gotham_map = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+#               [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],]
 
-
-#sensor1,sensor2,sensor3,sensor4 = []
+map = []
+sensor1 = 5, 5
+sensor2 = 5, 16
+sensor3 = 16, 5
+sensor4 = 16, 16
 
 
 def create_map(map:list)->list:
     batcave = '▓'
     sensor = '⌺'
-    for i in range(len(map)):
-        for j in range (len(map[i])):
-            map[i][j] = random.randint(0,9)
+    for i in range(20):
+        map.append([])
+        for j in range (20): 
             if i == 0 and j == 0:
-                map[i][j] = batcave
-            if (i == 4 and j == 4 ) or (i == 15 and j == 4) or (i == 4 and j == 15) or (i == 15 and j == 15):
-                map[i][j] = sensor
+                map[i].append(batcave)
+            elif (i == 4 and j == 4 ) or (i == 15 and j == 4) or (i == 4 and j == 15) or (i == 15 and j == 15):
+                map[i].append(sensor)
+            else:
+                map[i].append(random.randint(0,9))
     return map
+
+gotham_map = create_map(map)
 
 def print_map(map:list):
     for row in map:
@@ -103,7 +110,7 @@ def threat_level(map:list)->tuple:
     for i , row in enumerate(map):
         for j, column in enumerate(row):
             if column == '⌺':
-                threat = sum([map[i-1][j-1],#sum tiene que recibir iterable
+                threat = sum([map[i-1][j-1],
                              map[i-1][j],
                              map[i-1][j+1],
                              map[i][j-1],
@@ -116,17 +123,41 @@ def threat_level(map:list)->tuple:
                 
     return tuple(threat_area)
 
-
-
-test_map = create_map(gotham_map)
-
-print_map(test_map)
-
-print(threat_level(test_map))
+def max_threat(threats:tuple)->tuple:
+    hight_threat = max(threats)
+    hight_index = threats.index(hight_threat) + 1
+    return hight_index, hight_threat
 
 
 
+def create_report(s1,s2,s3,s4)->list:
+    report_list = []
+    sensor1 = threat_level(gotham_map)[0],s1
+    sensor2 = threat_level(gotham_map)[1],s2
+    sensor3 = threat_level(gotham_map)[2],s3
+    sensor4 = threat_level(gotham_map)[3],s4
+    report_list.append(sensor1)
+    report_list.append(sensor2)
+    report_list.append(sensor3)
+    report_list.append(sensor4)
+    return report_list
 
+
+def print_report(report:list):
+    print_map(gotham_map)
+    print("\nNivel de amenaza de los 4 sensores: ",threat_level(gotham_map))
+    for i in range(1,5):
+        print(f"Nivel de amenaza del sensor{i}:{threat_level(gotham_map)[i-1]}" )
+
+
+
+    print()
+    
+    print()
+    print("Nivel de la amenaza máxima y su posición en la tupla: ", max_threat(threat_level(gotham_map)))
+
+print_report(create_report(sensor1,sensor2,sensor3,sensor4))
+print(create_report(sensor1,sensor2,sensor3,sensor4))
 
 
 
