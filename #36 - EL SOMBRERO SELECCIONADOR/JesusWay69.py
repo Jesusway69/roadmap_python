@@ -55,7 +55,7 @@ questions = {"\nPregunta 1: ¿Cual de estas definiciones se ajusta más a tu per
               ["1 - Telecomunicaciones", "2 - Matemáticas", "3 - Robótica", "4 - Dibujo artístico"],
 
               "\nPregunta 5: ¿Cual de 4 películas según tu personalidad crees que más se adapte a ti por temática?, (si no la has visto busca la sinopsis)":
-              ["1 - El indomable will Hunting--back", "2 - Her--mobile", "3 - Ghost in the shell--front", "4 - Moneyball--data"],
+              ["1 - El indomable will Hunting", "2 - Her", "3 - Ghost in the shell", "4 - Moneyball"],
 
               "\nPregunta 6: ¿Cual de estos coches crees que va mejor contigo?":["1 - Cualquier utilitario barato, funcional y discreto",
               "2 - Uno con estilo tipo Fiat 500 o Mini Cooper", "3 - El que mejor relación específica tenga entre CV/Cilindrada/Consumo",
