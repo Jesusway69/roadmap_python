@@ -1,5 +1,8 @@
-import os, platform
-
+import os, platform, credentials
+from twitch import TwitchClient
+from twitchAPI.twitch import Twitch
+from twitchAPI.helper import first
+import asyncio
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
 else:
@@ -18,3 +21,9 @@ else:
  *   (NO subas las credenciales de autenticación)
  * - Crea un ranking por número de seguidores y por antigüedad.
  * - Si algún participante no tiene usuario en Twitch, debe reflejarlo."""
+
+async def prueba():
+    client = await Twitch(credentials.client_id,credentials.secret_id)
+    user = await first(client.get_users(logins="elquintogrande"))
+    print(user.description)
+asyncio.run(prueba())
