@@ -36,8 +36,8 @@ streamers_list = ["AdriContreras4", "ache", "agustin51", "alexby11" ,"ampeterby7
                  "elxokas", "zarcort", "zeling", "zorman"]
 
 
-client_id = credentials.client_id_v2
-secret_id = credentials.secret_id_v2
+client_id = credentials.client_id_v3
+secret_id = credentials.secret_id_v3
 
 def get_token(client_id, client_secret):
     url = 'https://id.twitch.tv/oauth2/token'
@@ -54,7 +54,8 @@ def get_token(client_id, client_secret):
     result = response.json()
     if result['token_type'] != "bearer":
         raise Exception("Unexpected token type")
-    return f"Token:{result["access_token"]}, Expira en:{result["expires_in"]}segundos, tipo:{result['token_type']}"
+    print(f"Token: {result["access_token"]}, Expira en: {result["expires_in"]} segundos, tipo: {result['token_type']}")
+    return result.get("access_token")
 
 
 token = get_token(client_id, secret_id)
@@ -64,36 +65,26 @@ async def get_id(channel:str):
     client = await Twitch(client_id,secret_id)
     user = await first(client.get_users(logins=channel))
     return user.id
-id = asyncio.run(get_id(streamers_list[88]))
+id = asyncio.run(get_id("jesusway69"))
 print(id) 
 
 
-def get_followers(id, token):
-    url = f'https://api.twitch.tv/helix/users/follows?to_id={id}'
+def get_followers(id, token, client_id):
+    url = f'https://api.twitch.tv/helix/channels/followers'
     response = requests.get(url, headers = {
         'Client-ID': client_id,
         'Authorization': f'Bearer {token}'
-    })
+    }, params={"broadcaster_id":id})
 
     if response.status_code == 200:
-        return response.json()['total']
+        return response.json().get('total')
         
     else:
         return f"Error data: {response.json()}"
 
-print(get_followers(id, token))
+print(get_followers(id, token, client_id))
 
 
-
-# response = requests.get(url, headers=client)
-
-# data = response.json()
-# print(data)
-
-#follower_count = data['total']
-
-
-#print(f'Follower count: {follower_count}')
 
 
 
