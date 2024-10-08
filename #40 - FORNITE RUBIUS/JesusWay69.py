@@ -22,18 +22,18 @@ else:
  * - Crea un ranking por número de seguidores y por antigüedad.
  * - Si algún participante no tiene usuario en Twitch, debe reflejarlo."""
 
-streamers_list = ["AdriContreras4", "ache", "agustin51", "alexby11" ,"ampeterby7" , "arigameplays", "arigeli_",
-                 "auronplay","axozer", "beniju03", "bycalitos", "byviruzz" ,"carreraaa" , "celopan", "crystalmolly",
-                 "darioemehache","dheylo", "djmariio", "doble", "elvisayomastercard" ,"elyas360" , "folagorlives", 
-                 "guanyar", "hika","hiperop", "ibai", "ibelky_", "illojuan" ,"imantado" , "irinaisasia", "jesskiu",
-                 "jopa","jordiwild", "kenaisouza", "keroro", "kiddkeo" ,"kikorivera" , "knekro", "kokorok", "kronnozomber",
+streamers_list = ["Abby", "Ache", "AdriContreras4", "agustin51", "alexby11", "ampeterby7" , "AriGameplays", "Arigeli_",
+                 "auronplay","axozer", "beniju03", "bycalitos", "byViruZz" ,"Carreraaa" , "celopan", "crystalmolly",
+                 "darioemehache","dheylo", "djmariio", "doble", "elvisayomastercard", "elxokas", "elyas360" , "FolagorLives", 
+                 "guanyar", "hika","hiperop", "ibai", "ibelky_", "IlloJuan" ,"imantado" , "irinaisasia", "jesskiu",
+                 "jopa","jordiwild", "kenaisouza", "keroro", "TheKiddKeo95" ,"kikorivera" , "knekro", "kokorok", "kronnozomber",
                  "leviathan", "littleragergirl", "lola_lolita", "lolito" ,"lolkilla" , "luzu", "mangel", "mayichi",
-                 "meelo", "missasofia", "mixwell", "mrjagger" ,"nategentile" , "nexxuz", "nissaxter", "ollie",
-                 "orslok", "outconsumer", "papigavi", "paracetamor" ,"patica" , "paulagonu", "pausenpaii", "perxita",
-                 "plex", "polispol", "quackity", "recuerdop" ,"reven" , "rivers", "robertpg", "roier",
-                 "rojuu", "rubius", "shadoune", "silithur" ,"spreen" , "spursito", "srcheeto", "staxx",
-                 "suzyrox", "thegrefg", "tvandeR", "vicens" ,"vituber" , "werlyb", "xavi", "xcrystal",
-                 "elxokas", "zarcort", "zeling", "zorman"]
+                 "meelo", "MissaSinfonia", "mixwell", "mrjagger" ,"NateGentile7" , "nexxuz", "nissaxter", "NoSoyPlex", "OllieGamerz",
+                 "orslok", "outconsumer", "papigavi", "paracetamor" ,"patica" , "paulagonu", "pausenpaii", "perxitaa",
+                 "polispol1", "quackity", "recuerdop" ,"reven" , "rivers_gg", "robertpg", "roier",
+                 "rojuu", "Rubius", "shadoune", "silithur" ,"ElSpreen" , "Spursito", "srcheeto", "staxx",
+                 "suzyrox", "TheGrefg", "tvandeR", "Vicens" ,"vitu" , "werlyb", "Xavi", "xcrystal",
+                  "zarcort", "Zeling", "ZormanWorld"]
 
 
 client_id = credentials.client_id_v3
@@ -54,19 +54,15 @@ def get_token(client_id, client_secret):
     result = response.json()
     if result['token_type'] != "bearer":
         raise Exception("Unexpected token type")
-    print(f"Token: {result["access_token"]}, Expira en: {result["expires_in"]} segundos, tipo: {result['token_type']}")
+    
     return result.get("access_token")
 
-
-token = get_token(client_id, secret_id)
-print (token)
-
-async def get_id(channel:str):
+async def get_user_data(channel:str):
     client = await Twitch(client_id,secret_id)
     user = await first(client.get_users(logins=channel))
-    return user.id
-id = asyncio.run(get_id("jesusway69"))
-print(id) 
+    if user == None:
+        return None, None, None
+    return user.id, user.display_name, user.created_at
 
 
 def get_followers(id, token, client_id):
@@ -81,8 +77,20 @@ def get_followers(id, token, client_id):
         
     else:
         return f"Error data: {response.json()}"
+    
+token = get_token(client_id, secret_id) 
+for index, streamer in enumerate(streamers_list):
+    id, name, since = asyncio.run(get_user_data(streamer))
+    followers = get_followers(id, token, client_id)
+    if id == None or name == None or since == None:
+        print(f"{index}- Usuario {streamer} no encontrado")
+        continue
+    print(f"{index+1}- {name}, Antiguedad: {since.day}/{since.month}/{since.year}, followers: {followers}")
 
-print(get_followers(id, token, client_id))
+
+
+
+
 
 
 
