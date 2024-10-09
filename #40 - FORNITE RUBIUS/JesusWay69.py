@@ -34,6 +34,10 @@ streamers_list = ["Abby", "Ache", "AdriContreras4", "agustin51", "alexby11", "am
                  "rojuu", "Rubius", "shadoune", "silithur" ,"ElSpreen" , "Spursito", "srcheeto", "staxx",
                  "suzyrox", "TheGrefg", "tvandeR", "Vicens" ,"vitu" , "werlyb", "Xavi", "xcrystal",
                   "zarcort", "Zeling", "ZormanWorld"]
+dev_streamers_list = ["afor_digital", "altaskur", "AppleCoding", "CarlosAzaustre", "CarlosGameDeveloper",
+                     "CursosDeDesarrollo", "dimaspython", "ElPinguinoDeMario","Guinxu", 
+                     "ManzDev", "MelenitasDev", "midudev", "MoureDev", "programacion_es",
+                     "r2d2_Coder", "RafaLagoon", "RothioTome", "todocode", "vamoacodear"]
 
 
 client_id = credentials.client_id_v3
@@ -79,7 +83,7 @@ def get_followers(id, token, client_id):
         return f"Error data: {response.json()}"
     
 token = get_token(client_id, secret_id) 
-for index, streamer in enumerate(streamers_list):
+for index, streamer in enumerate(dev_streamers_list):
     id, name, since = asyncio.run(get_user_data(streamer))
     followers = get_followers(id, token, client_id)
     if id == None or name == None or since == None:
