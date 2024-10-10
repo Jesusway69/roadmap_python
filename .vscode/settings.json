@@ -9,9 +9,10 @@
     "editor.guides.bracketPairs": true,
     "editor.cursorSmoothCaretAnimation": "on",
     "workbench.iconTheme": "material-icon-theme",
-    "editor.scrollbar.vertical": "hidden",
+    "editor.scrollbar.vertical": "auto",
+    "editor.scrollbar.horizontal": "auto",
     "editor.overviewRulerBorder": false,
     "editor.hideCursorInOverviewRuler": true,
     "editor.smoothScrolling": true,
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": true
 }

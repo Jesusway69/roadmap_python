@@ -34,10 +34,12 @@ streamers_list = ["Abby", "Ache", "AdriContreras4", "agustin51", "alexby11", "am
                  "rojuu", "Rubius", "shadoune", "silithur" ,"ElSpreen" , "Spursito", "srcheeto", "staxx",
                  "suzyrox", "TheGrefg", "tvandeR", "Vicens" ,"vitu" , "werlyb", "Xavi", "xcrystal",
                   "zarcort", "Zeling", "ZormanWorld"]
+
 dev_streamers_list = ["afor_digital", "altaskur", "AppleCoding", "CarlosAzaustre", "CarlosGameDeveloper",
                      "CursosDeDesarrollo", "dimaspython", "ElPinguinoDeMario","Guinxu", 
                      "ManzDev", "MelenitasDev", "midudev", "MoureDev", "programacion_es",
                      "r2d2_Coder", "RafaLagoon", "RothioTome", "todocode", "vamoacodear"]
+dev_streamers_list2 = ["midudev", "MoureDev", "RothioTome"]
 
 
 client_id = credentials.client_id_v3
@@ -58,7 +60,6 @@ def get_token(client_id, client_secret):
     result = response.json()
     if result['token_type'] != "bearer":
         raise Exception("Unexpected token type")
-    
     return result.get("access_token")
 
 async def get_user_data(channel:str):
@@ -81,15 +82,39 @@ def get_followers(id, token, client_id):
         
     else:
         return f"Error data: {response.json()}"
+
+def sort_by_followers(streamers:list):
+   pass
+
+def sort_by_date(streamers:list):
+    print("\nSTREAMERS POR ANTIGÜEDAD:")
+    [print (f"{a}, fecha de creación del canal: {b}")
+    for a,b in zip(list((map(lambda streamer: '{:<20}'.format(streamer[0]),
+    sorted(streamers, key=lambda streamer: streamer[1])))),                                                                       
+    list(map(lambda streamer: streamer[1].strftime('%d/%m/%Y'),
+    sorted(streamers, key=lambda streamer: streamer[1]))))]
+
+def sort_by_date2(streamers:list):
+    print("\nSTREAMERS POR ANTIGÜEDAD")
+    sorted_age_list = sorted(streamers, key=lambda streamer: streamer[1])
+    for streamer in sorted_age_list:
+        date = streamer[1].strftime('%d/%m/%Y')
+        print('{:<20}'.format(streamer[0]), "-  Fecha de creación:", date)                                                
     
-token = get_token(client_id, secret_id) 
-for index, streamer in enumerate(dev_streamers_list):
+token = get_token(client_id, secret_id)
+sorted_list:list = []
+for index, streamer in enumerate(dev_streamers_list2):
+    sorted_list.append([])
     id, name, since = asyncio.run(get_user_data(streamer))
     followers = get_followers(id, token, client_id)
     if id == None or name == None or since == None:
         print(f"{index}- Usuario {streamer} no encontrado")
         continue
     print(f"{index+1}- {name}, Antiguedad: {since.day}/{since.month}/{since.year}, followers: {followers}")
+    sorted_list[index].append(name)
+    sorted_list[index].append(since.strptime(f"{since.day}/{since.month}/{since.year}", "%d/%m/%Y"))
+    sorted_list[index].append(followers)
+sort_by_date(sorted_list)
 
 
 
