@@ -98,7 +98,7 @@ def input_data()->D:
                 if not day.isdigit() or len(day)>2 or len(day)<=0:
                    print ("ERROR: El día debe ser numérico de 1 o 2 cifras")
                    continue
-                elif int(month)==4 or int(month)==6 or int(month)==9 or int(month)==11 and int(day)>30:
+                elif (int(month)==4 or int(month)==6 or int(month)==9 or int(month)==11) and int(day)>30:
                     print (f"El mes de {months[int(month)-1]} no puede tener más de 30 días") 
                     continue
                 elif int(day)<1 or int(day)>31:
