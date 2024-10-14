@@ -1,4 +1,5 @@
 import os, platform, credentials, asyncio, requests
+from twitch import TwitchClient
 from twitchAPI.twitch import Twitch
 from twitchAPI.helper import first
 
@@ -38,11 +39,13 @@ dev_streamers_list = ["afor_digital", "altaskur", "AppleCoding", "CarlosAzaustre
                      "CursosDeDesarrollo", "dimaspython", "ElPinguinoDeMario","Guinxu", 
                      "ManzDev", "MelenitasDev", "midudev", "MoureDev", "programacion_es",
                      "r2d2_Coder", "RafaLagoon", "RothioTome", "todocode", "vamoacodear"]
+dev_streamers_list2 = ["midudev", "MoureDev", "RothioTome"]
+
 
 client_id = credentials.client_id_v3
 secret_id = credentials.secret_id_v3
 
-def get_token(client_id, client_secret) -> str:
+def get_token(client_id, client_secret):
     url = 'https://id.twitch.tv/oauth2/token'
 
     response = requests.post(url, data = {
@@ -59,7 +62,7 @@ def get_token(client_id, client_secret) -> str:
         raise Exception("Unexpected token type")
     return result.get("access_token")
 
-async def get_user_data(channel:str) -> tuple:
+async def get_user_data(channel:str):
     client = await Twitch(client_id,secret_id)
     user = await first(client.get_users(logins=channel))
     if user == None:
@@ -67,9 +70,8 @@ async def get_user_data(channel:str) -> tuple:
     return user.id, user.display_name, user.created_at
 
 
-def get_followers(id, token, client_id) -> int:
+def get_followers(id, token, client_id):
     url = f'https://api.twitch.tv/helix/channels/followers'
-
     response = requests.get(url, headers = {
         'Client-ID': client_id,
         'Authorization': f'Bearer {token}'
@@ -84,31 +86,34 @@ def get_followers(id, token, client_id) -> int:
 def sort_by_date(streamers:list):
     print("\nSTREAMERS ORDENADOS POR ANTIGÜEDAD")
     print("------------------------------------")
-    [print (f"{name}-> Fecha de creación del canal: {date}") for name, date in zip(list((map(lambda streamer: '{:<20}'.format(streamer[0]),
-    sorted(streamers, key=lambda streamer: streamer[1])))), list(map(lambda streamer: streamer[1].strftime('%d/%m/%Y'),
-    sorted(streamers, key=lambda streamer: streamer[1]))))]
+    sorted_age_list = sorted(streamers, key=lambda streamer: streamer[1])
+    for streamer in sorted_age_list:
+        date = streamer[1].strftime('%d/%m/%Y')
+        print('{:<20}'.format(streamer[0]), "-  Fecha de creación:", date)  
 
 def sort_by_followers(streamers:list):
     print("\nSTREAMERS ORDENADOS POR SEGUIDORES")                                          
     print("--------------------------------------")
-    [print (f"{name}-> Seguidores totales: {followers}") for name, followers in zip(list((map(lambda streamer: '{:<20}'.format(streamer[0]),
-    sorted(streamers, key=lambda streamer: streamer[2], reverse=True)))), list(map(lambda streamer: streamer[2],
-    sorted(streamers, key=lambda streamer: streamer[2], reverse=True))))]
+    sorted_sub_list = sorted(streamers, key=lambda streamer: streamer[2], reverse=True)
+    for streamer in sorted_sub_list:
+        followers = streamer[2]
+        print('{:<20}'.format(streamer[0]), "-  Seguidores:", followers) 
+
 
 token = get_token(client_id, secret_id)
 sorted_list:list = []
 print("STREAMERS DE PROGRAMACIÓN EN ESPAÑOL")
 print("------------------------------------")
-for index, streamer in enumerate(dev_streamers_list):
+for index, streamer in enumerate(dev_streamers_list2):
     sorted_list.append([])
     id, name, since = asyncio.run(get_user_data(streamer))
     followers = get_followers(id, token, client_id)
-    if id == None:
-        print(f"{index}- Usuario '{streamer}' no encontrado")
-        dev_streamers_list.pop(index)
+    if id == None or name == None or since == None:
+        print(f"{index}- Usuario {streamer} no encontrado")
+        dev_streamers_list2.pop(index)
         index+=1
         continue
-    print(f"{index+1}- {name}, Antiguedad: {since.day}/{since.month}/{since.year}, Seguidores: {followers}")
+    print(f"{index+1}- {name}, Antiguedad: {since.day}/{since.month}/{since.year}, followers: {followers}")
     sorted_list[index].append(name)
     sorted_list[index].append(since.strptime(f"{since.day}/{since.month}/{since.year}", "%d/%m/%Y"))
     sorted_list[index].append(followers)
