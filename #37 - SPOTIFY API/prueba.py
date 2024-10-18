@@ -8,8 +8,8 @@ if (platform.platform().startswith("macOS") or platform.platform().startswith("L
 else:
     os.system('cls')
 
-client_ID = credentials.client_ID #clave de cliente propia de 32 caracteres
-secret_ID = credentials.secret_ID #clave secreta propia de 32 caracteres
+client_ID = credentials.client_ID #clave de cliente propia de 32 bits
+secret_ID = credentials.secret_ID #clave secreta propia de 32 bits
 
 ccm = SpotifyClientCredentials(client_id=client_ID, client_secret=secret_ID)
 sp = spotipy.Spotify(client_credentials_manager=ccm)

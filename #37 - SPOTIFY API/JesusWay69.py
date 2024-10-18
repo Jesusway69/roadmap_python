@@ -23,8 +23,8 @@ else:
  * 3. Muestra todos los resultados por consola para notificar al usuario.
  * 4. Desarrolla un criterio para seleccionar qué banda es más popular."""
 
-client_ID = credentials.client_ID #clave de cliente propia de 32 caracteres
-secret_ID = credentials.secret_ID #clave secreta propia de 32 caracteres
+client_ID = credentials.client_ID #clave de cliente propia de 32 bits
+secret_ID = credentials.secret_ID #clave secreta propia de 32 bits
 
 ccm = SpotifyClientCredentials(client_id=client_ID, client_secret=secret_ID)
 sp = spotipy.Spotify(client_credentials_manager=ccm)
@@ -121,7 +121,7 @@ def compare(artist1:object, artist2:object):
             print(f"\n...aunque {name1} tenga más seguidores el ganador es: {name2.upper()}")
 
     elif followers1 < followers2 and popularity1 > popularity2:
-        print(f"\n{name2}tiene más seguidores que {name1} pero este tiene mejor índice de popularidad")
+        print(f"\n{name2} tiene más seguidores que {name1} pero este tiene mejor índice de popularidad")
         if popularity_songs1 < popularity_songs2:
             print(f"{name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones y acumula también más seguidores...")
             print(f"..aunque {name1} tenga más índice de popularidad el ganador es: {name2.upper()}")
@@ -133,7 +133,7 @@ def compare(artist1:object, artist2:object):
             print(f"\n...aunque {name2} tenga más seguidores el ganador es: {name1.upper()}")
 
     elif followers1 < followers2 and popularity1 == popularity2:
-        print(f"\n{name2}tiene más seguidores que {name1} pero en índice de popularidad están empatados")
+        print(f"\n{name2} tiene más seguidores que {name1} pero en índice de popularidad están empatados")
         if popularity_songs1 < popularity_songs2:
             print(f"{name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones y acumula también más seguidores...")
             print(f"..aunque ambos tengan el índice de popularidad empatado el ganador es: {name2.upper()}")
@@ -145,7 +145,7 @@ def compare(artist1:object, artist2:object):
             print(f"\n...pero {name2} tiene más seguidores así que no hay un ganador claro.")
 
     elif followers1 > followers2 and popularity1 == popularity2:
-        print(f"\n{name1}tiene más seguidores que {name2} pero en índice de popularidad están empatado")
+        print(f"\n{name1} tiene más seguidores que {name2} pero en índice de popularidad están empatado")
         if popularity_songs1 < popularity_songs2:
             print(f"{name2} acumula más puntos que {name1} en las escuchas de sus 10 mejores canciones y en popularidad están empatados...")
             print(f"\n...como {name1} tiene más seguidores no hay un ganador claro")
@@ -157,19 +157,19 @@ def compare(artist1:object, artist2:object):
             print(f"..y aunque ambos tengan el índice de popularidad empatado el ganador es: {name1.upper()}")  
     print()
 
-    
-oasis = get_artist("Oasis")
-linkin_park = get_artist("Linkin park")
+if __name__=="__main__":    
+    oasis = get_artist("Oasis")
+    linkin_park = get_artist("Linkin park")
 
-print_artist_stats(linkin_park)
-print_albums(linkin_park)
-print_top_songs(linkin_park)
+    print_artist_stats(linkin_park)
+    print_albums(linkin_park)
+    print_top_songs(linkin_park)
 
-print_artist_stats(oasis)
-print_albums(oasis)
-print_top_songs(oasis) 
+    print_artist_stats(oasis)
+    print_albums(oasis)
+    print_top_songs(oasis) 
 
-compare(linkin_park, oasis)
+    compare(linkin_park, oasis)
 
 
 
