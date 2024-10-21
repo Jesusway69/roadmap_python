@@ -47,38 +47,38 @@ class Character:
     def __getitem__(self, index):
         return self.items[index]
 
-son_goku = Character(["Son Goku", 87, 69])
-vegeta = Character(["Vegeta", 78, 77])
-son_gohan = Character(["Son Gohan", 76, 59])
-trunks = Character(["Trunks", 77,61])
-freezer = Character(["Freezer", 73, 69])
-piccolo = Character(["Piccolo", 87, 55])
-krilin = Character(["Krilin", 49, 78])
-bulma = Character(["Bulma", 66, 56])
-cell = Character(["Cell", 59, 80])
-broly = Character(["Broly", 70, 52])
-kame_sennin = Character(["Kame Sennin", 83, 48])
-ten_shin_han = Character(["Ten Shin Han", 67, 59])
-raditz = Character(["Raditz", 59, 77])
-beerus = Character(["Beerus", 63, 80])
-kaio = Character(["Kaiõ", 71, 52])
-mr_satan = Character(["Mr. Satán", 80, 51])
-zamasu = Character(["Zamasu", 69, 71])
-yamcha = Character(["Yamcha", 72, 59])
-majin_boo = Character(["Majin Boo", 70, 49])
-vegetto = Character(["Vegetto", 82, 54])#20
-androide_n_17 = Character(["Androide nº17", 58, 84])
-gotenks = Character(["Gotenks", 81, 52])
-bardock = Character(["Bardock", 76, 59])
-whis = Character(["Whis", 52, 73])
-chi_chi = Character(["Chi-Chi", 56, 86])
-shenlong = Character(["Shenlong", 58, 80])
-yamoshi = Character(["Yamoshi", 68, 50])
-videl = Character(["Videl", 81, 52])
-nappa = Character(["Nappa", 75, 51])
-bra = Character(["Bra", 81, 54])
-dabra = Character(["Dabra", 53, 87])
-jeice = Character(["Jeice", 80, 54])
+son_goku = Character(["Son Goku", 83, 69, 54])
+vegeta = Character(["Vegeta", 78, 77, 49])
+son_gohan = Character(["Son Gohan", 76, 59, 50])
+trunks = Character(["Trunks", 77, 61, 39])
+freezer = Character(["Freezer", 73, 69, 41])
+piccolo = Character(["Piccolo", 87, 55, 32])
+krilin = Character(["Krilin", 49, 78, 25])
+bulma = Character(["Bulma", 66, 56, 44])
+cell = Character(["Cell", 59, 80, 22])
+broly = Character(["Broly", 70, 52, 29])
+kame_sennin = Character(["Kame Sennin", 83, 48, 33])
+ten_shin_han = Character(["Ten Shin Han", 67, 59, 31])
+raditz = Character(["Raditz", 59, 77, 18])
+beerus = Character(["Beerus", 63, 80, 15])
+kaio = Character(["Kaiõ", 71, 52, 39])
+mr_satan = Character(["Mr. Satán", 80, 51, 36])
+zamasu = Character(["Zamasu", 69, 71, 43])
+yamcha = Character(["Yamcha", 72, 59, 29])
+majin_boo = Character(["Majin Boo", 70, 49, 45])
+vegetto = Character(["Vegetto", 82, 54, 37])#20
+androide_n_17 = Character(["Androide nº17", 58, 84, 12])
+gotenks = Character(["Gotenks", 81, 52, 35])
+bardock = Character(["Bardock", 76, 59, 30])
+whis = Character(["Whis", 52, 73, 23])
+chi_chi = Character(["Chi-Chi", 56, 86, 20])
+shenlong = Character(["Shenlong", 58, 80, 26])
+yamoshi = Character(["Yamoshi", 68, 50, 48])
+videl = Character(["Videl", 81, 52, 46])
+nappa = Character(["Nappa", 75, 51, 42])
+bra = Character(["Bra", 81, 54, 39])
+dabra = Character(["Dabra", 53, 87, 16])
+jeice = Character(["Jeice", 80, 54, 45])
 
 characters = [son_goku, vegeta, son_gohan, trunks, freezer, piccolo, krilin, bulma, cell, broly,
               kame_sennin, ten_shin_han, raditz, beerus, kaio, mr_satan, zamasu, yamcha, majin_boo,
@@ -96,17 +96,16 @@ def couples(characters:list)->list:
         counter += 2
     return tournament_list
 
-def show_battles(tournament_list):
-    print("Los emparejamientos serán los siguientes:")
-    for battle in tournament_list:
-        print(f"{battle[0][0]} VS {battle[1][0]}") 
+def show_battles(tournament:list):
+    for battle in tournament:
+        print(f"{battle[0][0]} ---VS--- {battle[1][0]}") 
 
-def fight1vs1(fighter1:object, fighter2:object):
+def fight1vs1(fighter1:object, fighter2:object)->object:
     score1, score2 = 100, 100
     damage1, damage2 = 0, 0
-    power1, shield1 = int(fighter1[1]), int(fighter1[2])
-    power2, shield2 = int(fighter2[1]), int(fighter2[2])
-    print(f"Batalla entre {fighter1[0]} y {fighter2[0]}")
+    power1, shield1 = int(fighter1[2]), int(fighter1[3])
+    power2, shield2 = int(fighter2[2]), int(fighter2[3])
+    print(f"\nBatalla entre {fighter1[0]} y {fighter2[0]}")
     print("--------------------------------------------")
     if fighter1[1] >= fighter2[1]:
             print(f"Ataca primero {fighter1[0]}")
@@ -119,12 +118,13 @@ def fight1vs1(fighter1:object, fighter2:object):
                     damage2 = power1 - shield2
                     score2 -= damage2
                     print(f"El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}")
+                    if score2 < 0: score2 = 0
                     print(f"a {fighter2[0]} le quedan {score2} puntos")
                     damage2 = 0
                     if score2 <=0:
                         print(f"El ganador es {fighter1[0]}")
-                        winner = fighter1
-                        return winner
+                        return fighter1
+                        
                 else:
                     print(f"{fighter2[0]} repele el ataque de {fighter1[0]}")
                     continue
@@ -133,18 +133,19 @@ def fight1vs1(fighter1:object, fighter2:object):
                     score1 -= damage1
 
                     print(f"El ataque de {fighter2[0]} le resta {damage1} puntos a {fighter1[0]}")
+                    if score1 < 0: score1 = 0
                     print(f"a {fighter1[0]} le quedan {score1} puntos")
                     damage1 = 0
                     if score1 <=0:
                         print(f"El ganador es {fighter2[0]}")
-                        winner = fighter2
                         return fighter2
+                        
                 else:
                     print(f"{fighter1[0]} repele el ataque de {fighter2[0]}")
                     continue
             elif power1 < shield2:
-                damage2 = power1//10
-                score2 -= damage2
+                 damage2 = power1//10
+                 score2 -= damage2
         
         else:
             if power2 >= shield1:
@@ -152,12 +153,13 @@ def fight1vs1(fighter1:object, fighter2:object):
                     damage1 = power2 - shield1
                     score1 -= damage1
                     print(f"El ataque de {fighter2[0]} le resta {damage1} puntos a {fighter1[0]}")
+                    if score1 < 0: score1 = 0
                     print(f"a {fighter1[0]} le quedan {score1} puntos")
                     damage1 = 0
                     if score1 <=0:
                         print(f"El ganador es {fighter2[0]}")
-                        winner = fighter2
                         return fighter2
+                        
                 else:
                     print(f"{fighter1[0]} repele el ataque de {fighter2[0]}")
                     continue
@@ -165,12 +167,13 @@ def fight1vs1(fighter1:object, fighter2:object):
                     damage2 = power1 - shield2
                     score2 -= damage2
                     print(f"El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}")
+                    if score2 < 0: score2 = 0
                     print(f"a {fighter2[0]} le quedan {score2} puntos")
                     damage2 = 0
                     if score2 <=0:
                         print(f"El ganador es {fighter1[0]}")
-                        winner = fighter1
-                        return winner
+                        return fighter1
+                        
                 else:
                     print(f"{fighter2[0]} repele el ataque de {fighter1[0]}")
                     continue
@@ -178,12 +181,10 @@ def fight1vs1(fighter1:object, fighter2:object):
                     damage1 = fighter2[1]//10
                     score1 -= damage1
 
-
-#fight(characters[0], characters[1])
-winners = []
 rounds = ["Eliminatoria de dieciseisavos","Eliminatoria de octavos","Eliminatoria de cuartos","Semifinal","Final"]
 for i, round in enumerate(rounds):
-    print (rounds[i])
+    
+    print ("\n",round)
     print("----------------------------------------------------------------------------------------")
     if i == 0:
         fights = couples(characters)
@@ -191,19 +192,12 @@ for i, round in enumerate(rounds):
     else:
         fights = couples(winners)
         show_battles(fights)
+    winners = []   
     for fight in fights:
         winner = fight1vs1(fight[0], fight[1])
         winners.append(winner)
 
     
-        
+#Arreglar: se repelen ataques del mismo contrincante seguidos
 
 
-
-
-
-
-
-#show_battles(couples(characters))
-
-#if random.random()>0.2: con esta sentencia hay un 80% de posibilidades de true
