@@ -104,12 +104,77 @@ def show_battles(tournament_list):
         print(f"{battle[0][0]} VS {battle[1][0]}") 
 
 def fight(fighter1:object, fighter2:object):
-    print(f"Batalla entre {fighter1[0]} y {fighter2[0]}")
-    if fighter1[1] >= fighter2[1]:
-        print(f"Ataca primero {fighter1[0]}")
-    else:
-        print(f"Ataca primero {fighter2[0]}")
     
+    print(f"Batalla entre {fighter1[0]} y {fighter2[0]}")
+    score1, score2 = 100, 100
+    damage1, damage2 = 0, 0
+    power1, shield1 = int(fighter1[1]), int(fighter1[2])
+    power2, shield2 = int(fighter2[1]), int(fighter2[2])
+
+    while score1 > 0 and score2 > 0:
+        if fighter1[1] >= fighter2[1]:
+            print(f"Ataca primero {fighter1[0]}")
+            if power1 >= shield2:
+                if random.random()>0.2:
+                    damage2 = power1 - shield2
+                    score2 -= damage2
+                    damage2 = 0
+                    print(f"El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}")
+                    print(f"a {fighter2[0]} le quedan {score2} puntos")
+                else:
+                    print(f"{fighter2[0]} repele el ataque de {fighter1[0]}")
+                    continue
+                if random.random()>0.2:
+                    damage1 = power2 - shield1
+                    score1 -= damage1
+                    damage1 = 0
+                    print(f"El ataque de {fighter2[0]} le resta {damage1} puntos a {fighter1[0]}")
+                    print(f"a {fighter1[0]} le quedan {score1} puntos")
+                else:
+                    print(f"{fighter1[0]} repele el ataque de {fighter2[0]}")
+                    continue
+            elif power1 < shield2:
+                damage2 = power1//10
+                score2 -= damage2
+        
+
+        else:
+            print(f"Ataca primero {fighter1[0]}")
+            
+            if power2 >= shield1:
+                if random.random()>0.2:
+                    damage1 = power2 - shield1
+                    score1 -= damage1
+                    damage1 = 0
+                    print(f"El ataque de {fighter2[0]} le resta {damage1} puntos a {fighter1[0]}")
+                    print(f"a {fighter1[0]} le quedan {score1} puntos")
+                else:
+                    print(f"{fighter1[0]} repele el ataque de {fighter2[0]}")
+                    continue
+                if random.random()>0.2:
+                    damage2 = power1 - shield2
+                    score2 -= damage2
+                    damage2 = 0
+                    print(f"El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}")
+                    print(f"a {fighter2[0]} le quedan {score2} puntos")
+                else:
+                    print(f"{fighter2[0]} repele el ataque de {fighter1[0]}")
+                    continue
+            elif power2 < shield1:
+                    damage1 = fighter2[1]//10
+                    score1 -= damage1
+            
+
+
+fight(characters[0], characters[1])
+
+
+
+
+
+
+
+
 
 
 #show_battles(couples(characters))
