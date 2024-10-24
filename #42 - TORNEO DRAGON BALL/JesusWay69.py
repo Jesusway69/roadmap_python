@@ -39,8 +39,6 @@ else:
  * - Debes mostrar por consola todo lo que sucede en el torneo,
  *   así como el ganador."""
 
-"õ"
-
 class Character:
     def __init__(self, items) -> None:
         self.items = items
@@ -78,7 +76,7 @@ videl = Character(["Videl", 81, 52, 46])
 nappa = Character(["Nappa", 75, 51, 42])
 bra = Character(["Bra", 81, 54, 39])
 dabra = Character(["Dabra", 53, 87, 16])
-jeice = Character(["Jeice", 80, 54, 45])
+jeice = Character(["Jeice", 80, 58, 45])
 
 characters = [son_goku, vegeta, son_gohan, trunks, freezer, piccolo, krilin, bulma, cell, broly,
               kame_sennin, ten_shin_han, raditz, beerus, kaio, mr_satan, zamasu, yamcha, majin_boo,
@@ -107,41 +105,43 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
     power2, shield2 = int(fighter2[2]), int(fighter2[3])
     print(f"\nBatalla entre {fighter1[0]} y {fighter2[0]}")
     print("--------------------------------------------")
-    if fighter1[1] >= fighter2[1]:
-            print(f"Ataca primero {fighter1[0]}")
-    else:
-            print(f"Ataca primero {fighter2[0]}")
+    print(f"Ataca primero {fighter1[0] if fighter1[1] >= fighter2[1] else fighter2[0]}\n")
     while score1 > 0 and score2 > 0:
         if fighter1[1] >= fighter2[1]:
+
             if power1 >= shield2:
+
                 if random.random()>0.2:
                     damage2 = power1 - shield2
                     score2 -= damage2
-                    print(f"El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}")
+                    print(f"-El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}", end=" ")
+
                     if score2 < 0: score2 = 0
-                    print(f"a {fighter2[0]} le quedan {score2} puntos")
+                    print(f"que se queda con {score2} puntos")
                     damage2 = 0
+
                     if score2 <=0:
-                        print(f"El ganador es {fighter1[0]}")
+                        print(f"\nEl ganador de la batalla es {fighter1[0]}\n")
                         return fighter1
                         
                 else:
-                    print(f"{fighter2[0]} repele el ataque de {fighter1[0]}")
-                    continue
+                    print(f"-{fighter2[0]} repele el ataque de {fighter1[0]} , turno para {fighter2[0]}")
+                    
                 if random.random()>0.2:
                     damage1 = power2 - shield1
                     score1 -= damage1
 
-                    print(f"El ataque de {fighter2[0]} le resta {damage1} puntos a {fighter1[0]}")
+                    print(f"-El ataque de {fighter2[0]} le resta {damage1} puntos a {fighter1[0]}", end=" ")
                     if score1 < 0: score1 = 0
-                    print(f"a {fighter1[0]} le quedan {score1} puntos")
+                    print(f"que se queda con {score1} puntos")
                     damage1 = 0
+
                     if score1 <=0:
-                        print(f"El ganador es {fighter2[0]}")
+                        print(f"\nEl ganador de la batalla es {fighter2[0]}\n")
                         return fighter2
                         
                 else:
-                    print(f"{fighter1[0]} repele el ataque de {fighter2[0]}")
+                    print(f"-{fighter1[0]} repele el ataque de {fighter2[0]}, turno para {fighter1[0]}")
                     continue
             elif power1 < shield2:
                  damage2 = power1//10
@@ -149,34 +149,41 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
         
         else:
             if power2 >= shield1:
+
                 if random.random()>0.2:
+
                     damage1 = power2 - shield1
                     score1 -= damage1
-                    print(f"El ataque de {fighter2[0]} le resta {damage1} puntos a {fighter1[0]}")
+                    print(f"-El ataque de {fighter2[0]} le resta {damage1} puntos a {fighter1[0]}", end=" ")
+
                     if score1 < 0: score1 = 0
-                    print(f"a {fighter1[0]} le quedan {score1} puntos")
+                    print(f"que se queda con {score1} puntos")
                     damage1 = 0
+
                     if score1 <=0:
-                        print(f"El ganador es {fighter2[0]}")
+                        print(f"\nEl ganador de la batalla es {fighter2[0]}\n")
                         return fighter2
                         
                 else:
-                    print(f"{fighter1[0]} repele el ataque de {fighter2[0]}")
-                    continue
+                    print(f"-{fighter1[0]} repele el ataque de {fighter2[0]}, turno para {fighter1[0]}")
+                    
                 if random.random()>0.2:
                     damage2 = power1 - shield2
                     score2 -= damage2
-                    print(f"El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}")
+                    print(f"-El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}", end=" ")
+
                     if score2 < 0: score2 = 0
-                    print(f"a {fighter2[0]} le quedan {score2} puntos")
+                    print(f"que se queda con {score2} puntos")
                     damage2 = 0
+
                     if score2 <=0:
-                        print(f"El ganador es {fighter1[0]}")
+                        print(f"\nEl ganador de la batalla es {fighter1[0]}\n")
                         return fighter1
                         
                 else:
-                    print(f"{fighter2[0]} repele el ataque de {fighter1[0]}")
+                    print(f"-{fighter2[0]} repele el ataque de {fighter1[0]}, turno para {fighter2[0]}")
                     continue
+
             elif power2 < shield1:
                     damage1 = fighter2[1]//10
                     score1 -= damage1
@@ -196,8 +203,7 @@ for i, round in enumerate(rounds):
     for fight in fights:
         winner = fight1vs1(fight[0], fight[1])
         winners.append(winner)
-
+print(f"\n---------------------- EL GANADOR DEL TORNEO ES: {winner[0]} ----------------------\n")
     
-#Arreglar: se repelen ataques del mismo contrincante seguidos
 
 
