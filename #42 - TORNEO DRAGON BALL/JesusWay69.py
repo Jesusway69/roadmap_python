@@ -111,7 +111,7 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
 
             if power1 >= shield2:
 
-                if random.random()>0.2:
+                if random.random() > 0.2:
                     damage2 = power1 - shield2
                     score2 -= damage2
                     print(f"-El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}", end=" ")
@@ -120,14 +120,14 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
                     print(f"que se queda con {score2} puntos")
                     damage2 = 0
 
-                    if score2 <=0:
+                    if score2 <= 0:
                         print(f"\nEl ganador de la batalla es {fighter1[0]}\n")
                         return fighter1
                         
                 else:
                     print(f"-{fighter2[0]} repele el ataque de {fighter1[0]} , turno para {fighter2[0]}")
                     
-                if random.random()>0.2:
+                if random.random() > 0.2:
                     damage1 = power2 - shield1
                     score1 -= damage1
 
@@ -136,7 +136,7 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
                     print(f"que se queda con {score1} puntos")
                     damage1 = 0
 
-                    if score1 <=0:
+                    if score1 <= 0:
                         print(f"\nEl ganador de la batalla es {fighter2[0]}\n")
                         return fighter2
                         
@@ -144,13 +144,13 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
                     print(f"-{fighter1[0]} repele el ataque de {fighter2[0]}, turno para {fighter1[0]}")
                     continue
             elif power1 < shield2:
-                 damage2 = power1//10
+                 damage2 = power1 // 10
                  score2 -= damage2
         
         else:
             if power2 >= shield1:
 
-                if random.random()>0.2:
+                if random.random() > 0.2:
 
                     damage1 = power2 - shield1
                     score1 -= damage1
@@ -167,7 +167,7 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
                 else:
                     print(f"-{fighter1[0]} repele el ataque de {fighter2[0]}, turno para {fighter1[0]}")
                     
-                if random.random()>0.2:
+                if random.random() > 0.2:
                     damage2 = power1 - shield2
                     score2 -= damage2
                     print(f"-El ataque de {fighter1[0]} le resta {damage2} puntos a {fighter2[0]}", end=" ")
@@ -176,7 +176,7 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
                     print(f"que se queda con {score2} puntos")
                     damage2 = 0
 
-                    if score2 <=0:
+                    if score2 <= 0:
                         print(f"\nEl ganador de la batalla es {fighter1[0]}\n")
                         return fighter1
                         
@@ -185,7 +185,7 @@ def fight1vs1(fighter1:object, fighter2:object)->object:
                     continue
 
             elif power2 < shield1:
-                    damage1 = fighter2[1]//10
+                    damage1 = fighter2[1] // 10
                     score1 -= damage1
 
 rounds = ["Eliminatoria de dieciseisavos","Eliminatoria de octavos","Eliminatoria de cuartos","Semifinal","Final"]
