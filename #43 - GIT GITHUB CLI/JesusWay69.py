@@ -48,8 +48,49 @@ def modify_repository(local_path):
     current_datetime = datetime.datetime.now()
     with open(f'{local_path}/file1.txt', 'a') as f:
         f.writelines(f'\nañadimos otra línea el {current_datetime}')
+def show_status(repo):
+    print (repo.git.status())
+
+def show_log(repo):
+    print(repo.git.log())
+
+
+show_status(clone_repository(repo_url, path))
+show_log(clone_repository(repo_url, path))
+
 #modify_repository(path)
 
-commit(clone_repository(repo_url, path))
+#commit(clone_repository(repo_url, path))
+while True:
 
 
+    choice = input("Selecciona una opción (1 al 12): ")
+
+    match choice:
+        case "1":
+            pass
+        case "2":
+            pass
+        case "3":
+            pass
+        case "4":
+            pass
+        case "5":
+            pass
+        case "6":
+            pass
+        case "7":
+            pass
+        case "8":
+            pass
+        case "9":
+            pass
+        case "10":
+            pass
+        case "11":
+            pass
+        case "12":
+            print("Saliendo...")
+            break
+        case _:
+            print("Opción no válida.")
