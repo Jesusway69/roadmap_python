@@ -1,5 +1,5 @@
-import os, platform, git, datetime
-
+import os, platform, git
+from datetime import datetime as DT
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
@@ -38,14 +38,22 @@ def clone_repository(github_url, local_path):
         repo = git.Repo(path)
     return repo
 
+def git_init(local_path):
+    if not os.path.exists(local_path):
+        repo = git.Repo.init(local_path)
+    else:
+        print("la ruta especificada no existe en este ordenador")
+
 def add_stage(repo):
     repo.git.add('.')
 
 def commit(repo):
-    repo.index.commit(f'commit en {datetime.datetime.now()}')
+    message = input("Introduzca el mensaje del commit: ")
+    current_date = '{}{}{}.format'(DT.now().year, DT.now().month, DT.now().day)
+    repo.index.commit(str(current_date) + " " + message) #revisar esto, devuellve string not callable
 
 def modify_repository(local_path):
-    current_datetime = datetime.datetime.now()
+    current_datetime = DT.now()
     with open(f'{local_path}/file1.txt', 'a') as f:
         f.writelines(f'\nañadimos otra línea el {current_datetime}')
 def show_status(repo):
@@ -55,6 +63,7 @@ def show_log(repo):
     print(repo.git.log())
 
 
+
 show_status(clone_repository(repo_url, path))
 show_log(clone_repository(repo_url, path))
 
@@ -62,9 +71,20 @@ show_log(clone_repository(repo_url, path))
 
 #commit(clone_repository(repo_url, path))
 while True:
+    print("""
+    1- Crear repositorio local
+    2- Clonar repositorio desde Github
+    3- Crear nueva rama
+    4- Cambiar de rama
+    5- Mostrar cambios no añadidos a stage
+    6- Añadir todos los cambios a stage
+    7- Hacer commit del repositorio
+    8- Mostrar historial de commits
+    9- Establecer repositorio remoto
+    10- Actualizar repositorio local desde remoto (pull)
+    11- Subir cambios locales a remoto (push)""")
 
-
-    choice = input("Selecciona una opción (1 al 12): ")
+    choice = input("Selecciona una opción del 1 al 12: ")
 
     match choice:
         case "1":
@@ -78,9 +98,9 @@ while True:
         case "5":
             pass
         case "6":
-            pass
+            add_stage(clone_repository(repo_url, path))
         case "7":
-            pass
+            commit(clone_repository(repo_url, path))
         case "8":
             pass
         case "9":
