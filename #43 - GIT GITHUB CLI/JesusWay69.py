@@ -30,46 +30,55 @@ else:
 path = r"C:\Users\jesus\Documents\Python3project\GitProjectPython\\"
 repo_url = 'https://github.com/Jesusway69/GitProjectPython'
 
+def git_init(local_path):
+    if os.path.exists(local_path):
+        repo = git.Repo.init(local_path)
+    else:
+        print("la ruta especificada no existe en este ordenador")
+        return
+    return repo
 
-def clone_repository(github_url, local_path):
+def git_clone(github_url, local_path):
     if not os.path.exists(local_path):
         repo = git.Repo.clone_from(github_url, local_path)
     else:
         repo = git.Repo(path)
     return repo
 
-def git_init(local_path):
-    if not os.path.exists(local_path):
-        repo = git.Repo.init(local_path)
-    else:
-        print("la ruta especificada no existe en este ordenador")
+def git_branch(repo, branch_name):
+    repo.git.branch(branch_name)
+    print("Nueva rama creada: ", branch_name)
+    
 
-def add_stage(repo):
+def git_checkout(repo):
+    print("Ramas actuales en este repositorio:")
+    print(repo.git.branch())
+    branch_name = input("Escriba el nombre de la rama a la que quiere cambiar (con asterisco la actual):")
+    repo.git.checkout(branch_name)
+
+
+def git_add(repo):
     repo.git.add('.')
 
-def commit(repo):
+def git_commit(repo):
     message = input("Introduzca el mensaje del commit: ")
-    current_date = '{}{}{}.format'(DT.now().year, DT.now().month, DT.now().day)
+    current_date = '{}{}{}'.format(DT.now().year, DT.now().month, DT.now().day)
     repo.index.commit(str(current_date) + " " + message) #revisar esto, devuellve string not callable
 
 def modify_repository(local_path):
     current_datetime = DT.now()
     with open(f'{local_path}/file1.txt', 'a') as f:
         f.writelines(f'\nañadimos otra línea el {current_datetime}')
-def show_status(repo):
+
+def git_status(repo):
     print (repo.git.status())
 
-def show_log(repo):
+def git_log(repo):
     print(repo.git.log())
 
+my_repo = git_init(path)
 
 
-show_status(clone_repository(repo_url, path))
-show_log(clone_repository(repo_url, path))
-
-#modify_repository(path)
-
-#commit(clone_repository(repo_url, path))
 while True:
     print("""
     1- Crear repositorio local
@@ -88,21 +97,21 @@ while True:
 
     match choice:
         case "1":
-            pass
+            git_init(path)
         case "2":
-            pass
+            git_clone(repo_url, path)
         case "3":
-            pass
+            git_branch(my_repo, "nueva_rama")
         case "4":
-            pass
+            git_checkout(my_repo)
         case "5":
-            pass
+            git_status()
         case "6":
-            add_stage(clone_repository(repo_url, path))
+            git_add(my_repo)
         case "7":
-            commit(clone_repository(repo_url, path))
+            git_commit(my_repo)
         case "8":
-            pass
+            git_log(my_repo)
         case "9":
             pass
         case "10":
