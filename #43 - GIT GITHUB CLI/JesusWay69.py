@@ -1,6 +1,8 @@
 import os, platform, git
 from datetime import datetime as DT
 
+import git.exc
+
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
 else:
@@ -45,16 +47,25 @@ def git_clone(github_url, local_path):
         repo = git.Repo(path)
     return repo
 
-def git_branch(repo, branch_name):
-    repo.git.branch(branch_name)
-    print("Nueva rama creada: ", branch_name)
+def git_branch(repo):
+    print("Ramas actuales en este repositorio:")
+    print(repo.git.branch())
+    branch_name = input("Escriba el nombre de la nueva rama a crear: ")
+    try:
+        repo.git.branch(branch_name)
+        print("Nueva rama creada: ", branch_name)
+    except git.exc.GitCommandError as err:
+        print(f"\n {err} la rama {branch_name} ya existe")
     
 
 def git_checkout(repo):
     print("Ramas actuales en este repositorio:")
     print(repo.git.branch())
-    branch_name = input("Escriba el nombre de la rama a la que quiere cambiar (con asterisco la actual):")
-    repo.git.checkout(branch_name)
+    try:  
+        branch_name = input("Escriba el nombre de la rama a la que quiere cambiar (con asterisco la actual): ")
+        repo.git.checkout(branch_name)
+    except git.exc.GitCommandError as err:
+        print(f"\n {err} la rama {branch_name} no existe")
 
 
 def git_add(repo):
@@ -63,7 +74,7 @@ def git_add(repo):
 def git_commit(repo):
     message = input("Introduzca el mensaje del commit: ")
     current_date = '{}{}{}'.format(DT.now().year, DT.now().month, DT.now().day)
-    repo.index.commit(str(current_date) + " " + message) #revisar esto, devuellve string not callable
+    repo.index.commit(str(current_date) + " " + message)
 
 def modify_repository(local_path):
     current_datetime = DT.now()
@@ -76,8 +87,17 @@ def git_status(repo):
 def git_log(repo):
     print(repo.git.log())
 
-my_repo = git_init(path)
+def git_remote_add(repo):
+    try:
+        remote_branch = input("Introduzca el nombre de la rama principal remota (origin por defecto pulsando enter): ")
+        if len(remote_branch) == 0: remote_branch = 'origin'
+        repo_url = input("Introduzca una url válida para crear repositorio remoto en github: ")
+        repo.create_remote(remote_branch, repo_url)
+    except git.exc.GitCommandError as err:
+        print(f"\n {err} la url {repo_url} no existe o la rama remota ya existe")
 
+my_repo = git_init(path)
+#my_repo.remote().pull método para pull
 
 while True:
     print("""
@@ -93,19 +113,19 @@ while True:
     10- Actualizar repositorio local desde remoto (pull)
     11- Subir cambios locales a remoto (push)""")
 
-    choice = input("Selecciona una opción del 1 al 12: ")
+    option = input("Selecciona una opción del 1 al 12: ")
 
-    match choice:
+    match option:
         case "1":
             git_init(path)
         case "2":
             git_clone(repo_url, path)
         case "3":
-            git_branch(my_repo, "nueva_rama")
+            git_branch(my_repo)
         case "4":
             git_checkout(my_repo)
         case "5":
-            git_status()
+            git_status(my_repo)
         case "6":
             git_add(my_repo)
         case "7":
@@ -113,13 +133,13 @@ while True:
         case "8":
             git_log(my_repo)
         case "9":
-            pass
+            git_remote_add(my_repo)
         case "10":
             pass
         case "11":
             pass
         case "12":
-            print("Saliendo...")
+            print("Fin del programa")
             break
         case _:
             print("Opción no válida.")
