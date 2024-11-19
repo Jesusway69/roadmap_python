@@ -95,9 +95,14 @@ def git_remote_add(repo):
         repo.create_remote(remote_branch, repo_url)
     except git.exc.GitCommandError as err:
         print(f"\n {err} la url {repo_url} no existe o la rama remota ya existe")
+def git_pull(repo):
+    repo.git.pull('origin', 'main')
+
+def git_push(repo):
+    repo.git.push("--set-upstream", 'origin', 'main')
 
 my_repo = git_init(path)
-#my_repo.remote().pull método para pull
+
 
 while True:
     print("""
@@ -135,9 +140,9 @@ while True:
         case "9":
             git_remote_add(my_repo)
         case "10":
-            pass
+            git_pull(my_repo)
         case "11":
-            pass
+            git_push(my_repo)
         case "12":
             print("Fin del programa")
             break
