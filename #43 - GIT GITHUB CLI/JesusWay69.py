@@ -1,11 +1,13 @@
 import os, platform, git
 from datetime import datetime as DT
 
-import git.exc
-
-if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
+if platform.platform().startswith("macOS"):
+    path = "/Users/jesus/python3_project/GitProjectPython"
+    os.system('clear')
+elif platform.platform().startswith("Linux"):
     os.system('clear')
 else:
+    path = r"C:\Users\jesus\Documents\Python3project\GitProjectPython\\"
     os.system('cls')
 
 """* EJERCICIO:
@@ -28,8 +30,6 @@ else:
  * 11. Hacer push
  * 12. Salir"""
 
-
-path = r"C:\Users\jesus\Documents\Python3project\GitProjectPython\\"
 repo_url = 'https://github.com/Jesusway69/GitProjectPython'
 
 def git_init(local_path):
@@ -57,7 +57,6 @@ def git_branch(repo):
     except git.exc.GitCommandError as err:
         print(f"\n {err} la rama {branch_name} ya existe")
     
-
 def git_checkout(repo):
     print("Ramas actuales en este repositorio:")
     print(repo.git.branch())
@@ -66,7 +65,6 @@ def git_checkout(repo):
         repo.git.checkout(branch_name)
     except git.exc.GitCommandError as err:
         print(f"\n {err} la rama {branch_name} no existe")
-
 
 def git_add(repo):
     repo.git.add('.')
@@ -93,7 +91,7 @@ def git_remote_add(repo):
         if len(remote_branch) == 0: remote_branch = 'origin'
         repo_url = input("Introduzca una url válida para crear repositorio remoto en github: ")
         repo.create_remote(remote_branch, repo_url)
-    except git.exc.GitCommandError as err:
+    except git.exc.InvalidGitRepositoryError as err:
         print(f"\n {err} la url {repo_url} no existe o la rama remota ya existe")
 def git_pull(repo):
     repo.git.pull('origin', 'main')
@@ -101,8 +99,19 @@ def git_pull(repo):
 def git_push(repo):
     repo.git.push("--set-upstream", 'origin', 'main')
 
-my_repo = git_init(path)
+def delete_branch(repo):
+    print("Ramas actuales en este repositorio:")
+    print(repo.git.branch())
+    branch_name = input("Escriba el nombre de la rama a eliminar: ")
+    try:
+        repo.git.branch("-d", branch_name)
+        print(f"Rama {branch_name} eliminada con éxito " )
+    except git.exc.InvalidGitRepositoryError as err:
+        print(f"\n {err} la rama {branch_name} no existe")
+    except git.exc.GitError as err:
+        print(f"La rama {branch_name} no está fusionada con HEAD")
 
+my_repo = git_init(path)
 
 while True:
     print("""
@@ -116,7 +125,9 @@ while True:
     8- Mostrar historial de commits
     9- Establecer repositorio remoto
     10- Actualizar repositorio local desde remoto (pull)
-    11- Subir cambios locales a remoto (push)""")
+    11- Subir cambios locales a remoto (push)
+    12- Eliminar rama
+    13- Salir""")
 
     option = input("Selecciona una opción del 1 al 12: ")
 
@@ -144,6 +155,8 @@ while True:
         case "11":
             git_push(my_repo)
         case "12":
+            delete_branch(my_repo)
+        case "13":
             print("Fin del programa")
             break
         case _:
