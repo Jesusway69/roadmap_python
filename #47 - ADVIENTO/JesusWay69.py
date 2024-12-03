@@ -45,12 +45,12 @@ for i in range(6):
 for i in range(1, 25):
     day:str = f"*{str(i).zfill(2)}*"
     calendar.append(day)
-    if i%6==0:
+    if i % 6 == 0:
         for i in range(6):
             calendar.append("****")
 
 def show_calendar(calendar:list):
-    for i in range (1,len(calendar)+1):
+    for i in range (1, len(calendar) + 1):
         print(calendar[i-1], end=' ')
         if i % 6 == 0:
             print()
