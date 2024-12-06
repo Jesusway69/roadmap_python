@@ -39,23 +39,30 @@ else:
 def create_tree(hight:int)->list:
     tree = []
     base = hight * 2 - 1
-    for branch in range(hight):
+    branch = 1
+    for i in range(hight):
         tree.append([])
-        for i in range(base):
-            if i == base // 2:
-                tree[branch].append('*')
-            if i == base // 2 - branch:
-                tree[branch].append('*')
-            else:
-                tree[branch].append(' ')
-    print(tree)
-    return tree, hight
+        [tree[i].append(' ') for j in range(base // 2)]
+        [tree[i].append('*') for k in range(branch)]
+        [tree[i].append(' ') for l in range(base // 2)]
+        base -= 2
+        branch += 2
+    for m in range (1, 3):
+        tree.append([])
+        [tree[i + m].append(' ') for n in range(hight - 2)]
+        [tree[i + m].append('|') for o in range(3)]
+        [tree[i + m].append(' ') for p in range(hight - 2)]
 
-def show_tree(tree:list, hight:int):
-    for index, branch in enumerate(tree):
-        if index == hight:
-            print()
-        else:
-            print(branch)
-tree, hight = create_tree(5)
-show_tree(tree, hight)
+    return tree
+
+def show_tree(tree:list):
+    for row in tree:
+        for column in row:
+            print(column, end='')
+        print()
+
+show_tree(create_tree(10))
+
+
+
+ 
