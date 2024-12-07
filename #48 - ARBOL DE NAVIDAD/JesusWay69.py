@@ -61,7 +61,23 @@ def show_tree(tree:list):
             print(column, end='')
         print()
 
-show_tree(create_tree(10))
+def add_star(tree:list, switch:bool)->list:
+    if switch:
+        star = ['@' if x == '*' else x for x in tree[0]]
+    else:
+        star = ['*' if x == '@' else x for x in tree[0]]
+    tree[0] = star
+    return tree
+
+
+
+
+
+
+
+tree = create_tree(10)
+show_tree(tree)
+show_tree(add_star(tree, True))
 
 
 
