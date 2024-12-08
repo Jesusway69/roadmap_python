@@ -1,4 +1,4 @@
-import os, platform
+import os, platform, random
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
@@ -56,6 +56,7 @@ def create_tree(hight:int)->list:
     return tree
 
 def show_tree(tree:list):
+    print()
     for row in tree:
         for column in row:
             print(column, end='')
@@ -69,16 +70,63 @@ def add_star(tree:list, switch:bool)->list:
     tree[0] = star
     return tree
 
+def add_balls(tree:list):
+    i=0
+    while i !=2:
+        branch = random.randint(1, len(tree)-3)
+        ball = random.randint(0, len(tree[branch]))
+        print("ronda:",i," rama:",branch," columna:", ball)
+        if tree[branch][ball-1] != '*':
+            continue
+        else:
+            tree[branch][ball-1] = 'o'
+            i+=1
+    return tree
+
+def remove_balls(tree:list):
+    for row in range(1, len(tree)-2):
+        for column in range(len(tree[row])):
+            if tree[row][column] == 'o':
+                tree[row][column] = '*'
+    return tree
 
 
 
 
+# tree = create_tree(15)
+# show_tree(tree)
+# show_tree(add_star(tree, True))
+# show_tree(add_balls(tree))
+# show_tree(add_balls(tree))
+# show_tree(remove_balls(tree))
 
 
-tree = create_tree(10)
-show_tree(tree)
-show_tree(add_star(tree, True))
 
+while True:
+    print("""
+    
+    1- Crear árbol
+    2- Añadir 2 bolas aleatoriamente
+    3- Quitar todas las bolas
+    4- Añadir 3 luces aleatoriamente 
+    5- Encender las luces
+    6- Apagar las luces
+          
+    """)
 
+    option = input("Selecciona una opción del 1 al 6: ") 
 
- 
+    match option:
+        case "1":
+            hight = input("Indroduzca la altura del árbol a crear: ")
+            tree = create_tree(hight)
+        case "2":
+            add_balls(tree=None)
+        case "3":
+            remove_balls(tree=None)
+        case "4":
+            pass
+        case "5":
+            pass
+        case "6":
+            pass
