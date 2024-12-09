@@ -24,13 +24,11 @@ else:
  *    |||
  *
  * El usuario podrá seleccionar las siguientes acciones:
- * 
  * - Añadir o eliminar la estrella en la copa del árbol (@)
  * - Añadir o eliminar bolas de dos en dos (o) aleatoriamente
  * - Añadir o eliminar luces de tres en tres (X) aleatoriamente
  * - Apagar (*) o encender (+) las luces (conservando su posición)
  * - Una luz y una bola no pueden estar en el mismo sitio
- *
  * Sólo puedes añadir una estrella, y tantas luces o bolas
  * como tengan cabida en el árbol. El programa debe notificar
  * cada una de las acciones (o por el contrario, cuando no
@@ -55,7 +53,6 @@ def create_tree(hight:int)->list:
         [tree[i + m].append(' ') for n in range(hight - 2)]
         [tree[i + m].append('|') for o in range(3)]
         [tree[i + m].append(' ') for p in range(hight - 2)]
-
     return tree
 
 def show_tree(tree:list):
