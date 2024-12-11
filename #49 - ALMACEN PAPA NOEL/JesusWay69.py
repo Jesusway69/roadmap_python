@@ -32,14 +32,14 @@ else:
 
 hidden_code = ["?","?","?","?"]
 password = random.sample(("A", "B", "C", "1", "2", "3"), 4)
-attemps = 10
+attempts = 10
 
 print("Introduzca una clave de 4 caracteres que contenga A, B, C, 1, 2 0 3 sin repeticiones")
 
-while attemps > 0:
-    attemp = input("Introduzca la clave: ").upper()
-    if re.match("[A-C1-3]{4}", attemp):
-        for index, (item1, item2) in enumerate(zip(password, attemp)):
+while attempts > 0:
+    attempt = input("Introduzca la clave: ").upper()
+    if re.match("[A-C1-3]{4}", attempt):
+        for index, (item1, item2) in enumerate(zip(password, attempt)):
             if item1 == item2:
                 print(f"El caracter '{item1}' está en la contraseña en su posición ")
                 hidden_code[index] = password[index]
@@ -51,7 +51,7 @@ while attemps > 0:
         print("Contraseña:", end=" ")
         [print("\b", char, end=' ') for char in hidden_code]
         if hidden_code.count("?") == 1: print("\n¡ANIMO! YA CASI LO  TIENES") 
-        if "".join(hidden_code) == attemp:
+        if "".join(hidden_code) == attempt:
             print("\n\n¡¡ENHORABUENA, HAS ADIVINADO LA CONTRASEÑA!!")
             print("\n      *****FELIZ NAVIDAD*****")
             break
@@ -59,9 +59,9 @@ while attemps > 0:
         print("\nEl código introducido tiene una longitud diferente a 4 o tiene algún caracter no válido.")
         print("Pierdes un intento.")
     
-    attemps -= 1
-    if attemps > 0: print(f"\nTe {f"quedan {attemps} intentos" if attemps > 1 else f"queda 1 intento"} para adivinar la contraseña")
-    if attemps == 0:
+    attempts -= 1
+    if attempts > 0: print(f"\n\nTe {f"quedan {attempts} intentos" if attempts > 1 else f"queda 1 intento"} para adivinar la contraseña")
+    if attempts == 0:
         print("\n\nSe te han acabado los intentos, Papá Noel no podrá entregar los regalos 😔")
         print(f"La contraseña es: {"".join(password)} , era muy sencilla.. ")
         
