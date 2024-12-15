@@ -2,7 +2,6 @@ package roadmap.ejercicio_49;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
-
 /*
  * EJERCICIO: Papá Noel tiene que comenzar a repartir los regalos... ¡Pero ha
  * olvidado el código secreto de apertura del almacén!
@@ -32,7 +31,7 @@ public class JesusWay69 {
         int attempts = 10;
         Scanner sc = new Scanner(System.in);
         var  password = new HashSet<Character>();
-        while (password.size() < 4) password.add(allow[(char) (Math.random() * 6)]);
+        while (password.size() < 4) password.add(allow[(char) (Math.random() * allow.length)]);
         
         System.out.println("Introduzca una clave de 4 caracteres que contenga A, B, C, 1, 2 0 3 sin repeticiones: ");
 
@@ -40,7 +39,7 @@ public class JesusWay69 {
             System.out.print("Introduzca la clave: ");
             String attempt = sc.next().toUpperCase();
             if (attempt.matches("[A-C1-3]{4}")) {
-                    int i =0;
+                    int i = 0;
                     for (char key : password) {
                         if (attempt.charAt(i) == key) {
                             System.out.println("El caracter " + attempt.charAt(i) + " está en la contraseña en su posición ");
@@ -58,7 +57,8 @@ public class JesusWay69 {
                     if (!Arrays.asList(hiddenCode).contains('?')){
                         System.out.println("\n\n¡¡ENHORABUENA, HAS ADIVINADO LA CONTRASEÑA!!");
                         System.out.println("\n      *****FELIZ NAVIDAD*****\n");
-                        break;
+                        attempts = 0;
+                        continue;
                     }
 
             } else {
