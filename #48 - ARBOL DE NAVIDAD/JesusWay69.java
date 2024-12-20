@@ -1,21 +1,33 @@
 package reto_49;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Scanner;
 
 public class JesusWay69 {
 
     public static void main(String[] args) {
-
-        showTree(createTree(5));
+        char [][] myTree = createTree(5);
+        showTree(myTree);
+        topStar(myTree, true);
+        showTree(myTree);
+        topStar(myTree, false);
+        showTree(myTree);
+        Scanner sc = new Scanner(System.in);
+        
+        
+        
+        
     }
 
     public static char[][] createTree(int files) {
         int columns = files * 2 - 1;
         int branch = 1;
-        //List<List> tree = new ArrayList<>();
         char[][] tree = new char[files + 2][columns];
+
+        if (files <= 3) {
+            System.out.println("No se puede crear un árbol de menos de 4 alturas");
+            tree = null;
+            return tree;
+        }
 
         for (int i = 0; i < files; i++) {
             for (int j = 0; j < columns / 2; j++) {
@@ -63,6 +75,20 @@ public class JesusWay69 {
             System.out.println();
 
         }
+    }
+
+    public static char[][] topStar(char[][] tree, boolean switchStar) {
+        if (tree == null) {
+            System.out.println("ERROR: Hay que crear un árbol antes de poder modificarlo (opción 1)");
+            return null;
+        }else if(switchStar){
+            tree[0][tree[0].length/2] = '@';
+        }else{
+            tree[0][tree[0].length/2] = '*';
+        }
+        
+
+        return tree;
     }
 
 }
