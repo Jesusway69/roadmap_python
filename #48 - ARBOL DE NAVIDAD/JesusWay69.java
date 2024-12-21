@@ -5,17 +5,58 @@ import java.util.Scanner;
 public class JesusWay69 {
 
     public static void main(String[] args) {
-        char [][] myTree = createTree(5);
-        showTree(myTree);
+        //char [][] myTree = createTree(5);
+        /*showTree(myTree);
         topStar(myTree, true);
         showTree(myTree);
         topStar(myTree, false);
-        showTree(myTree);
-        Scanner sc = new Scanner(System.in);
-        
-        
-        
-        
+        showTree(myTree);*/
+        char[][] myTree = null;
+
+        do {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("""
+              1- Crear árbol
+              2- Añadir estrella 
+              3- Eliminar estrella 
+              4- Añadir 2 bolas aleatoriamente
+              5- Quitar todas las bolas
+              6- Añadir 3 luces aleatoriamente 
+              7- Encender las luces
+              8- Apagar las luces
+                             """);
+            System.out.print("Elija una opción: ");
+            Byte option = sc.nextByte();
+            if (option>8 || option <1 || option instanceof Byte == false){
+                System.out.println("El dato tiene que ser numérico del 1 al 8");
+            }
+            switch (option) {
+                case 1:
+                    System.out.println("Introduzca la altura del árbol (mayor de 3): ");
+                    int hight = sc.nextInt();
+                    myTree = createTree(hight);
+                    showTree(myTree);
+                    break;
+                case 2:
+                    topStar(myTree, true);
+                    showTree(myTree);
+                    break;
+                case 3:
+                    topStar(myTree, false);
+                    showTree(myTree);
+                    break;
+                case 4:
+                    addBalls(myTree);
+                    showTree(myTree);
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                default:
+
+            }
+        } while (true);
     }
 
     public static char[][] createTree(int files) {
@@ -81,13 +122,26 @@ public class JesusWay69 {
         if (tree == null) {
             System.out.println("ERROR: Hay que crear un árbol antes de poder modificarlo (opción 1)");
             return null;
-        }else if(switchStar){
-            tree[0][tree[0].length/2] = '@';
-        }else{
-            tree[0][tree[0].length/2] = '*';
+        } else if (switchStar) {
+            tree[0][tree[0].length / 2] = '@';
+        } else {
+            tree[0][tree[0].length / 2] = '*';
         }
-        
 
+        return tree;
+    }
+
+    public static char[][] addBalls(char[][] tree) {
+
+        for (int i = 0; i < 2; i++) {
+            int randomFile = (int) (Math.random() * tree.length - 2 + 1);
+            int randomColumn = (int) (Math.random() * tree[0].length);
+            if (tree[randomFile][randomColumn] == '*') {
+                tree[randomFile][randomColumn] = 'O';
+            } else {
+                i--;
+            }
+        }
         return tree;
     }
 
