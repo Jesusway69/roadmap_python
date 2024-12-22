@@ -50,6 +50,9 @@ public class JesusWay69 {
                     showTree(myTree);
                     break;
                 case 5:
+                    removeBalls(myTree);
+                    showTree(myTree);
+                    break;
                 case 6:
                 case 7:
                 case 8:
@@ -140,6 +143,17 @@ public class JesusWay69 {
                 tree[randomFile][randomColumn] = 'O';
             } else {
                 i--;
+            }
+        }
+        return tree;
+    }
+    public static char[][] removeBalls(char[][] tree){
+        for (int i = 1; i < tree.length - 2; i++) {
+            for(int j = 0 ; j < tree[i].length ; j++){
+                if(tree[i][j] == 'O'){
+                    System.out.println("encontrado");
+                    tree[i][j] = '*';
+                }
             }
         }
         return tree;
