@@ -22,7 +22,7 @@ twitchAPI==4.3.1
 typing_extensions==4.12.2
 urllib3==2.2.3
 yarl==1.15.4
-
+pyjokes==0.8.3
 #Crear entorno virtual dentro de Python3project/roadmap_python con python3 -m venv .venv 
 #activarlo ejecutando: source .venv/bin/activate (Mac , Linux y Windows con gitbash o WSL) o: .venv/Scripts/activate en Windows con powershell
 # y ejecutar pip install -r requirements.txt
