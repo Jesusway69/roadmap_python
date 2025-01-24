@@ -73,28 +73,28 @@ while mickey_position != [-1, -1]:
     next_row, next_column = row, column
 
     movement = input("""\n\nElija un movimiento para guiar a Mickey por el laberinto:
-              n - Subir
+              w - Subir
               s - Bajar
-              w - Izquierda
-              e - Derecha
+              a - Izquierda
+              d - Derecha
               ---> """).lower()    
               
-    if movement != "n" and movement != "s" and movement != "w" and movement != "e":
+    if movement != "w" and movement != "s" and movement != "d" and movement != "a":
         print("comando no válido, pruebe de nuevo")
         show_labyrinth(labyrinth)
         continue
 
     else:
-        if movement == "n":
+        if movement == "w":
             next_row = row - 1
             
         elif movement == "s":
             next_row = row + 1
            
-        elif movement == "w":
+        elif movement == "a":
             next_column = column - 1
             
-        elif movement == "e":
+        elif movement == "d":
             next_column = column + 1
            
     mickey_position = movements(next_row, next_column, mickey_position)
