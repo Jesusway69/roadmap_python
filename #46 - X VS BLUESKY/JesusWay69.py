@@ -1,4 +1,5 @@
 import os, platform
+from datetime import datetime as DT
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
@@ -36,30 +37,45 @@ else:
 
 
 class User:
+    auto_increment_user_id = 0
+    user_posts = []
     def __init__(self, name):
         self.name = name  
-        self.my_users_dict = {}
-        self.my_users_dict = {str(len(self.my_users_dict)+1):self.name}
+        User.auto_increment_user_id += 1
+        self.id = User.auto_increment_user_id
 
 
-    def create_Post():
+    def create_Post(self, message):
+        if (len(message)>200):
+            print("No se puede crear un post de más de 200 caracteres")
+        else:
+            User.user_posts.append(message)
+        
+
+    def following():
         pass
+
+    def show_posts(self):
+        print(f"Mensajes de {self.name}:")
+        [print("-", post, ", created at", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
+                "message id: ", index+1) for index, post in enumerate(User.user_posts)]
 
 users_list = ["Manolo", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
                "Miguel", "Silvia", "Pablo", "Rocío", "Joseph", "Isabel", "Tony", "Cristina", "Marco", "Elena"]
-manolo = User('Manolo')
-sara = User(users_list[0])
-luis = User(users_list[1])
-ana = User(users_list[2])
-kevin = User(users_list[3])
-sandra = User(users_list[4])
-pedro = User(users_list[5])
-megan = User(users_list[6])
+manolo = User(users_list[0])
+sara = User(users_list[1])
+luis = User(users_list[2])
+ana = User(users_list[3])
+kevin = User(users_list[4])
+sandra = User(users_list[5])
+pedro = User(users_list[6])
+megan = User(users_list[7])
 
-print(manolo.my_users_dict)
-print(sara.my_users_dict)
-print(ana.my_users_dict)
-print(kevin.my_users_dict)
+print(manolo.id, manolo.name)
+print(pedro.id, pedro.name)
+manolo.create_Post("Este es el primer mensaje de manolo")
+manolo.create_Post("Este es el segundo mensaje de manolo")
+manolo.show_posts()
 
 
 
