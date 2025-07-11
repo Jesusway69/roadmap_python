@@ -35,7 +35,6 @@ else:
  * Controla errores en duplicados o acciones no permitidas.
 """
 
-
 class User:
     auto_increment_user_id = 0
     user_posts = []
@@ -52,13 +51,19 @@ class User:
             User.user_posts.append(message)
         
 
-    def following():
-        pass
+    def following(self, follow:tuple):
+        self.follow = follow
+        return self.follow
 
     def show_posts(self):
         print(f"Mensajes de {self.name}:")
         [print("-", post, ", created at", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
                 "message id: ", index+1) for index, post in enumerate(User.user_posts)]
+    
+    def show_user_profile(self):
+        print(f"Username: {self.name}, UserID: {self.id}")
+        print(f"Following:", self.following())
+
 
 users_list = ["Manolo", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
                "Miguel", "Silvia", "Pablo", "Rocío", "Joseph", "Isabel", "Tony", "Cristina", "Marco", "Elena"]
@@ -76,6 +81,9 @@ print(pedro.id, pedro.name)
 manolo.create_Post("Este es el primer mensaje de manolo")
 manolo.create_Post("Este es el segundo mensaje de manolo")
 manolo.show_posts()
+#manolo.following(luis, ana)
+manolo.show_user_profile()
+
 
 
 

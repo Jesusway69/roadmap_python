@@ -1,7 +1,9 @@
-import os
-os.system('clear') #MAC/LINUX
-#os.system('cls') #WINDOWS
-
+import os, platform
+print(platform.platform())
+if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
+    os.system('clear')
+else:
+    os.system('cls')
 
 """
 * EJERCICIO:
@@ -15,9 +17,7 @@ os.system('clear') #MAC/LINUX
  * - Debes hacer print por consola del resultado de todos los ejemplos.
  *"""
 
-
 #CONDICIONALES CON OPERADORES DE COMPARACIÓN
-
 mi_numero = int(input('Escriba un número: '))
 
 if mi_numero > 10:
@@ -35,20 +35,14 @@ if mi_numero % 5 == 0:
    print(" y múltiplo de 5") 
 
 
-
-
 #OPERADORES ARITMÉTICOS ENTRE 2 NÚMEROS:
-   
 mi_otro_numero =  int(input('Escriba otro número: '))
 print ("Tu primer número y tu segundo número suman:" , (mi_numero + mi_otro_numero))
 print ("Tu primer número menos tu segundo número es:" , (mi_numero - mi_otro_numero))
 print ("Tu primer número multiplicado por tu segundo número es:" , (mi_numero * mi_otro_numero))
 print ("Tu primer número dividido por tu segundo número es:" , (mi_numero / mi_otro_numero))
 
-
-
 #ESTRUCTURAS DE CONTROL:
-
 condicion = True
 if condicion:
  print("se ejecuta la condición si es true")
@@ -58,7 +52,6 @@ if condicion:
  condicion = 5*2
 if condicion == 10:
      print ('se ejecuta la condicion del segundo if')
-
      print ("la ejecución continúa")
 
 condicion=0
@@ -74,12 +67,7 @@ while condicion<100:
 else:
     print("ya ha llegado a" , condicion)
 
-
-
-
-
-#CONTROL DE EXCEPCIONES:
-    
+#CONTROL DE EXCEPCIONES: 
 primer_numero = 4
 segundo_numero = 0
 #Comentar y descomentar la siguiente asignación de segundo_numero para ver cambios
@@ -102,7 +90,7 @@ except: #obligatorio para completar try
 else: # opcional para continuar sin excepciones
     print ("la ejecución continúa")
 
-   ### try-except-else-finally
+### try-except-else-finally
 try: 
    print(primer_numero + segundo_numero)
    print("operación correcta")
@@ -113,14 +101,14 @@ else: # opcional para continuar sin excepciones
 finally: #opcional para continuar con y sin excepciones
     print("la ejecución continúa pero puede haber errores")
 
-   ###prevención de excepciones por tipo
+###prevención de excepciones por tipo
 try: 
    print(primer_numero + segundo_numero)
    print("operación correcta")
 except TypeError: #TypeError limita la excepción al tipo de dato
     print("tipos de dato incompatibles para esta opración")
 
-   ###prevención de excepciones por tipo y/o por valor
+###prevención de excepciones por tipo y/o por valor
 try: 
    print(primer_numero + segundo_numero)
    print("operación correcta")
@@ -130,16 +118,12 @@ except TypeError: #TypeError limita la excepción al tipo de dato
     print("tipos de dato incompatibles para esta operación")
 
 
-    ###prevención y captura de fallos (concretos o genéricos)
+###prevención y captura de fallos (concretos o genéricos)
 try: 
    print(primer_numero / segundo_numero)
    print("operación correcta")
 except Exception as fallo: #Exception nos permite capturar cualquier excepción en una variable
     print(fallo)
-
-
-
-
 
 #EJERCICIO PROPUESTO
 """
