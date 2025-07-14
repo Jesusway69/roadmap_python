@@ -57,12 +57,15 @@ class User:
 
     def show_posts(self):
         print(f"Mensajes de {self.name}:")
-        [print("-", post, ", created at", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
+        [print("-", post, ", creado el", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
                 "message id: ", index+1) for index, post in enumerate(User.user_posts)]
     
     def show_user_profile(self):
+        users_following = self.following(self.follow)
         print(f"Username: {self.name}, UserID: {self.id}")
-        print(f"Following:", self.following())
+        print(f"Following:")
+        for follower in users_following:
+            print("\b-",follower.name)
 
 
 users_list = ["Manolo", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
@@ -78,10 +81,13 @@ megan = User(users_list[7])
 
 print(manolo.id, manolo.name)
 print(pedro.id, pedro.name)
-manolo.create_Post("Este es el primer mensaje de manolo")
-manolo.create_Post("Este es el segundo mensaje de manolo")
+manolo.create_Post(f"Este es el primer mensaje de {manolo.name}")
+manolo.create_Post(f"Este es el segundo mensaje de {manolo.name}")
+sara.create_Post(f"Este es el primer mensaje de {sara.name}")
+pedro.create_Post(f"Este es el primer mensaje de {pedro.name}")
+kevin.create_Post(f"Este es el primer mensaje de {kevin.name}")
 manolo.show_posts()
-#manolo.following(luis, ana)
+manolo.following((luis, ana))
 manolo.show_user_profile()
 
 
