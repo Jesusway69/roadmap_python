@@ -1,13 +1,14 @@
-import os
-os.system('clear')
-#os.system('cls')
+import os, platform
+
+if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
+    os.system('clear')
+else:
+    os.system('cls')
 
 # COMENTARIO EN UN LÍNEA
 
-
 """
 COMENTARIO EN VARIAS LÍNEAS:
-
  * EJERCICIO:
  * - Crea un comentario en el código y coloca la URL del sitio web oficial del
  *   lenguaje de programación que has seleccionado.
