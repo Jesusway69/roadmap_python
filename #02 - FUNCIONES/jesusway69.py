@@ -1,6 +1,9 @@
-import os
-os.system('clear') #MAC/LINUX
-os.system('cls') #WINDOWS
+import os, platform
+
+if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
+    os.system('clear')
+else:
+    os.system('cls')
 
 """
  * EJERCICIO:
@@ -16,107 +19,90 @@ os.system('cls') #WINDOWS
 """
 
 #FUNCIÓN SIN RETORNO NI PARÁMETROS
-def imprime_hasta_10():
+def print_until_10():
     for i in range (1,11):
         print(i, end=' ')
-
-imprime_hasta_10()
+print_until_10()
 
 #FUNCIÓN CON RETORNO
-def introducir_datos()->str:
-    mi_texto = input(" \nEscriba su texto: ")
-    return mi_texto
+def input_data()->str:
+    my_text = input(" \nEscriba su texto: ")
+    return my_text
 
 #FUNCIÓN SIN RETORNO CON UN PARÁMETRO RECIBIDO DE LA FUNCIÓN ANTERIOR 
-def imprimir_datos(mi_texto):
-    print(mi_texto)
-
-imprimir_datos(introducir_datos())
-
+def print_data(my_text:str):
+    print(my_text)
+print_data(input_data())
 
 #FUNCIÓN QUE RECIBE VARIOS PARÁMETROS
-def calcular_media_valores (valor1, valor2, valor3,valor4,valor5):
-    media = (valor1+valor2+valor3+valor4+valor5)/5
-    print(media)
+def calc_avg (value1, value2, value3, value4, value5):
+    print("prueba args:")
+    print((value1 + value2 + value3 + value4 + value5) / 5)
+calc_avg(1, 3, 5, 7, 9)
 
-calcular_media_valores(1,3,5,7,9)
-
-mi_lista = [1,3,5,7,9] #variable global
-mi_otra_lista = [0,1,2,3,4,5,6,7,8,9] #variable global
+my_list = [1, 3, 5, 7, 9] #variable global
+my_other_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] #variable global
 
 #FUNCIÓN QUE RECIBE UNA LISTA COMO PARÁMETRO
-def calcular_media_lista (mi_lista):
-    print(sum(mi_lista)/len(mi_lista))
-
-calcular_media_lista(mi_lista)
-
+def calc_avg_list (my_list):
+    print(sum(my_list) / len(my_list))
+calc_avg_list(my_list)
 
 #FUNCIÓN LAMBDA (SÓLO PARA CÁLCULOS)
-calcular_media_lambda = lambda valor1,valor2,valor3,valor4,valor5:(valor1+valor2+valor3+valor4+valor5)/5
-
-print(calcular_media_lambda(1,3,5,7,9))
-
-
+calculate_avg_with_lambda_funtcion = lambda value1, value2, value3, value4, value5: (value1 + value2 + value3 + value4 + value5) / 5
+print(int(calculate_avg_with_lambda_funtcion(1,3,5,7,9)))
 
 #FUNCIÓN LAMBDA CON FUNCIÓN DE LENGUAJE filter Y LLAMADA A OTRA FUNCIÓN ANTERIOR
-impares = filter(lambda filtrado: filtrado % 2 != 0, mi_otra_lista)
-calcular_media_lista(list(impares))
+odd_numbers = filter(lambda filtrado: filtrado % 2 != 0, my_other_list)
+calc_avg_list(list(odd_numbers))
 
-#FUNCIÓN QUE RECIBE LA VARIABLE GLOBAL mi_lista E IMPRIME SUS VALORES CON BUCLE FOR
-def imprimir_numeros_lista_for(mi_lista):
-    for i in (mi_lista):
+#FUNCIÓN QUE RECIBE LA VARIABLE GLOBAL my_list E IMPRIME SUS VALORES CON BUCLE FOR
+def print_numbers_list_for(my_list):
+    for i in (my_list):
      print (i, end=' -> ')
-imprimir_numeros_lista_for(mi_lista)
+print_numbers_list_for(my_list)
 
-#FUNCIÓN QUE IMPRIME LOS VALORES DE LA VARIABLE LOCAL mi_lista_local SIN USAR BUCLE
-def imprimir_numeros_lista_sin_bucle():
-    mi_lista_local = [1,3,5,7,9] #variable local
-    print (* mi_lista_local)
-imprimir_numeros_lista_sin_bucle()
-
+#FUNCIÓN QUE IMPRIME LOS VALORES DE LA VARIABLE LOCAL my_list_local SIN USAR BUCLE
+def print_numbers_list_without_loop():
+    my_list_local = [1,3,5,7,9] #variable local
+    print(my_list_local)
+print_numbers_list_without_loop()
 
 #FUNCIÓN QUE RECIBE VARIABLE GLOBAL E IMPRIME VALORES SIN BUCLE CON SEPARADOR DEFINIDO
-def imprimir_numeros_con_separador(mi_lista):
-    print (* mi_lista , sep = "-")
-imprimir_numeros_con_separador(mi_lista)
+def print_numbers_with_separator(my_list):
+    print (*my_list , sep = "-")
+print_numbers_with_separator(my_list)
 
 #FUNCIÓN CON VARIABLE LOCAL QUE IMPRIME VALORES CON FUNCIÓN DE LENGUAJE join
-def imprimir_numeros_con_funcion_join():
-    mi_lista_str = ["1","3","5","7","9"]#la lista se debe definir con strings para usar join
-    print('_'.join(mi_lista_str))
-imprimir_numeros_con_funcion_join()
-
+def print_numbers_with_join_funtcion():
+    my_list_str = ["1","3","5","7","9"] #la lista se debe definir con strings para usar join
+    print('_'.join(my_list_str))
+print_numbers_with_join_funtcion()
 
 #FUNCIÓN IGUAL A LA ANTERIOR PERO RECIBE LISTA DE NÚMEROS Y LA CONVIERTE EN STRING
-def imprimir_numeros_con_funcion_join_map(mi_lista):
-    print('>'.join(map(str, mi_lista))) # con el método propio map se castea la lista de numérica a string
-imprimir_numeros_con_funcion_join_map(mi_lista)
-
+def print_numbers_with_join_funtcion_map(my_list):
+    print('>'.join(map(str, my_list))) # con el método propio map se castea la lista de numérica a string
+print_numbers_with_join_funtcion_map(my_list)
 
 #FUNCIÓN RECURSIVA
-def imprimir_recursivo(num):
+def print_with_recursive_funtcion(num:int):
     num += 2
     if num < 10:
         print(num, end=' : ')
-        imprimir_recursivo(num)
-
-imprimir_recursivo(-1)
-
+        print_with_recursive_funtcion(num)
+print_with_recursive_funtcion(-1)
 
 #FUNCIÓN DENTRO DE OTRA FUNCIÓN
-def elimina_pares():
-        def imprime_impares(mi_otra_lista):
-            print(mi_otra_lista)# 4- La función interna imprime la lista de impares
+def remove_even_numbers():
+        def print_odd_numbers(my_other_list:list):
+            print(my_other_list)# 4- La función interna imprime la lista de números impares
 
-        print(mi_otra_lista[0:len(mi_otra_lista)])# 1- Se imprime la lista completa
-        for i in mi_otra_lista:
+        print(my_other_list[0 : len(my_other_list)])# 1- Se imprime la lista completa
+        for i in my_other_list:
           if i % 2 == 0:
-            mi_otra_lista.remove(i)# 2- Se quitan los números pares
-
-        imprime_impares(mi_otra_lista)# 3- Llamamos la la función que imprime y le pasamos la lista de impares
-
-elimina_pares()
-
+            my_other_list.remove(i)# 2- Se quitan los números pares
+        print_odd_numbers(my_other_list)# 3- Llamamos la la función que imprime y le pasamos la lista de números impares
+remove_even_numbers()
 
 """
  * DIFICULTAD EXTRA (opcional):
@@ -130,23 +116,23 @@ elimina_pares()
  * Presta especial atención a la sintaxis que debes utilizar en cada uno de los casos.
  * Cada lenguaje sigue una convenciones que debes de respetar para que el código se entienda."""
 
-cadena1 = "Hola"
-cadena2 = "Python"
+string1 = "Hola"
+string2 = "Python"
 print ("\nEJERCICIO PROPUESTO")
 print ("-------------------")
 
-def hola_python(cadena1,cadena2)->int:
-    acumulado=0
+def hello_python(string1,string2):
+    acc = 0
     for i in range (1,101):
         if i % 3 == 0 and i % 5 == 0:
-            print(cadena1, cadena2)
+            print(string1, string2)
         elif i % 3 == 0:
-            print(cadena1)
+            print(string1)
         elif i % 5 == 0:
-            print (cadena2)
+            print (string2)
         else:
             print(i)
-            acumulado +=1
-    print(f"hay {acumulado} números que no son múltiplos de 3 ni de 5")
+            acc += 1
+    print(f"hay {acc} números que no son múltiplos de 3 ni de 5")
 
-hola_python(cadena1,cadena2)
+hello_python(string1,string2)
