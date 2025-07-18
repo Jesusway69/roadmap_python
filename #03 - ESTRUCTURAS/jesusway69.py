@@ -1,5 +1,9 @@
-import os
-os.system ('cls')
+import os, platform
+
+if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
+    os.system('clear')
+else:
+    os.system('cls')
 
 """
  * EJERCICIO:
@@ -7,37 +11,37 @@ os.system ('cls')
  * - Utiliza operaciones de inserción, borrado, actualización y ordenación.
  *
 """
-#LISTA , ESTRUCTURA DE ELEMENTOS MUTABLES QUE PUEDEN SER DE VARIOS TIPOS 
-print ("LISTA" , "\n-----")
-lista = [1, 3.5, 7j, "Hola", "Python", True, None, [4, 5], (1, "hola", False)]
-print(type(lista))
-[print(i , end =' ') for i in lista]#Forma simplificada de bucle for con instrucción de impresión
-lista.append("Elemento al final") #Agrega elemento al final
-print(lista)
-lista.insert(2 ,"elemento agregado en la posición 2") # Inserta elemento en la posición determinada 
-print(lista)
-lista.remove((1, "hola", False)) #Borra el elemento especificado
-print(lista)
-print("Veces que se repite el nº 1 y/o el booleano True: ",lista.count(1))
+#lista , ESTRUCTURA DE ELEMENTOS MUTABLES QUE PUEDEN SER DE VARIOS TIPOS 
+print ("lista" , "\n-----")
+my_list = [1, 3.5, 7j, "Hola", "Python", True, None, [4, 5], (1, "hola", False)]
+print(type(my_list))
+[print(i , end =' ') for i in my_list]#Forma simplificada de bucle for con instrucción de impresión
+my_list.append("Elemento al final") #Agrega elemento al final
+print(my_list)
+my_list.insert(2 ,"elemento agregado en la posición 2") # Inserta elemento en la posición determinada 
+print(my_list)
+my_list.remove((1, "hola", False)) #Borra el elemento especificado
+print(my_list)
+print("Veces que se repite el nº 1 y/o el booleano True: ",my_list.count(1))
 # devuelve el nº de repeticiones de un elemento (devuelve 2 porque interpreta el True como otro 1)
-#el método .count también es válido pata tuplas
-lista.reverse()# El método .reverse invierte el orden de los elementos de la lista
-print(lista)
+#el método .count también es válido pata my_tuple s
+my_list.reverse()# El método .reverse invierte el orden de los elementos de la lista
+print(my_list)
 
 
-#TUPLA , ESTRUCTURA DE ELEMENTOS INMUTABLES QUE PUEDEN SER DE VARIOS TIPOS
-print ("\nTUPLA" , "\n-----")
-tupla = 1, 2, 2, 3.5, 7j, "Hola", "Python", True, None, [4,5,6], [1,2,3] #Se puede declarar con o sin paréntesis
-print(type(tupla))
-[print(i, end =' ') for i in tupla] #Forma simplificada de bucle for con instrucción de impresión
+#TUPLA, ESTRUCTURA DE ELEMENTOS INMUTABLES QUE PUEDEN SER DE VARIOS TIPOS
+print ("\ntupla " , "\n-----")
+my_tuple  = 1, 2, 2, 3.5, 7j, "Hola", "Python", True, None, [4,5,6], [1,2,3] #Se puede declarar con o sin paréntesis
+print(type(my_tuple ))
+[print(i, end =' ') for i in my_tuple ] #Forma simplificada de bucle for con instrucción de impresión
 print('')
-tupla_vacia =() #Declaración de una tupla vacía
-print (len(tupla_vacia)) #de longitud 0
-tupla_un_elemento = "elemento único", #Declaración de una tupla con un solo elemento
-print(len(tupla_un_elemento))#de longitud 1
-print(tupla_un_elemento)
-print (tupla.index("Python")) #Devuelve la posición del elemento especificado
-print (tupla)
+my_empty_tuple = () #Declaración de una my_tuple  vacía
+print (len(my_empty_tuple)) #de longitud 0
+my_one_element_tuple = "elemento único", #Declaración de una my_tuple  con un solo elemento
+print(len(my_one_element_tuple))#de longitud 1
+print(my_one_element_tuple)
+print (my_tuple.index("Python")) #Devuelve la posición del elemento especificado
+print (my_tuple)
 
 
 #SET , ESTRUCTURA MUTABLE DE ELEMENTOS ÚNICOS
@@ -50,9 +54,9 @@ print("\n")
 for i in set2:       #Forma tradicional de bucle for
     print(i, end=' ')#con instrucción de impresión
 print('\n')       
-print (set1-set2)# muestra los elementos que solo existen en set1 y no están en set2 ni en ambos
+print (set1 - set2)# muestra los elementos que solo existen en set1 y no están en set2 ni en ambos
 #Equivalente a print(set1.difference(set2))
-print (set2-set1)# muestra los elementos que solo existen en set2 y no están en set1 ni en ambos
+print (set2 - set1)# muestra los elementos que solo existen en set2 y no están en set1 ni en ambos
 #Equivalente a print(set2.difference(set1))
 print (set1 & set2)# muestra únicamente los elementos que existen a la vez en ambos sets
 # Equivalente a print (set1.intersection(set2))
@@ -142,10 +146,8 @@ def borrar():
         agenda.pop(nombre)
         print("El usuario", str(nombre), "se ha eliminado correctamente")
 
-    else : print("El usuario", nombre , "no existe")
-
-
-
+    else:
+        print("El usuario", nombre , "no existe")
 
 while True:
  print ("""\nSeleccione una opcion:
