@@ -37,35 +37,41 @@ else:
 
 class User:
     auto_increment_user_id = 0
-    user_posts = []
+    
     def __init__(self, name):
         self.name = name  
         User.auto_increment_user_id += 1
         self.id = User.auto_increment_user_id
+        self.user_posts = []
+        self.follow = ()
 
 
     def create_Post(self, message):
-        if (len(message)>200):
+        self.message = message
+        if (len(self.message)>200):
             print("No se puede crear un post de más de 200 caracteres")
         else:
-            User.user_posts.append(message)
+            self.user_posts.append(self.message)
         
 
-    def following(self, follow:tuple):
+    def following(self, follow = ()):
         self.follow = follow
         return self.follow
 
     def show_posts(self):
         print(f"Mensajes de {self.name}:")
         [print("-", post, ", creado el", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
-                "message id: ", index+1) for index, post in enumerate(User.user_posts)]
+                "message id: ", index+1) for index, post in enumerate(self.user_posts)]
     
     def show_user_profile(self):
         users_following = self.following(self.follow)
-        print(f"Username: {self.name}, UserID: {self.id}")
+        print()
+        print(f"INFORMACIÓN DE USUARIO\n -------------------\nUsername: {self.name}\nUserID: {self.id}")
         print(f"Following:")
         for follower in users_following:
-            print("\b-",follower.name)
+            print("-",follower.name)
+        self.show_posts()
+        print()
 
 
 users_list = ["Manolo", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
@@ -78,17 +84,24 @@ kevin = User(users_list[4])
 sandra = User(users_list[5])
 pedro = User(users_list[6])
 megan = User(users_list[7])
+victor = User(users_list[8])
+paula = User(users_list[9])
+miguel = User(users_list[10])
 
-print(manolo.id, manolo.name)
-print(pedro.id, pedro.name)
+
 manolo.create_Post(f"Este es el primer mensaje de {manolo.name}")
 manolo.create_Post(f"Este es el segundo mensaje de {manolo.name}")
 sara.create_Post(f"Este es el primer mensaje de {sara.name}")
 pedro.create_Post(f"Este es el primer mensaje de {pedro.name}")
 kevin.create_Post(f"Este es el primer mensaje de {kevin.name}")
-manolo.show_posts()
+sara.create_Post(f"Este es el segundo mensaje de {sara.name}")
+
 manolo.following((luis, ana))
+sara.following((pedro,))
 manolo.show_user_profile()
+sara.show_user_profile()
+megan.show_user_profile()
+pedro.show_user_profile()
 
 
 
