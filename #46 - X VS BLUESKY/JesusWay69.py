@@ -42,7 +42,9 @@ class User:
         self.name = name  
         User.auto_increment_user_id += 1
         self.id = User.auto_increment_user_id
-        self.user_posts = []
+        self.user_posts = {}
+        self.user_post_liked = {}
+        self.index_message = 0
         self.follow = ()
 
 
@@ -51,8 +53,9 @@ class User:
         if (len(self.message)>200):
             print("No se puede crear un post de más de 200 caracteres")
         else:
-            self.user_posts.append(self.message)
-        
+            self.index_message +=1
+            self.user_posts[str(self.index_message)] = message
+            #self.user_posts.append(self.message)    
 
     def following(self, follow = ()):
         self.follow = follow
@@ -60,8 +63,8 @@ class User:
 
     def show_posts(self):
         print(f"Mensajes de {self.name}:")
-        [print("-", post, ", creado el", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
-                "message id: ", index+1) for index, post in enumerate(self.user_posts)]
+        [print("-", v, ", creado el", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
+                "message id: ", k) for k, v in self.user_posts.items()]
     
     def show_user_profile(self):
         users_following = self.following(self.follow)
@@ -73,9 +76,16 @@ class User:
         self.show_posts()
         print()
 
+    def delete_post(self, message):
+        self.message = message
+        pass
 
+
+#LISTA DE USUARIOS
 users_list = ["Manolo", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
                "Miguel", "Silvia", "Pablo", "Rocío", "Joseph", "Isabel", "Tony", "Cristina", "Marco", "Elena"]
+
+#CREACIÓN DE INSTANCIAS DE CLASE
 manolo = User(users_list[0])
 sara = User(users_list[1])
 luis = User(users_list[2])
@@ -87,21 +97,52 @@ megan = User(users_list[7])
 victor = User(users_list[8])
 paula = User(users_list[9])
 miguel = User(users_list[10])
+silvia = User(users_list[11])
+pablo = User(users_list[12])
+rocio = User(users_list[13])
+joseph = User(users_list[14])
+isabel = User(users_list[15])
+tony = User(users_list[16])
+cristina = User(users_list[17])
+marco = User(users_list[18])
+elena = User(users_list[19])
 
-
+#CREACIÓN DE MENSAJES
 manolo.create_Post(f"Este es el primer mensaje de {manolo.name}")
 manolo.create_Post(f"Este es el segundo mensaje de {manolo.name}")
 sara.create_Post(f"Este es el primer mensaje de {sara.name}")
 pedro.create_Post(f"Este es el primer mensaje de {pedro.name}")
 kevin.create_Post(f"Este es el primer mensaje de {kevin.name}")
 sara.create_Post(f"Este es el segundo mensaje de {sara.name}")
+victor.create_Post(f"Este es el primer mensaje de {victor.name}")
+miguel.create_Post(f"Este es el primer mensaje de {miguel.name}")
+manolo.create_Post(f"Este es el tercer mensaje de {manolo.name}")
+paula.create_Post(f"Este es el primer mensaje de {paula.name}")
+marco.create_Post(f"Este es el primer mensaje de {marco.name}")
+joseph.create_Post(f"Este es el primer mensaje de {joseph.name}")
+paula.create_Post(f"Este es el segundo mensaje de {paula.name}")
 
+#CREACIÓN DE USUARIOS SEGUIDOS
 manolo.following((luis, ana))
 sara.following((pedro,))
+ana.following((pedro, elena, joseph))
+victor.following((manolo, paula, tony, pablo))
+rocio.following((megan, pedro, paula))
+isabel.following((kevin, marco, victor, cristina, paula))
+
+#MUESTRA DE PERFIL COMPLETO DE USUARIO
 manolo.show_user_profile()
 sara.show_user_profile()
 megan.show_user_profile()
 pedro.show_user_profile()
+kevin.show_user_profile()
+marco.show_user_profile()
+victor.show_user_profile()
+elena.show_user_profile()
+cristina.show_user_profile()
+isabel.show_user_profile()
+
+
 
 
 
