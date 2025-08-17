@@ -1,7 +1,6 @@
 import os, platform, spotipy, credentials
 from spotipy.oauth2 import SpotifyClientCredentials
 
-
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
 else:
@@ -29,7 +28,6 @@ secret_ID = credentials.secret_ID #clave secreta propia de 32 bits
 ccm = SpotifyClientCredentials(client_id=client_ID, client_secret=secret_ID)
 sp = spotipy.Spotify(client_credentials_manager=ccm)
 
-
 def get_artist(artist_name:str)->object:
     artist = sp.search(q=artist_name, limit=1, type="artist", offset=0)
     if artist == None:
@@ -54,7 +52,8 @@ def print_top_songs(artist:object):
     print("************************************************")
     print('{:<30}'.format("   TITULO"), "PUNTUACIÓN")
     top_songs = sp.artist_top_tracks(artist["id"])
-    for song in top_songs["tracks"]:
+    sorted_top_songs = sorted(top_songs["tracks"], key=lambda song: song["popularity"], reverse=True)
+    for song in sorted_top_songs:
         song_name = song["name"].split(" - ")
         print("- ",'{:<30}'.format(song_name[0]), song["popularity"])
         
@@ -71,8 +70,8 @@ def print_albums(artist:object):
     print(f"\nDiscografía de {artist["name"]}:")
     print("**********************************************************************************")
     print('{:<63}'.format("  TITULO"), "AÑO DE LANZAMIENTO")
-    albums = sp.artist_albums(artist["id"], album_type="album",offset=0, limit=30)
-    for album in albums["items"]:
+    albums = sp.artist_albums(artist["id"], album_type="album",offset=0, limit=50)
+    for album in reversed(albums["items"]):
         print(f"- " '{:<63}'.format(album["name"]), album["release_date"][:4])
 
 def compare(artist1:object, artist2:object):
