@@ -15,15 +15,15 @@ else:
  * redes sociales.
  * 
  * Debes crear las siguientes operaciones:
- * - Registrar un usuario por nombre e identificador único.
- * - Un usuario puede seguir/dejar de seguir a otro.
+ * - Registrar un usuario por nombre e identificador único. --OK
+ * - Un usuario puede seguir/dejar de seguir a otro. --OK
  * - Creación de post asociado a un usuario. Debe poseer
  *   texto (200 caracteres máximo), fecha de creación 
- *   e identificador único.   
- * - Eliminación de un post.
+ *   e identificador único.                            --OK
+ * - Eliminación de un post.                           --OK
  * - Posibilidad de hacer like (y eliminarlo) en un post.
  * - Visualización del feed de un usuario con sus 10 publicaciones
- *   más actuales ordenadas desde la más reciente.
+ *   más actuales ordenadas desde la más reciente.                 --OK
  * - Visualización del feed de un usuario con las 10 publicaciones
  *   más actuales de los usuarios que sigue ordenadas 
  *   desde la más reciente.
@@ -47,38 +47,49 @@ class User:
         self.index_message = 0
         self.follow = ()
 
-
     def create_Post(self, message):
         self.message = message
         if (len(self.message)>200):
             print("No se puede crear un post de más de 200 caracteres")
         else:
             self.index_message +=1
-            self.user_posts[str(self.index_message)] = message
-            #self.user_posts.append(self.message)    
+            self.user_posts[str(self.index_message)] = message  
 
     def following(self, follow = ()):
         self.follow = follow
         return self.follow
+    
+    def unfollow(self, user):
+        self.user_unfollow = user
+        user_follow_list = list(self.follow)
+        if self.user_unfollow in user_follow_list:
+            user_follow_list.remove(self.user_unfollow)
+            self.follow = tuple(user_follow_list)
+            print(f"{self.name} ha dejado de seguir a {self.user_unfollow.name}")
+        else:
+            print(f"{self.name} no puede dejar de seguir a {self.user_unfollow.name} porque no lo estaba siguiendo anteriormente")
 
     def show_posts(self):
         print(f"Mensajes de {self.name}:")
         [print("-", v, ", creado el", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
-                "message id: ", k) for k, v in self.user_posts.items()]
+                "message id: ", k) for k, v in reversed(self.user_posts.items())]
     
     def show_user_profile(self):
         users_following = self.following(self.follow)
         print()
         print(f"INFORMACIÓN DE USUARIO\n -------------------\nUsername: {self.name}\nUserID: {self.id}")
-        print(f"Following:")
+        print(f"Siguiendo a:")
         for follower in users_following:
             print("-",follower.name)
         self.show_posts()
         print()
 
-    def delete_post(self, message):
-        self.message = message
-        pass
+    def delete_post(self, messageID):
+        self.messageID = messageID
+        if str(self.messageID) not in self.user_posts:
+            print(f"El usuario {self.name} no tiene ningún mensaje con id {self.messageID}")
+        else:
+            del(self.user_posts[str(self.messageID)])
 
 
 #LISTA DE USUARIOS
@@ -130,7 +141,7 @@ victor.following((manolo, paula, tony, pablo))
 rocio.following((megan, pedro, paula))
 isabel.following((kevin, marco, victor, cristina, paula))
 
-#MUESTRA DE PERFIL COMPLETO DE USUARIO
+#MUESTRA DE PERFIL COMPLETO DE VARIOS USUARIO
 manolo.show_user_profile()
 sara.show_user_profile()
 megan.show_user_profile()
@@ -141,6 +152,18 @@ victor.show_user_profile()
 elena.show_user_profile()
 cristina.show_user_profile()
 isabel.show_user_profile()
+
+#EL USUARIO MANOLO INTENTA BORRAR UNA PUBLICACIÓN INEXISTENTE CON ID 4
+manolo.delete_post(4)
+#EL USUARIO MANOLO BORRA SU SEGUNDA PUBLICACIÓN CON ID 2
+manolo.delete_post(2)
+manolo.show_user_profile()
+#LA USUARIA ISABEL INTENTA DEJAR DE SEGUIR A MANOLO AL QUE NO SEGUÍA ANTERIORMENTE
+isabel.unfollow(manolo)
+#LA USUARIA ISABEL DEJA DE SEGUIR A VICTOR
+isabel.unfollow(victor)
+isabel.show_user_profile()
+
 
 
 
