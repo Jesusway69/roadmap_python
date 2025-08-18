@@ -41,7 +41,7 @@ def get_artist_stats(artist:object)->tuple:
     artist_name = artist["artists"]["items"][0]["name"]
     artist_followers = artist["artists"]["items"][0]["followers"]["total"]
     popularity_level = artist["artists"]["items"][0]["popularity"]
-    for song in top_songs["tracks"]:
+    for song in top_songs["tracks"]: # type: ignore
         total_popularity_songs = total_popularity_songs + song["popularity"]
 
     return artist_name, artist_followers, popularity_level, total_popularity_songs
@@ -52,7 +52,7 @@ def print_top_songs(artist:object):
     print("************************************************")
     print('{:<30}'.format("   TITULO"), "PUNTUACIÓN")
     top_songs = sp.artist_top_tracks(artist["id"])
-    sorted_top_songs = sorted(top_songs["tracks"], key=lambda song: song["popularity"], reverse=True)
+    sorted_top_songs = sorted(top_songs["tracks"], key=lambda song: song["popularity"], reverse=True)  # type: ignore
     for song in sorted_top_songs:
         song_name = song["name"].split(" - ")
         print("- ",'{:<30}'.format(song_name[0]), song["popularity"])
@@ -71,7 +71,7 @@ def print_albums(artist:object):
     print("**********************************************************************************")
     print('{:<63}'.format("  TITULO"), "AÑO DE LANZAMIENTO")
     albums = sp.artist_albums(artist["id"], album_type="album",offset=0, limit=50)
-    for album in reversed(albums["items"]):
+    for album in reversed(albums["items"]): # type: ignore
         print(f"- " '{:<63}'.format(album["name"]), album["release_date"][:4])
 
 def compare(artist1:object, artist2:object):
