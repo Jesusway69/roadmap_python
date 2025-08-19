@@ -41,9 +41,10 @@ class User:
     def __init__(self, name):
         self.name = name  
         User.auto_increment_user_id += 1
+        self.auto_increment_likes = 0
         self.id = User.auto_increment_user_id
         self.user_posts = {}
-        self.user_post_liked = {}
+        self.user_post_liked = []
         self.index_message = 0
         self.follow = ()
 
@@ -82,7 +83,15 @@ class User:
         for follower in users_following:
             print("-",follower.name)
         self.show_posts()
+        print(self.user_post_liked)
         print()
+
+    # def liked_post(self, user, postId):
+    #     user.user_posts = user
+    #     message = user.user_posts[str(postId)]
+    #     self.auto_increment_likes +=1
+    #     message_profile = [postId, message, self.auto_increment_likes]
+    #     self.user_post_liked.append(message_profile)
 
     def delete_post(self, messageID):
         self.messageID = messageID
@@ -163,6 +172,9 @@ isabel.unfollow(manolo)
 #LA USUARIA ISABEL DEJA DE SEGUIR A VICTOR
 isabel.unfollow(victor)
 isabel.show_user_profile()
+
+#cristina.liked_post(manolo, 1)
+manolo.show_user_profile
 
 
 
