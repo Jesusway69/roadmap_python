@@ -34,7 +34,7 @@ else:
  * 
  * Controla errores en duplicados o acciones no permitidas.
 """
-
+auto_increment_likes=0
 class User:
     auto_increment_user_id = 0
     
@@ -54,7 +54,7 @@ class User:
             print("No se puede crear un post de más de 200 caracteres")
         else:
             self.index_message +=1
-            self.user_posts[str(self.index_message)] = message  
+            self.user_posts[str(self.index_message)] = message
 
     def following(self, follow = ()):
         self.follow = follow
@@ -73,8 +73,8 @@ class User:
     def show_posts(self):
         print(f"Mensajes de {self.name}:")
         [print("-", v, ", creado el", '{}/{}/{}'.format(DT.now().day,DT.now().month,DT.now().year),
-                "message id: ", k) for k, v in reversed(self.user_posts.items())]
-    
+                "message id:", k) for k, v in reversed(self.user_posts.items())]
+        
     def show_user_profile(self):
         users_following = self.following(self.follow)
         print()
@@ -82,24 +82,28 @@ class User:
         print(f"Siguiendo a:")
         for follower in users_following:
             print("-",follower.name)
-        self.show_posts()
-        print(self.user_post_liked)
+        self.show_posts()    
         print()
-
-    # def liked_post(self, user, postId):
-    #     user.user_posts = user
-    #     message = user.user_posts[str(postId)]
-    #     self.auto_increment_likes +=1
-    #     message_profile = [postId, message, self.auto_increment_likes]
-    #     self.user_post_liked.append(message_profile)
-
+        
     def delete_post(self, messageID):
         self.messageID = messageID
         if str(self.messageID) not in self.user_posts:
             print(f"El usuario {self.name} no tiene ningún mensaje con id {self.messageID}")
         else:
             del(self.user_posts[str(self.messageID)])
+    
+def liked_post(follower, user, postId):
+        message = user.user_posts[str(postId)]
+        likes:int =1
 
+        message_profile = [follower.name, postId, user.name, message, likes]
+        if message_profile[4] == len(user.user_post_liked):
+            message_profile = [follower.name, postId, user.name, message, likes +1]
+        user.user_post_liked.append(message_profile)
+        print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}",
+              f", el mensaje de {user.name} '{message_profile[3]}' acumula {message_profile[4]}"
+               , "like" if message_profile[4] == 1 else "likes")
+        #print(user.user_post_liked) 
 
 #LISTA DE USUARIOS
 users_list = ["Manolo", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
@@ -141,6 +145,7 @@ paula.create_Post(f"Este es el primer mensaje de {paula.name}")
 marco.create_Post(f"Este es el primer mensaje de {marco.name}")
 joseph.create_Post(f"Este es el primer mensaje de {joseph.name}")
 paula.create_Post(f"Este es el segundo mensaje de {paula.name}")
+isabel.create_Post(f"Este es el primer mensaje de {isabel.name}")
 
 #CREACIÓN DE USUARIOS SEGUIDOS
 manolo.following((luis, ana))
@@ -172,11 +177,13 @@ isabel.unfollow(manolo)
 #LA USUARIA ISABEL DEJA DE SEGUIR A VICTOR
 isabel.unfollow(victor)
 isabel.show_user_profile()
+#CREACIÓN DE VARIOS LIKES A MENSAJES CONCRETOS POR SU ID
+liked_post(cristina, manolo, 1)
+liked_post(elena, manolo, 1)
+liked_post(isabel, victor, 1)
+liked_post(megan, manolo, 3)
 
-#cristina.liked_post(manolo, 1)
-manolo.show_user_profile
-
-
+#print (manolo.user_posts.get('1'))
 
 
 
