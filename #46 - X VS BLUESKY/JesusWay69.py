@@ -94,23 +94,25 @@ class User:
     
 def liked_post(follower, user, postId):
         message = user.user_posts[str(postId)]
-        likes:int =1
-
+        likes:int = 1
         message_profile = [follower.name, postId, user.name, message, likes]
-        if message_profile[4] == len(user.user_post_liked):
-            message_profile = [follower.name, postId, user.name, message, likes +1]
-        user.user_post_liked.append(message_profile)
-        print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}",
-              f", el mensaje de {user.name} '{message_profile[3]}' acumula {message_profile[4]}"
-               , "like" if message_profile[4] == 1 else "likes")
-        #print(user.user_post_liked) 
+        if message_profile not in user.user_post_liked:
+            if message_profile[4] == len(user.user_post_liked):
+                message_profile = [follower.name, postId, user.name, message, likes +1]
+            user.user_post_liked.append(message_profile)
+            print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}",
+                f", el mensaje de {user.name} '{message_profile[3]}' acumula {message_profile[4]}"
+                , "like" if message_profile[4] == 1 else "likes")
+        else:
+            print(f"{follower.name} no puede dar like al mensaje '{message_profile[3]}' porque ya le dio like antes")
+        
 
 #LISTA DE USUARIOS
-users_list = ["Manolo", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
+users_list = ["Jesus", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
                "Miguel", "Silvia", "Pablo", "Rocío", "Joseph", "Isabel", "Tony", "Cristina", "Marco", "Elena"]
 
 #CREACIÓN DE INSTANCIAS DE CLASE
-manolo = User(users_list[0])
+jesus = User(users_list[0])
 sara = User(users_list[1])
 luis = User(users_list[2])
 ana = User(users_list[3])
@@ -132,15 +134,15 @@ marco = User(users_list[18])
 elena = User(users_list[19])
 
 #CREACIÓN DE MENSAJES
-manolo.create_Post(f"Este es el primer mensaje de {manolo.name}")
-manolo.create_Post(f"Este es el segundo mensaje de {manolo.name}")
+jesus.create_Post(f"Este es el primer mensaje de {jesus.name}")
+jesus.create_Post(f"Este es el segundo mensaje de {jesus.name}")
 sara.create_Post(f"Este es el primer mensaje de {sara.name}")
 pedro.create_Post(f"Este es el primer mensaje de {pedro.name}")
 kevin.create_Post(f"Este es el primer mensaje de {kevin.name}")
 sara.create_Post(f"Este es el segundo mensaje de {sara.name}")
 victor.create_Post(f"Este es el primer mensaje de {victor.name}")
 miguel.create_Post(f"Este es el primer mensaje de {miguel.name}")
-manolo.create_Post(f"Este es el tercer mensaje de {manolo.name}")
+jesus.create_Post(f"Este es el tercer mensaje de {jesus.name}")
 paula.create_Post(f"Este es el primer mensaje de {paula.name}")
 marco.create_Post(f"Este es el primer mensaje de {marco.name}")
 joseph.create_Post(f"Este es el primer mensaje de {joseph.name}")
@@ -148,15 +150,15 @@ paula.create_Post(f"Este es el segundo mensaje de {paula.name}")
 isabel.create_Post(f"Este es el primer mensaje de {isabel.name}")
 
 #CREACIÓN DE USUARIOS SEGUIDOS
-manolo.following((luis, ana))
+jesus.following((luis, ana))
 sara.following((pedro,))
 ana.following((pedro, elena, joseph))
-victor.following((manolo, paula, tony, pablo))
+victor.following((jesus, paula, tony, pablo))
 rocio.following((megan, pedro, paula))
 isabel.following((kevin, marco, victor, cristina, paula))
 
 #MUESTRA DE PERFIL COMPLETO DE VARIOS USUARIO
-manolo.show_user_profile()
+jesus.show_user_profile()
 sara.show_user_profile()
 megan.show_user_profile()
 pedro.show_user_profile()
@@ -167,23 +169,26 @@ elena.show_user_profile()
 cristina.show_user_profile()
 isabel.show_user_profile()
 
-#EL USUARIO MANOLO INTENTA BORRAR UNA PUBLICACIÓN INEXISTENTE CON ID 4
-manolo.delete_post(4)
-#EL USUARIO MANOLO BORRA SU SEGUNDA PUBLICACIÓN CON ID 2
-manolo.delete_post(2)
-manolo.show_user_profile()
-#LA USUARIA ISABEL INTENTA DEJAR DE SEGUIR A MANOLO AL QUE NO SEGUÍA ANTERIORMENTE
-isabel.unfollow(manolo)
+#EL USUARIO jesus INTENTA BORRAR UNA PUBLICACIÓN INEXISTENTE CON ID 4
+jesus.delete_post(4)
+#EL USUARIO jesus BORRA SU SEGUNDA PUBLICACIÓN CON ID 2
+jesus.delete_post(2)
+jesus.show_user_profile()
+#LA USUARIA ISABEL INTENTA DEJAR DE SEGUIR A jesus AL QUE NO SEGUÍA ANTERIORMENTE
+isabel.unfollow(jesus)
 #LA USUARIA ISABEL DEJA DE SEGUIR A VICTOR
 isabel.unfollow(victor)
 isabel.show_user_profile()
 #CREACIÓN DE VARIOS LIKES A MENSAJES CONCRETOS POR SU ID
-liked_post(cristina, manolo, 1)
-liked_post(elena, manolo, 1)
+liked_post(cristina, jesus, 1)
+liked_post(elena, jesus, 1)
 liked_post(isabel, victor, 1)
-liked_post(megan, manolo, 3)
+liked_post(megan, jesus, 3)
+liked_post(cristina, jesus, 1)
+liked_post(kevin, jesus, 1)
 
-#print (manolo.user_posts.get('1'))
+
+#print (jesus.user_posts.get('1'))
 
 
 
