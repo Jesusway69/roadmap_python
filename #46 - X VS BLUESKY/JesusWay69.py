@@ -94,6 +94,14 @@ class User:
     
 def liked_post(follower, user, postId):
         message = user.user_posts[str(postId)]
+        message_found = False
+        follower_found = False
+        for sub_list in user.user_post_liked:
+            if message and follower in sub_list :
+                message_found = True
+                follower_found = True
+            
+        print(user.user_post_liked)
         likes:int = 1
         message_profile = [follower.name, postId, user.name, message, likes]
         if message_profile not in user.user_post_liked:
@@ -183,9 +191,10 @@ isabel.show_user_profile()
 liked_post(cristina, jesus, 1)
 liked_post(elena, jesus, 1)
 liked_post(isabel, victor, 1)
+liked_post(kevin, jesus, 1)
 liked_post(megan, jesus, 3)
 liked_post(cristina, jesus, 1)
-liked_post(kevin, jesus, 1)
+
 
 
 #print (jesus.user_posts.get('1'))
