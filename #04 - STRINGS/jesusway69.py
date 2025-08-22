@@ -1,8 +1,11 @@
-import os
-os.system('cls')
-from itertools import permutations
-import re
+import os, re, platform
 from unicodedata import normalize
+
+if platform.platform().startswith("Windows"):
+    os.system('cls')
+else:
+    os.system('clear')
+
 """
 * EJERCICIO:
  * Muestra ejemplos de todas las operaciones que puedes realizar con cadenas de caracteres
@@ -26,7 +29,7 @@ print ("Ding! " * 5)
  #Python admite multiplicaciones de strings
 
 print (str(len("123456789")) + " caracteres")
- #La función len() devuelve medida en int, str castea a string y + concatena
+ #La función len() devuelve medida en int, str castea a string y + concatena con otro string
 
 print(len("123456789") * 9)
 #La función len() devuelve cantidad de caracteres y se puede operar con el número resultante
@@ -73,8 +76,8 @@ print('')
 
 
 print('')
-[print(my_string[i] , end='') for i, char in enumerate(my_string)]
-#Tambien con un bucle for por índice usando la función enumerate()
+[print(" Indice:", i, "letra", char ) for i, char in enumerate(my_string, 1)]
+#Tambien con un bucle for por índice y elemento usando la función enumerate()
 
 print('')
 [print(char , end='') for char in my_string]
@@ -93,30 +96,24 @@ print("1001".zfill(8))
 print(my_string.split("HO"))
 # .split devuelve una lista con las subcadenas divididas por el caracter especificado (que se elimina)
 
+print()
 """
  * DIFICULTAD EXTRA (opcional):
- * Crea un programa que analice dos clean_words diferentes y realice comprobaciones
+ * Crea un programa que analice dos textos diferentes y realice comprobaciones
  * para descubrir si son:
  * - Palíndromos
- * - Anagrams
- * - Isograms"""
+ * - Anagramas
+ * - Isogramas"""
 
-def remove_diacritic (string)->str:
-  string = str(string)
-  string = re.sub(
-        r"([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+", r"\1", 
-        normalize( "NFD", string), 0, re.I
-    )
-  string = normalize( 'NFC', string)
-#Borra los símbolos diacríticos excepto la ñ y la diéresis
-  return string.lower().replace(' ', '')
+#Función que borra los símbolos diacríticos excepto la virgulilla (~) y la diéresis (¨)
+def remove_diacritic (string:str)->str:
+    string = str(string)
+    string = re.sub(r"([^n\u0300-\u036f]|n(?!\u0303(?![\u0300-\u036f])))[\u0300-\u036f]+", r"\1", normalize('NFD', string), 0, re.I)
+    string = normalize('NFC', string)
 
+    return string.lower().replace(' ', '')
 
-
-
-
-
-def anagram (word1,word2):
+def anagram (word1:str ,word2:str):
     clean_word1, clean_word2 = remove_diacritic(word1), remove_diacritic(word2)
     list1, list2 = list(clean_word1), list(clean_word2)  
     list1.sort()
@@ -129,42 +126,34 @@ def anagram (word1,word2):
 
 anagram("Fotolitografía", "Litofotografía")
 
+def isogram (word1:str, word2:str):
+    char_dict = {}
+    clean_word = remove_diacritic(word1) + remove_diacritic(word2)
+    for char in clean_word:
+        if char in char_dict:     
+            char_dict[char] +=1
+        else:
+            char_dict[char] =1
+  
+    char_set = set(char_dict.values())
+    if len(char_set) > 1:
+        print(f"\n\nLas palabras {word1} y {word2} concatenadas no son un isograma\n")
+    else:
+        print(f"\n\nLas palabras {word1} y {word2} concatenadas son un isograma\n")
+    print("nº de veces que se repite cada letra:") 
+    [print("\n",char,":", count , end = '  ') for char, count in char_dict.items()] 
 
-
-
-def isogram (word1,word2):
- char_dict = {}
- clean_word = remove_diacritic(word1)+remove_diacritic(word2)
- for char in clean_word:
-   if char in char_dict:     
-      char_dict[char] +=1
-   else:
-      char_dict[char] =1
- 
- char_set = set(char_dict.values())
- if len(char_set) > 1:
-   print(f"\n\nLas palabras {word1} y {word2} concatenadas no son un isograma\n")
- else:
-   print(f"\n\nLas palabras {word1} y {word2} concatenadas son un isograma\n")
- print("nº de veces que se repite cada letra:") 
- [print("\n",char,":", count , end = '  ') for char, count in char_dict.items()] 
-
-isogram ("paz" , "porrazo")
+isogram ("paz", "porrazo")
 isogram ("es", "desarrollado")
 
-
-def palindrome (string1, string2):
-  string = remove_diacritic(str((string1+string2)))
-  reverse = string[::-1]
-  if string == reverse:
-    print (f"\n\nLa frase formada por \" {string1}\" y \"{string2}\" forman un palíndromo")
-  else:
-    print (f"\nLa frase formada por \" {string1}\" y \"{string2}\"  no forman un palíndromo")
+def palindrome (string1:str, string2:str):
+    string = remove_diacritic(str((string1+string2)))
+    reverse = string[::-1]
+    if string == reverse:
+        print (f"\n\nLa frase formada por \" {string1}\" y \"{string2}\" forman un palíndromo")
+    else:
+        print (f"\nLa frase formada por \" {string1}\" y \"{string2}\"  no forman un palíndromo")
 
 palindrome("Arriba" , "la birra")
-
-
-
-
 
 
