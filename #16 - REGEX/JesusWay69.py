@@ -1,6 +1,8 @@
-import os, re
-os.system('cls')
-
+import os, re, platform
+if platform.platform().endswith("Windows"):
+    os.system('cls')
+else:
+    os.system('clear')
 
 """
  * EJERCICIO:
@@ -10,7 +12,7 @@ os.system('cls')
  *
 """
 text = "Un año tiene 365 días excepto si es bisiesto que tiene 366 divididos en 12 meses que pueden tener hasta 31 días cada uno."
-pattern = re.compile("\d") #La er para cualquier número se puede declarar como "\d" o "[0-9]"
+pattern = re.compile(r"\d") #La er para cualquier número se puede declarar como "\d" o "[0-9]"
 nums = pattern.findall(text)
 
 for num in nums:
@@ -46,8 +48,6 @@ def spain_phone_validation(phone_num:str):
 '''Función que valida un nº de tlf español particular cuyo primer número debe ser 6,7 (móvil) o 9 (fijo) ,
    tener en total 9 números y que puede incluir o no el prefijo español +34, el número no puede contener espacios.  '''
 
-
-
 def url_validation(url:str):
     pattern = ("(?i)[a-z0-9._-]{1,63}\\.[a-z]{2,8}||(www)\\.[a-z0-9._-]{1,63}\\.[a-z]{2,8}")
     if re.match(pattern, url):
@@ -57,10 +57,8 @@ def url_validation(url:str):
 '''Función que valida una url básica con dominio de hasta 63 caracteres que pueden incluir puntos y guiones
     y , separado por un punto el TLD que puede ser de entre 2 y 8 letras (por ej .business)'''
 
-
-
 def dni_validation(dni:str):
-    pattern = ("(?i)[0-9]{8}[^IOU]{1}")
+    pattern = ("(?i)[0-9]{8}[^IOUÑ]{1}")
     if re.match(pattern,dni):
         return True
     else:
@@ -70,7 +68,7 @@ def dni_validation(dni:str):
 
 
 def date_validation(date:str):
-    pattern = ("^([0-2][0-9]||[3][0-1])(\/|-)(0[1-9]||1[0-2])(\/|-)((19)[5-9][0-9]||(20)[0-4][0-9]||(2050))$")
+    pattern = ("^([0-2][0-9]||[3][0-1])(\\/|-)(0[1-9]||1[0-2])(\\/|-)((19)[5-9][0-9]||(20)[0-4][0-9]||(2050))$")
     if re.match(pattern, date):
         return True
     else:
@@ -80,5 +78,5 @@ def date_validation(date:str):
 print(email_validation("je.suSw-ay69@hotmail.com"))
 print(spain_phone_validation("+34716984941"))
 print(url_validation("moure.dev"))
-print(dni_validation("60965022t"))
-print(date_validation("22/04/2050"))
+print(dni_validation("60965022w"))
+print(date_validation("22/04/2024"))
