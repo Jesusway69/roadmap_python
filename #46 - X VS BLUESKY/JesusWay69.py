@@ -93,26 +93,35 @@ class User:
             del(self.user_posts[str(self.messageID)])
     
 def liked_post(follower, user, postId):
-        message = user.user_posts[str(postId)]
-        message_found = False
-        follower_found = False
-        for sub_list in user.user_post_liked:
-            if message and follower in sub_list :
-                message_found = True
-                follower_found = True
-            
-        print(user.user_post_liked)
-        likes:int = 1
-        message_profile = [follower.name, postId, user.name, message, likes]
-        if message_profile not in user.user_post_liked:
-            if message_profile[4] == len(user.user_post_liked):
-                message_profile = [follower.name, postId, user.name, message, likes +1]
+    print("---------------------------")
+    print(f"iteración de {follower.name}")
+    message = user.user_posts[str(postId)]
+    if len(user.user_post_liked) == 0:
+            message_profile = [follower.name, postId, user.name, message, 1]
             user.user_post_liked.append(message_profile)
-            print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}",
+            print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}"
+            , f", el mensaje de {user.name} '{message_profile[3]}' acumula 1 like")
+            return
+    else:
+        for sub_list in user.user_post_liked:
+            if message == sub_list[3] and follower.name == sub_list[0] and user.name == sub_list[2]:
+                print(f"{follower.name} no puede dar like al mensaje '{message}' porque ya le dio like antes")
+                return
+                
+            elif message == sub_list[3] and user.name == sub_list[2] and sub_list[4] == len(user.user_post_liked):
+                message_profile = [follower.name, postId, user.name, message, sub_list[4] + 1]
+                user.user_post_liked.append(message_profile)
+                print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}"
                 f", el mensaje de {user.name} '{message_profile[3]}' acumula {message_profile[4]}"
                 , "like" if message_profile[4] == 1 else "likes")
-        else:
-            print(f"{follower.name} no puede dar like al mensaje '{message_profile[3]}' porque ya le dio like antes")
+                return
+            elif user.name == sub_list[2] and message != sub_list[3]:
+                message_profile = [follower.name, postId, user.name, message, 1]
+                user.user_post_liked.append(message_profile)
+                print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}"
+                , f", el mensaje de {user.name} '{message_profile[3]}' acumula 1 like")
+                return
+    print(user.user_post_liked)
         
 
 #LISTA DE USUARIOS
@@ -166,16 +175,16 @@ rocio.following((megan, pedro, paula))
 isabel.following((kevin, marco, victor, cristina, paula))
 
 #MUESTRA DE PERFIL COMPLETO DE VARIOS USUARIO
-jesus.show_user_profile()
-sara.show_user_profile()
-megan.show_user_profile()
-pedro.show_user_profile()
-kevin.show_user_profile()
-marco.show_user_profile()
-victor.show_user_profile()
-elena.show_user_profile()
-cristina.show_user_profile()
-isabel.show_user_profile()
+# jesus.show_user_profile()
+# sara.show_user_profile()
+# megan.show_user_profile()
+# pedro.show_user_profile()
+# kevin.show_user_profile()
+# marco.show_user_profile()
+# victor.show_user_profile()
+# elena.show_user_profile()
+# cristina.show_user_profile()
+# isabel.show_user_profile()
 
 #EL USUARIO jesus INTENTA BORRAR UNA PUBLICACIÓN INEXISTENTE CON ID 4
 jesus.delete_post(4)
@@ -186,7 +195,7 @@ jesus.show_user_profile()
 isabel.unfollow(jesus)
 #LA USUARIA ISABEL DEJA DE SEGUIR A VICTOR
 isabel.unfollow(victor)
-isabel.show_user_profile()
+#isabel.show_user_profile()
 #CREACIÓN DE VARIOS LIKES A MENSAJES CONCRETOS POR SU ID
 liked_post(cristina, jesus, 1)
 liked_post(elena, jesus, 1)
