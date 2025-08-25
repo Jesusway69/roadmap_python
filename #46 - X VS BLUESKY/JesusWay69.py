@@ -95,6 +95,9 @@ class User:
 def liked_post(follower, user, postId):
     print("---------------------------")
     print(f"iteración de {follower.name}")
+    if str(postId) not in user.user_posts:
+        print(f"el usuario {user.name} no tiene ningún mensaje con id {postId}")
+        return
     message = user.user_posts[str(postId)]
     if len(user.user_post_liked) == 0:
             message_profile = [follower.name, postId, user.name, message, 1]
@@ -175,16 +178,16 @@ rocio.following((megan, pedro, paula))
 isabel.following((kevin, marco, victor, cristina, paula))
 
 #MUESTRA DE PERFIL COMPLETO DE VARIOS USUARIO
-# jesus.show_user_profile()
-# sara.show_user_profile()
-# megan.show_user_profile()
-# pedro.show_user_profile()
-# kevin.show_user_profile()
-# marco.show_user_profile()
-# victor.show_user_profile()
-# elena.show_user_profile()
-# cristina.show_user_profile()
-# isabel.show_user_profile()
+jesus.show_user_profile()
+sara.show_user_profile()
+megan.show_user_profile()
+pedro.show_user_profile() 
+kevin.show_user_profile()
+marco.show_user_profile()
+victor.show_user_profile()
+elena.show_user_profile()
+cristina.show_user_profile()
+isabel.show_user_profile()
 
 #EL USUARIO jesus INTENTA BORRAR UNA PUBLICACIÓN INEXISTENTE CON ID 4
 jesus.delete_post(4)
@@ -195,7 +198,7 @@ jesus.show_user_profile()
 isabel.unfollow(jesus)
 #LA USUARIA ISABEL DEJA DE SEGUIR A VICTOR
 isabel.unfollow(victor)
-#isabel.show_user_profile()
+isabel.show_user_profile()
 #CREACIÓN DE VARIOS LIKES A MENSAJES CONCRETOS POR SU ID
 liked_post(cristina, jesus, 1)
 liked_post(elena, jesus, 1)
@@ -203,6 +206,7 @@ liked_post(isabel, victor, 1)
 liked_post(kevin, jesus, 1)
 liked_post(megan, jesus, 3)
 liked_post(cristina, jesus, 1)
+liked_post(jesus, joseph, 2)
 
 
 
