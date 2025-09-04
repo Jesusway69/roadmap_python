@@ -92,41 +92,65 @@ class User:
         else:
             del(self.user_posts[str(self.messageID)])
     
-def liked_post(follower, user, postId):
+def liked_post(follower:User, user:User, postId:int):
     print("---------------------------")
-    print(f"iteración de {follower.name}")
+    print()
     if str(postId) not in user.user_posts:
-        print(f"el usuario {user.name} no tiene ningún mensaje con id {postId}")
+        print(f"El usuario {user.name} no tiene ningún mensaje con id {postId}")
+        print()
         return
     message = user.user_posts[str(postId)]
     if len(user.user_post_liked) == 0:
-            message_profile = [follower.name, postId, user.name, message, 1]
+            message_profile = [follower.name, postId, user.name, message]
             user.user_post_liked.append(message_profile)
             print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}"
             , f", el mensaje de {user.name} '{message_profile[3]}' acumula 1 like")
+            print()
             return
     else:
         for sub_list in user.user_post_liked:
             if message == sub_list[3] and follower.name == sub_list[0] and user.name == sub_list[2]:
                 print(f"{follower.name} no puede dar like al mensaje '{message}' porque ya le dio like antes")
+                print()
                 return
                 
-            elif message == sub_list[3] and user.name == sub_list[2] and sub_list[4] == len(user.user_post_liked):
-                message_profile = [follower.name, postId, user.name, message, sub_list[4] + 1]
+            elif message == sub_list[3] and user.name == sub_list[2]:
+                message_profile = [follower.name, postId, user.name, message]
                 user.user_post_liked.append(message_profile)
+                likes_counter = sum(1 for sub_list in user.user_post_liked for element in sub_list if element == message)
                 print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}"
-                f", el mensaje de {user.name} '{message_profile[3]}' acumula {message_profile[4]}"
-                , "like" if message_profile[4] == 1 else "likes")
+                f", el mensaje de {user.name} '{message_profile[3]}' acumula {likes_counter}"
+                , "like" if likes_counter == 1 else "likes")
+                print()
                 return
             elif user.name == sub_list[2] and message != sub_list[3]:
-                message_profile = [follower.name, postId, user.name, message, 1]
+                message_profile = [follower.name, postId, user.name, message]
                 user.user_post_liked.append(message_profile)
                 print(f"{follower.name} ha dado like al mensaje con id:{message_profile[1]} de {user.name}"
                 , f", el mensaje de {user.name} '{message_profile[3]}' acumula 1 like")
+                print()
                 return
-    print(user.user_post_liked)
-        
 
+def unliked_post(follower:User, user:User, postId:int):
+    print("---------------------------")
+    print()
+    message = user.user_posts[str(postId)]
+    if len(user.user_post_liked) == 0 or str(postId) not in user.user_posts:
+        print(f"el usuario {user.name} no tiene ningún mensaje con id {postId}")
+        print()
+        return
+    else:
+        for sub_list in user.user_post_liked:
+            if message and postId in sub_list:
+                user.user_post_liked.remove(sub_list)
+                likes_counter = sum(1 for sub_list in user.user_post_liked for element in sub_list if element == message)
+                print(f"{follower.name} ha quitado el like al mensaje con id:{postId} de {user.name}"
+                f", el mensaje de {user.name} '{message}' acumula {likes_counter}"
+                , "like" if likes_counter == 1 else "likes")
+                print()
+                return
+  
+            
 #LISTA DE USUARIOS
 users_list = ["Jesus", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
                "Miguel", "Silvia", "Pablo", "Rocío", "Joseph", "Isabel", "Tony", "Cristina", "Marco", "Elena"]
@@ -207,6 +231,8 @@ liked_post(kevin, jesus, 1)
 liked_post(megan, jesus, 3)
 liked_post(cristina, jesus, 1)
 liked_post(jesus, joseph, 2)
+#LA USUARIA cristina QUITA EL LIKE AL MENSAJE CON ID1 DE jesus
+unliked_post(cristina, jesus, 1)
 
 
 
