@@ -53,12 +53,12 @@ class User:
             print("No se puede crear un post de más de 200 caracteres")
         else:
             self.index_message +=1
-            self.user_posts[self.index_message] = (message, DT.now())
-#             self.user_posts[self.index_message] = {
-#     "message": message,
-#     "date": DT.now(),
-#     "likes": set()
-# }
+            #self.user_posts[self.index_message] = (message, DT.now())
+            self.user_posts[self.index_message] = {
+    "message": message,
+    "date": DT.now(),
+    "likes": set()
+}
 
     def following(self, *users):
         self.follow.update(users) # type: ignore
@@ -74,17 +74,23 @@ class User:
 
     def show_posts(self):    
         print(f"Mensajes de {self.name}:")
-        for k, (message, date) in reversed(self.user_posts.items()):
-            likes_counter = sum(1 for like_sublist in self.user_post_liked if like_sublist[1] == k)
-            print("-", message, ", creado el", '{}/{}/{} {}:{}:{}'.format(date.day,date.month,date.year, date.hour, date.minute, date.second),
-                    "message id:", k , "número de likes:", likes_counter)
+        # for k, (message, date) in reversed(self.user_posts.items()):
+        #     likes_counter = sum(1 for like_sublist in self.user_post_liked if like_sublist[1] == k)
+        #     print("-", message, ", creado el", '{}/{}/{} {}:{}:{}'.format(date.day,date.month,date.year, date.hour, date.minute, date.second),
+        #             "message id:", k , "número de likes:", likes_counter)
+        for key, value in reversed(self.user_posts.items()):
+            likes_counter = len(value["likes"])
+            date = value["date"]
+            print("-", value["message"], ", creado el", 
+                  f"{date.day}/{date.month}/{date.year} {date.hour}:{date.minute}:{date.second}",
+                  "message id:", key , "número de likes:", likes_counter)
         
     def show_user_profile(self):
         users_following = self.follow
         print()
         print(f"INFORMACIÓN DE USUARIO\n -------------------\nUsername: {self.name}\nUserID: {self.id}\nSiguiendo a:")
         for follower in users_following:
-            print("-",follower.name)
+            print("-", follower.name)
         self.show_posts()    
         print()
         
@@ -94,44 +100,49 @@ class User:
         else:
             del(self.user_posts[messageID])
     
-def liked_post(follower: User, user: User, postId: int):
-    print("---------------------------\n")
+    def liked_post(self, user, postId: int):
+        print("---------------------------\n")
 
-    if postId not in user.user_posts:
-        print(f"El usuario {user.name} no tiene ningún mensaje con id {postId}\n")
-        return
-
-    message = user.user_posts[postId][0]
-
-    for like_sublist in user.user_post_liked:
-        if like_sublist[0] == follower.name and like_sublist[1] == postId and like_sublist[2] == user.name:
-            print(f"{follower.name} no puede dar like al mensaje '{message}' porque ya le dio like antes\n")
+        if postId not in user.user_posts:
+            print(f"El usuario {user.name} no tiene ningún mensaje con id {postId}\n")
             return
 
-    user.user_post_liked.append([follower.name, postId, user.name, message])
-    likes_counter = sum(1 for like in user.user_post_liked if like[3] == message)
+        message = user.user_posts[postId]["message"]
 
-    print(f"{follower.name} ha dado like al mensaje con id:{postId} de {user.name}"
-          f", el mensaje de {user.name} '{message}' acumula {likes_counter} {'like' if likes_counter == 1 else 'likes'}\n")
+        for like_sublist in user.user_post_liked:
+            if like_sublist[0] == self.name and like_sublist[1] == postId and like_sublist[2] == user.name:
+                print(f"{self.name} no puede dar like al mensaje '{message}' porque ya le dio like antes\n")
+                return
 
-
-def unliked_post(follower:User, user:User, postId:int):
-    print("---------------------------\n") 
-    if postId not in user.user_posts:
-        print(f"el usuario {user.name} no tiene ningún mensaje con id {postId}\n")
-        return
-    like_found = False
-    message = user.user_posts[postId][0]
-    for like_sublist in user.user_post_liked:
-        if like_sublist[0] == follower.name and like_sublist[1] == postId and like_sublist[2] == user.name:
-            like_found = True
-            user.user_post_liked.remove(like_sublist)
-            likes_counter = sum(1 for sub_list in user.user_post_liked for element in sub_list if element == message)
-            print(f"{follower.name} ha quitado el like al mensaje con id:{postId} de {user.name}"
+        user.user_post_liked.append([self.name, postId, user.name, message])
+        #likes_counter = sum(1 for like in user.user_post_liked if like[3] == message)
+        user.user_posts[postId]["likes"].add(self)
+        likes_counter = len(user.user_posts[postId]["likes"])
+       
+        print(f"{self.name} ha dado like al mensaje con id:{postId} de {user.name}"
             f", el mensaje de {user.name} '{message}' acumula {likes_counter} {'like' if likes_counter == 1 else 'likes'}\n")
+
+
+    def unliked_post(self, user, postId:int):
+        print("---------------------------\n") 
+        if postId not in user.user_posts:
+            print(f"el usuario {user.name} no tiene ningún mensaje con id {postId}\n")
             return
-    if not like_found:
-        print(f"{follower.name} no puede quitar el like del mensaje con id {postId} de {user.name} porque no le había dado like antes\n")
+        like_found = False
+        message = user.user_posts[postId]["message"]
+        for like_sublist in user.user_post_liked:
+            if like_sublist[0] == self.name and like_sublist[1] == postId and like_sublist[2] == user.name:
+                like_found = True
+                user.user_post_liked.remove(like_sublist)
+                #likes_counter = sum(1 for sub_list in user.user_post_liked for element in sub_list if element == message)
+                self.user_posts[postId]["likes"].discard(self)
+                likes_counter = len(user.user_posts[postId]["likes"])
+                print(f"{self.name} ha quitado el like al mensaje con id:{postId} de {user.name}"
+                f", el mensaje de {user.name} '{message}' acumula {likes_counter} {'like' if likes_counter == 1 else 'likes'}\n")
+                return
+        if not like_found:
+            print(f"{self.name} no puede quitar el like del mensaje con id {postId} de {user.name}",
+                  "porque no le había dado like antes\n")
             
 #LISTA DE USUARIOS
 users_list = ["Jesus", "Sara", "Luis", "Ana", "Kevin", "Sandra", "Pedro", "Megan", "Victor", "Paula",
@@ -188,21 +199,21 @@ isabel.unfollow(victor)
 isabel.show_user_profile()
 
 #CREACIÓN DE VARIOS LIKES A MENSAJES CONCRETOS POR SU ID
-liked_post(cristina, jesus, 1)
-liked_post(elena, jesus, 1)
-liked_post(isabel, victor, 1)
-liked_post(kevin, jesus, 1)
-liked_post(megan, jesus, 3)
-liked_post(cristina, jesus, 1)
+cristina.liked_post(jesus, 1)
+elena.liked_post(jesus, 1)
+isabel.liked_post(victor, 1)
+kevin.liked_post(jesus, 1)
+megan.liked_post(jesus, 3)
+cristina.liked_post(jesus, 1)
 
 #jesus INTENTA DAR LIKE A UN MENSAJE DE JOSEPH QUE NO EXISTE
-liked_post(jesus, joseph, 2)
+jesus.liked_post(joseph, 2)
 
 #LA USUARIA cristina QUITA EL LIKE AL MENSAJE CON ID1 DE jesus
-unliked_post(cristina, jesus, 1)
+cristina.unliked_post(jesus, 1)
 
 #LA USUARIA cristina INTENTA QUITAR UN LIKE A UN MENSAJE QUE NO HABÍA DADO LIKE ANTES
-unliked_post(cristina, joseph, 1)
+cristina.unliked_post(joseph, 1)
 
 #MUESTRA DE PERFIL COMPLETO DE VARIOS USUARIOS
 jesus.show_user_profile()
