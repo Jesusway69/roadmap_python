@@ -1,5 +1,8 @@
+from __future__ import annotations
 import os, platform
-from datetime import datetime as DT
+from datetime import datetime as dt
+from typing import Dict, Set, Any
+
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
     os.system('clear')
@@ -15,15 +18,15 @@ else:
  * redes sociales.
  * 
  * Debes crear las siguientes operaciones:
- * - Registrar un usuario por nombre e identificador único. --OK
- * - Un usuario puede seguir/dejar de seguir a otro. --OK
+ * - Registrar un usuario por nombre e identificador único. 
+ * - Un usuario puede seguir/dejar de seguir a otro. 
  * - Creación de post asociado a un usuario. Debe poseer
  *   texto (200 caracteres máximo), fecha de creación 
- *   e identificador único.                            --OK
- * - Eliminación de un post.                           --OK
- * - Posibilidad de hacer like (y eliminarlo) en un post. --OK
+ *   e identificador único.                            
+ * - Eliminación de un post.                           
+ * - Posibilidad de hacer like (y eliminarlo) en un post. 
  * - Visualización del feed de un usuario con sus 10 publicaciones
- *   más actuales ordenadas desde la más reciente.                 --OK
+ *   más actuales ordenadas desde la más reciente.                 
  * - Visualización del feed de un usuario con las 10 publicaciones
  *   más actuales de los usuarios que sigue ordenadas 
  *   desde la más reciente.
@@ -36,78 +39,79 @@ else:
 """
 
 class User:
-    auto_increment_user_id = 0
+    auto_increment_user_id:int = 0
     
-    def __init__(self, name):
-        self.name = name  
+    def __init__(self, name:str) -> None:
+        self.name: str = name  
         User.auto_increment_user_id += 1
         self.id = User.auto_increment_user_id
-        self.user_posts = {}
-        self.index_message = 0
-        self.follow = set()
-        self.user_followers = []
+        self.user_posts: Dict[int, Dict[str, Any]] = {}
+        self.index_message: int = 0
+        self.following: Set[User] = set()
+        self.followers: Set[User] = set()
 
-    def create_post(self, message):
+    def create_post(self, message: str) -> None:
         if (len(message) > 200):
             print("No se puede crear un post de más de 200 caracteres")
         else:
             self.index_message +=1
             self.user_posts[self.index_message] = {
     "message": message,
-    "date": DT.now(),
+    "date": dt.now(),
     "likes": set()
 }
 
-    def following(self, *users):
+    def follow_users(self, *users: User) -> None:
         for user in users:
-            self.follow.add(user)
-            if self not in user.user_followers:
-                user.user_followers.append(self)
-        return self.follow
+            self.following.add(user)
+            user.followers.add(self)
     
     
-    def unfollow(self, user):  
-        if user in self.follow:
-            self.follow.remove(user) # type: ignore
-            if self in user.user_followers:
-                user.user_followers.remove(self)
+    def unfollow(self, user: User) -> None:  
+        if user in self.following:
+            self.following.remove(user) 
+            user.followers.remove(self)
             print(f"{self.name} ha dejado de seguir a {user.name}")
         else:
             print(f"{self.name} no puede dejar de seguir a {user.name} porque no lo estaba siguiendo anteriormente")
 
 
-    def show_posts(self):    
+    def show_posts(self) -> None:    
         if len(self.user_posts) == 0:
                 print(f"{self.name} no tiene nigún mensaje")
                 return
         print(f"Mensajes de {self.name}:")
         for key, value in reversed(self.user_posts.items()):
-            likes_counter = len(value["likes"])
+            likes_counter = len(value["likes"]) # type: ignore
             date = value["date"]
             print("-", value["message"], ", creado el", 
-                  f"{date.day}/{date.month}/{date.year} {date.hour}:{date.minute}:{date.second}",
+                  f"{date.day}/{date.month}/{date.year} {date.hour}:{date.minute}:{date.second}", # type: ignore
                   "message id:", key , "número de likes:", likes_counter)
         
 
-    def show_user_profile(self):
-        users_following = self.follow
+    def show_user_profile(self) -> None:
         print()
-        print(f"INFORMACIÓN DE USUARIO\n -------------------\nUsername: {self.name}\nUserID: {self.id}\nFollowers: {len(self.follow)}\
-              \nSiguiendo a:")
-        for follower in users_following:
+        print(f"INFORMACIÓN DE USUARIO\n -------------------\nNombre: {self.name}, ID: {self.id}\nSeguidores: {len(self.followers)}")
+        for follower in self.followers:
+            print("-", follower.name)
+        print(f"\nSiguiendo a {len(self.following)} usuarios: ")
+        for follower in self.following:
             print("-", follower.name)
         self.show_posts()    
         print()
         
 
-    def delete_post(self, messageID):
+    def delete_post(self, messageID:int) -> None:
+        if type(messageID) != int:
+            print("Sólo se admite un dato numérico")
+            return
         if messageID not in self.user_posts:
             print(f"El usuario {self.name} no tiene ningún mensaje con id {messageID}")
         else:
             del(self.user_posts[messageID])
     
 
-    def liked_post(self, user, postId: int):
+    def like_post(self, user:User, postId:int) -> None:
         print("---------------------------\n")
 
         if postId not in user.user_posts:
@@ -116,18 +120,18 @@ class User:
 
         message = user.user_posts[postId]["message"]
 
-        if postId not in user.user_posts:
+        if self in user.user_posts[postId]["likes"]: 
             print(f"{self.name} no puede dar like al mensaje '{message}' porque ya le dio like antes\n")
             return
 
-        user.user_posts[postId]["likes"].add(self)
-        likes_counter = len(user.user_posts[postId]["likes"])
+        user.user_posts[postId]["likes"].add(self) # type: ignore
+        likes_counter = len(user.user_posts[postId]["likes"]) # type: ignore
        
         print(f"{self.name} ha dado like al mensaje con id:{postId} de {user.name}"
             f", el mensaje de {user.name} '{message}' acumula {likes_counter} {'like' if likes_counter == 1 else 'likes'}\n")
 
 
-    def unliked_post(self, user, postId:int):
+    def unlike_post(self, user:User, postId:int):
         print("---------------------------\n") 
         if postId not in user.user_posts:
             print(f"el usuario {user.name} no tiene ningún mensaje con id {postId}\n")
@@ -140,8 +144,8 @@ class User:
                   "porque no le había dado like antes\n")
             return
         
-        user.user_posts[postId]["likes"].discard(self)
-        likes_counter = len(user.user_posts[postId]["likes"])
+        user.user_posts[postId]["likes"].discard(self) # type: ignore
+        likes_counter = len(user.user_posts[postId]["likes"]) # type: ignore
 
         print(f"{self.name} ha quitado el like al mensaje con id:{postId} de {user.name}"
         f", el mensaje de {user.name} '{message}' acumula {likes_counter} {'like' if likes_counter == 1 else 'likes'}\n")
@@ -175,17 +179,17 @@ cristina.create_post(f"Este es el primer mensaje de {cristina.name}")
 isabel.create_post(f"Este es el primer mensaje de {isabel.name}")
 
 #CREACIÓN DE USUARIOS SEGUIDOS
-jesus.following(luis, ana, rocio)
-sara.following(pedro)
-cristina.following(victor, jesus, paula, joseph)
-ana.following(pedro, elena, joseph)
-victor.following(jesus, paula, tony, pablo)
-rocio.following(megan, pedro, paula)
-isabel.following(kevin, marco, victor, cristina, paula)
-elena.following(paula, isabel, kevin, joseph)
-marco.following(cristina, elena, megan, jesus)
-megan.following(pedro, joseph, tony, cristina)
-kevin.following(marco, miguel, elena, pablo, jesus)
+jesus.follow_users(luis, ana, rocio)
+sara.follow_users(pedro)
+cristina.follow_users(victor, jesus, paula, joseph)
+ana.follow_users(pedro, elena, joseph)
+victor.follow_users(jesus, paula, tony, pablo)
+rocio.follow_users(megan, pedro, paula)
+isabel.follow_users(kevin, marco, victor, cristina, paula)
+elena.follow_users(paula, isabel, kevin, joseph)
+marco.follow_users(cristina, elena, megan, jesus)
+megan.follow_users(pedro, joseph, tony, cristina)
+kevin.follow_users(marco, miguel, elena, pablo, jesus)
 
 #EL USUARIO jesus INTENTA BORRAR UNA PUBLICACIÓN INEXISTENTE CON ID 4
 jesus.delete_post(4)
@@ -201,24 +205,24 @@ isabel.unfollow(jesus)
 victor.show_user_profile()
 isabel.unfollow(victor)
 isabel.show_user_profile()
-victor.show_user_profile()               #arreglar bug, no bajan los seguidores
+victor.show_user_profile()              
 
 #CREACIÓN DE VARIOS LIKES A MENSAJES CONCRETOS POR SU ID
-cristina.liked_post(jesus, 1)
-elena.liked_post(jesus, 1)
-isabel.liked_post(victor, 1)
-kevin.liked_post(jesus, 1)
-megan.liked_post(jesus, 3)
-cristina.liked_post(jesus, 1)
+cristina.like_post(jesus, 1)
+elena.like_post(jesus, 1)
+isabel.like_post(victor, 1)
+kevin.like_post(jesus, 1)
+megan.like_post(jesus, 3)
+cristina.like_post(jesus, 1)
 
 #jesus INTENTA DAR LIKE A UN MENSAJE DE JOSEPH QUE NO EXISTE
-jesus.liked_post(joseph, 2)
+jesus.like_post(joseph, 2)
 
 #LA USUARIA cristina QUITA EL LIKE AL MENSAJE CON ID1 DE jesus
-cristina.unliked_post(jesus, 1)
+cristina.unlike_post(jesus, 1)
 
 #LA USUARIA cristina INTENTA QUITAR UN LIKE A UN MENSAJE QUE NO HABÍA DADO LIKE ANTES
-cristina.unliked_post(joseph, 1)
+cristina.unlike_post(joseph, 1)
 
 #MUESTRA DE PERFIL COMPLETO DE VARIOS USUARIOS
 jesus.show_user_profile()
