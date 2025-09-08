@@ -1,7 +1,7 @@
 from __future__ import annotations
 import os, platform
 from datetime import datetime as dt
-from typing import Dict, Set, Any
+from typing import Dict, Set, Any, TypedDict
 
 
 if (platform.platform().startswith("macOS") or platform.platform().startswith("Linux")):
@@ -37,6 +37,10 @@ else:
  * 
  * Controla errores en duplicados o acciones no permitidas.
 """
+class Post(TypedDict):
+    message: str
+    date: dt
+    likes: Set[User]
 
 class User:
     auto_increment_user_id:int = 0
@@ -45,7 +49,7 @@ class User:
         self.name: str = name  
         User.auto_increment_user_id += 1
         self.id = User.auto_increment_user_id
-        self.user_posts: Dict[int, Dict[str, Any]] = {}
+        self.user_posts: Dict[int, Post] = {}
         self.index_message: int = 0
         self.following: Set[User] = set()
         self.followers: Set[User] = set()
@@ -80,21 +84,22 @@ class User:
         if len(self.user_posts) == 0:
                 print(f"{self.name} no tiene nigún mensaje")
                 return
-        print(f"Mensajes de {self.name}:")
+        print(f"\nMensajes de {self.name}:\n")
         for key, value in reversed(self.user_posts.items()):
-            likes_counter = len(value["likes"]) # type: ignore
+            likes_counter = len(value["likes"])
             date = value["date"]
             print("-", value["message"], ", creado el", 
-                  f"{date.day}/{date.month}/{date.year} {date.hour}:{date.minute}:{date.second}", # type: ignore
+                  f"{date.day}/{date.month}/{date.year} {date.hour}:{date.minute}:{date.second}",
                   "message id:", key , "número de likes:", likes_counter)
         
 
     def show_user_profile(self) -> None:
         print()
-        print(f"INFORMACIÓN DE USUARIO\n -------------------\nNombre: {self.name}, ID: {self.id}\nSeguidores: {len(self.followers)}")
+        print(f"INFORMACIÓN DE USUARIO\n -------------------\nNombre: {self.name}, ID: {self.id}\n\
+              {f"\nLe siguen {len(self.followers)} usuarios:\n" if len(self.followers) != 1 else f"\nLe sigue {len(self.followers)} usuario:\n"}")
         for follower in self.followers:
             print("-", follower.name)
-        print(f"\nSiguiendo a {len(self.following)} usuarios: ")
+        print(f"\nSiguiendo a {len(self.following)} {"usuario" if len(self.following) == 1 else "usuarios:"}\n")
         for follower in self.following:
             print("-", follower.name)
         self.show_posts()    
