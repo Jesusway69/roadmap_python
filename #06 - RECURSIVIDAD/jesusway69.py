@@ -1,6 +1,8 @@
-import os
-os.system('cls')
-
+import os, platform
+if platform.platform().startswith("Windows"):
+   os.system('cls')
+else:
+   os.system('clear')
 
 """
  * EJERCICIO:
@@ -14,7 +16,7 @@ def countdown (num):#Definimos la función y le pasamos el número 101 en la pri
     if num >= 0:#Establecemos la condición de parada en 0 
         print(num, end=' ') #imprimimos cada número horizontalmente y separado en cada ejecución de la función
         if num % 10 == 0 and num != 100: #establecemos un salto de línea cada 10 números para hacerlo más visual (opcional)
-            print('')#Salto de línea
+            print()#Salto de línea
         countdown(num) #Llamada recursiva a la función con el número ya modificado restándole 1
 countdown(num)#Llamada inicial a la función
 
@@ -27,7 +29,6 @@ countdown(num)#Llamada inicial a la función
  *   sucesión de Fibonacci (la función recibe la posición).
 """
 
-
 #FUNCIÓN FIBONACCI POR RECURSIVIDAD
 list_fibonacci = [0,1]
 copy, counter1, counter2 = 0, 0, 1
@@ -36,39 +37,71 @@ def fibonacci (fib_position:int):
     global copy , counter1, counter2 
     if fib_position>copy:
      copy = fib_position
+
     if fib_position <=0:
         print("el nº debe ser mayor a 0")
         return
+    
     if fib_position==2:
         print(f"\nLa posición {copy} de la secuencia Fibonacci tiene el valor {list_fibonacci[copy-1]}\n")
         return
+    
     if fib_position == 1:
         print ("\nLa posición 1 de la secuencia Fibonacci tiene el valor 0 ")
         return
+    
     elif fib_position >2:   
         list_fibonacci.append(list_fibonacci[counter1]+list_fibonacci[counter2])
         counter1 +=1
         counter2 +=1    
         fib_position -=1
         fibonacci(fib_position)
+    
+#FUNCIÖN FIBONACCI GENERADA POR CHATGPT (CON RETORNO)
+def fibonacci_chatgpt(fib_position:int) -> int:
+    if fib_position <= 0:
+        raise ValueError("el nº debe ser mayor a 0")
+    
+    if fib_position == 1:
+        return 0
+
+    elif fib_position == 2:
+        return 1
+
+    counter1, counter2 = 0, 1
+
+    for _ in range (3, fib_position+1):
+        counter1, counter2 = counter2, counter2 + counter1
+
+    return counter2
 
 
  # FUNCIÓN FACTORIAL POR RECURSIVIDAD
 acc = 1
-def factorial (factorial_num:int):
+def factorial (factorial_num : int):
   global acc, copy
-  if factorial_num>copy:
-      copy=factorial_num
-  if factorial_num>1:
+  if factorial_num > copy:
+      copy = factorial_num
+
+  if factorial_num > 1:
       acc = factorial_num * acc
-      factorial_num -=1
+      factorial_num -= 1
       factorial(factorial_num)
+
   else:
       print(f"\nEl factorial de {copy} es: {acc}\n")
       return
-
-
-
+  
+  # FUNCIÓN FACTORIAL GENERADA POR CHATGPT (CON RETORNO)
+def factorial_chatgpt(factorial_num : int) -> int:
+    if factorial_num <= 0:
+        raise("El nº no puede ser negativo")
+    
+    if factorial_num == 0 or factorial_num == 1:
+        return 1
+    
+    return factorial_num * factorial_chatgpt(factorial_num-1)
+    
 
 def menu ():   
  while True:
@@ -86,16 +119,16 @@ def menu ():
         return
    if num == 2:
         num = int(input("\nIntroduzca un número para calcular su factorial: "))
-        factorial(num)
+        print(factorial_chatgpt(num))
         return
    if num == 3:
         print("\nFin del programa\n")
         return
    else:
         print ("\nSólo se pueden elegir opciones entre 1 y 2, pruebe de nuevo")
-        menu()
-     
+        menu()  
    break
+  
   except ValueError:
     print("\nSólo se pueden introducir números enteros, pruebe de nuevo")
 menu()
