@@ -64,7 +64,7 @@ mr_satan = Character(["Mr. Satán", 80, 51, 36])
 zamasu = Character(["Zamasu", 69, 71, 43])
 yamcha = Character(["Yamcha", 72, 59, 29])
 majin_boo = Character(["Majin Boo", 70, 49, 45])
-vegetto = Character(["Vegetto", 82, 54, 37])#20
+vegetto = Character(["Vegetto", 82, 54, 37])
 androide_n_17 = Character(["Androide nº17", 58, 84, 12])
 gotenks = Character(["Gotenks", 81, 52, 35])
 bardock = Character(["Bardock", 76, 59, 30])
@@ -83,8 +83,8 @@ characters = [son_goku, vegeta, son_gohan, trunks, freezer, piccolo, krilin, bul
               vegetto, androide_n_17, gotenks, bardock, whis, chi_chi, shenlong, yamoshi, videl, 
               nappa, bra, dabra, jeice]
 
-def couples(characters:list)->list:
-    tournament_list = []
+def couples(characters: list[Character]) -> list[list[Character]]:
+    tournament_list: list[list[Character]] = []
     random.shuffle(characters)
     counter = 0
     for i in range (len(characters)//2):
@@ -94,11 +94,11 @@ def couples(characters:list)->list:
         counter += 2
     return tournament_list
 
-def show_battles(tournament:list):
+def show_battles(tournament: list[list[Character]]) -> None:
     for battle in tournament:
         print(f"{battle[0][0]} ---VS--- {battle[1][0]}") 
 
-def fight1vs1(fighter1:object, fighter2:object)->object:
+def fight1vs1(fighter1: Character, fighter2: Character) -> object:
     score1, score2 = 100, 100
     damage1, damage2 = 0, 0
     power1, shield1 = int(fighter1[2]), int(fighter1[3])
