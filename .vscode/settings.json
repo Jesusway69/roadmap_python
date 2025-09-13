@@ -17,5 +17,5 @@
   "editor.minimap.enabled": true,
   "python.terminal.activateEnvInCurrentTerminal": true,
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "python.analysis.typeCheckingMode": "standard"
+  "python.analysis.typeCheckingMode": "basic"
 }
