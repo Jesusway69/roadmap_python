@@ -1,3 +1,4 @@
+
 package ejercicio32;
 
 import java.util.Scanner;
@@ -40,6 +41,7 @@ public class JesusWay69 {
         wolverine.lifePoints = sc.nextInt();
         battle(wolverine.lifePoints, deadpool.lifePoints, regenerateState,
                 wolverine.maxDamage, deadpool.maxDamage, wolverine.shield, deadpool.shield);
+        sc.close();
 
     }
 
@@ -55,7 +57,7 @@ public class JesusWay69 {
                 System.out.println(name + " pierde su turno por haber recibido daño máximo y tiene que regenerarse ");
                 regenerateState = false;//Tras perder el turno se vuelve a poner el estado en false
             } else if (Math.random() > (double) (vShield / 100)) {//En caso contrario generamos un número aleatorio entre 0 y 1 que sea mayor al porcentaje de la capacidad del escudo
-                int dDamage = (int) (Math.random() * dMaxDamage + 10);//Y otro número random entre 10 y el máximo daño del atacante en caso de que la condición anterior se cumpla
+                int dDamage = (int) (Math.random() * (dMaxDamage - 10 + 1)) + 10;//Y otro número random entre 10 y el máximo daño del atacante en caso de que la condición anterior se cumpla
                 System.out.println(" El ataque de Deadpool le ha restado " + dDamage + " puntos de vida a Wolverine");
                 if (dDamage == 100) { //Dentro del if del ataque comprobamos si el daño coincide con el ataque mçaximo
                     System.out.println("Ataque máximo de Deadpool");
@@ -78,7 +80,7 @@ public class JesusWay69 {
                 System.out.println(name + " pierde su turno por haber recibido daño máximo y tiene que regenerarse ");
                 regenerateState = false;
             } else if (Math.random() > (double) (dShield / 100)) {
-                int vDamage = (int) (Math.random() * vMaxDamage + 10);
+                int vDamage = (int) (Math.random() * (vMaxDamage - 10 + 1)) + 10;
                 System.out.println(" \nEl ataque de Wolverine le ha restado " + vDamage + " puntos de vida a Deadpool");
                 if (vDamage == 120) {
                     System.out.println("Ataque máximo de Wolverine");

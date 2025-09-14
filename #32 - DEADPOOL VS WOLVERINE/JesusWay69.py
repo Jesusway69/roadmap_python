@@ -39,15 +39,16 @@ class Wolverine:
     max_damage = 120
     shield = 20
 
-def battle(local_name, foreign_name, shield, max_damage, local_points, enemy_points, regenerate_state ):
+def battle(local_name:str, foreign_name:str, shield:int, max_damage:int, local_points:int,
+          enemy_points:int, regenerate_state:bool) -> tuple:
     if regenerate_state:
         print(f" {local_name} pierde su turno por haber recibido daño máximo y tener que regenerarse ")
         regenerate_state = False
         
     elif random.random() > shield/100:
-        damage = random.randint(10, max_damage)
+        damage:int = random.randint(10, max_damage)
         print (f" El ataque de {local_name} le ha restado {damage} puntos de vida a {foreign_name}")
-        if damage == 100:
+        if damage == max_damage:
             print(f" ¡¡Ataque máximo de {local_name}!!")
             regenerate_state = True
         enemy_points -= damage
@@ -58,25 +59,28 @@ def battle(local_name, foreign_name, shield, max_damage, local_points, enemy_poi
             print(f" A {foreign_name} le quedan {enemy_points} puntos")
     else:
         print(f" {foreign_name} repele el ataque de {local_name} y no pierde puntos, conserva sus {enemy_points} puntos")
-    return  tuple((enemy_points, regenerate_state))
+    return  enemy_points, regenerate_state
 
 deadpool = Deadpool()
 wolverine = Wolverine()
 
 d_points = int(input("Introduzca los puntos de inicio de Deadpool: "))
 w_points = int(input("Introduzca los puntos de inicio de Wolverine: "))
-regenerate_state = False
-round = 1
-while d_points>0 and w_points>0:
+regenerate_state_w: bool = False
+regenerate_state_d: bool = False
+round: int = 1
+while d_points > 0 and w_points > 0:
     print("Ronda: ",round)
     ####################Ataca Deadpool####################
-    w_points, regenerate_state = battle(deadpool.name, wolverine.name, wolverine.shield, deadpool.max_damage, d_points, w_points, regenerate_state)
+    w_points, regenerate_state_d = battle(deadpool.name, wolverine.name, wolverine.shield,
+                                   deadpool.max_damage, d_points, w_points, regenerate_state_d)
     print()
-    if w_points <=0:
+    if w_points <= 0:
         break
     ####################Ataca Wolverine####################
-    d_points, regenerate_state = battle(wolverine.name, deadpool.name, deadpool.shield, wolverine.max_damage, w_points, d_points, regenerate_state)
-    round+=1
+    d_points, regenerate_state_w = battle(wolverine.name, deadpool.name, deadpool.shield,
+                                         wolverine.max_damage, w_points, d_points, regenerate_state_w)
+    round += 1
     print()
     time.sleep(1)
     
