@@ -5,14 +5,18 @@ if (platform.platform().startswith("macOS") or platform.platform().startswith("L
 else:
     os.system('cls')
 
-# COMENTARIO EN UN LÍNEA
+# https://www.python.org/
+# Comentario de una línea
+"""
+Comentario
+de varias
+líneas
+"""
 
 """
-COMENTARIO EN VARIAS LÍNEAS:
  * EJERCICIO:
  * - Crea un comentario en el código y coloca la URL del sitio web oficial del
- *   lenguaje de programación que has seleccionado.
-        https://www.python.org/
+ *   lenguaje de programación que has seleccionado.   
  * - Representa las diferentes sintaxis que existen de crear comentarios
  *   en el lenguaje (en una línea, varias...).
  * - Crea una variable (y una constante si el lenguaje lo soporta).
